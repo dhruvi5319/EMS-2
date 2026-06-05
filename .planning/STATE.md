@@ -3,14 +3,14 @@ pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: Completed 04-01-PLAN.md
-last_updated: "2026-06-05T21:56:42.475Z"
-last_activity: "2026-06-05 — Phase 3 complete: GateA1Panel + ReviewQueuePage + Playwright E2E completing F3 gate workflow"
+stopped_at: Completed 04-02-PLAN.md
+last_updated: "2026-06-05T21:57:48.300Z"
+last_activity: "2026-06-05 — Plan 04-01 complete: Engagement backend API (listEngagements, getEngagement, updateEngagement, engagementsRouter)"
 progress:
   total_phases: 6
   completed_phases: 3
   total_plans: 37
-  completed_plans: 16
+  completed_plans: 17
   percent: 43
 ---
 
@@ -72,6 +72,7 @@ Progress: [████░░░░░░] 43%
 | Phase 03-intake-and-gate-a1 P03 | 8min | 2 tasks | 17 files |
 | Phase 03-intake-and-gate-a1 P05 | 3min | 2 tasks | 7 files |
 | Phase 04-engagement-setup-and-gate-p2 P01 | 2min | 2 tasks | 3 files |
+| Phase 04-engagement-setup-and-gate-p2 P02 | 3min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -120,6 +121,9 @@ Recent decisions affecting current work:
 - [Phase 03-intake-and-gate-a1]: GateA1DecidedCard uses status-based placeholder for Phase 3 — Phase 4 will add dedicated gate_decision API fetch
 - [Phase 04-engagement-setup-and-gate-p2]: gate_decisions queried by engagement_id only (A1 stored with engagement_id after approval, no request_id column in schema)
 - [Phase 04-engagement-setup-and-gate-p2]: engagementsRouter coexists with auditRouter at /api/engagements — no conflict (different sub-paths)
+- [Phase 04-engagement-setup-and-gate-p2]: teamRouter mounted in routes/index.ts at /engagements/:id (not nested in engagements.ts) for simplicity
+- [Phase 04-engagement-setup-and-gate-p2]: 8th P2 prerequisite (independence_status_complete) queries independence_affirmations with try/catch fallback for Plan 04-03 cross-dependency
+- [Phase 04-engagement-setup-and-gate-p2]: Milestone status computed on read from target_date vs today — not stored in DB — status stays accurate without triggers
 
 ### Pending Todos
 
@@ -131,6 +135,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-05T21:56:42.473Z
-Stopped at: Completed 04-01-PLAN.md
+Last session: 2026-06-05T21:57:48.298Z
+Stopped at: Completed 04-02-PLAN.md
 Resume file: None
