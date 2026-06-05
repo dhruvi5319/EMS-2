@@ -7,6 +7,7 @@ import { requestsRouter } from './requests';
 import { gateRouter } from './gate';
 import { engagementsRouter } from './engagements';
 import { teamRouter } from './team';
+import { planningRouter } from './planning';
 
 export const apiRouter = Router();
 
@@ -30,3 +31,7 @@ apiRouter.use('/engagements', engagementsRouter);
 // Phase 4: Team assignments, milestones, and P2 prerequisites
 // teamRouter uses mergeParams:true so :id from /engagements/:id is accessible
 apiRouter.use('/engagements/:id', teamRouter);
+
+// Phase 4: Planning record, objectives, Gate P2 decision, and revision workflow
+// planningRouter uses mergeParams:true so :id from /engagements/:id is accessible
+apiRouter.use('/engagements/:id', planningRouter);
