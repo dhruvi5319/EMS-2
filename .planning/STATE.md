@@ -3,14 +3,14 @@ pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: Completed 04-04-PLAN.md
-last_updated: "2026-06-05T22:07:28.145Z"
+stopped_at: Completed 04-05-PLAN.md
+last_updated: "2026-06-05T22:08:48.020Z"
 last_activity: "2026-06-05 — Plan 04-01 complete: Engagement backend API (listEngagements, getEngagement, updateEngagement, engagementsRouter)"
 progress:
   total_phases: 6
   completed_phases: 3
   total_plans: 37
-  completed_plans: 19
+  completed_plans: 20
   percent: 43
 ---
 
@@ -75,6 +75,7 @@ Progress: [████░░░░░░] 43%
 | Phase 04-engagement-setup-and-gate-p2 P02 | 3min | 2 tasks | 3 files |
 | Phase 04-engagement-setup-and-gate-p2 P03 | 5min | 2 tasks | 3 files |
 | Phase 04-engagement-setup-and-gate-p2 P04 | 5min | 2 tasks | 11 files |
+| Phase 04-engagement-setup-and-gate-p2 P05 | 6min | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -130,6 +131,8 @@ Recent decisions affecting current work:
 - [Phase 04-engagement-setup-and-gate-p2]: requestRevision reverts planning_record to draft status to properly unlock editing (plan spec said status unchanged but that contradicts the unlock requirement)
 - [Phase 04-engagement-setup-and-gate-p2]: card.tsx written manually from new-york template (shadcn registry ECONNRESET) — same pattern as Phases 2/3
 - [Phase 04-engagement-setup-and-gate-p2]: GateStatusCard: outcome-to-border-color map (emerald/amber/red/yellow/slate) established as reusable pattern for all gate displays
+- [Phase 04-engagement-setup-and-gate-p2]: canRemove() guard passed as prop from TeamPanel to TeamMemberTable — centralizes guard logic, decouples rendering
+- [Phase 04-engagement-setup-and-gate-p2]: TeamPanel receives p2Approved from EngagementShellPage gate_decisions — avoids extra API call in TeamPanel
 
 ### Pending Todos
 
@@ -141,6 +144,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-05T22:07:28.143Z
-Stopped at: Completed 04-04-PLAN.md
+Last session: 2026-06-05T22:08:48.018Z
+Stopped at: Completed 04-05-PLAN.md
 Resume file: None
