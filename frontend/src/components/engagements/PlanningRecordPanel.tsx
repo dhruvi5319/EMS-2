@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Loader2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -8,6 +9,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { ObjectiveList } from './ObjectiveList';
 import { P2ReadinessChecklist } from './P2ReadinessChecklist';
 import { PlanningLockedBanner } from './PlanningLockedBanner';
+import { GateP2ReviewPanel } from './GateP2ReviewPanel';
 import {
   getPlanningRecord,
   upsertPlanningRecord,
@@ -87,12 +89,11 @@ function SectionHeader({
 export function PlanningRecordPanel({
   engagementId,
   canEdit,
-  // isQA is used by Plan 04-07 Gate P2 Review page to show read-only + decision panel
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  isQA: _isQA,
+  isQA,
   gate_decisions,
 }: PlanningRecordPanelProps) {
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   // Data state
   const [planningRecord, setPlanningRecord] = React.useState<PlanningRecord | null>(null);
@@ -292,6 +293,21 @@ export function PlanningRecordPanel({
           </Button>
         )}
       </div>
+    );
+  }
+
+  // QA user reviewing a submitted planning record — show Gate P2 Review Panel
+  if (isQA && planningRecord?.status === 'ready_for_review') {
+    return (
+      <GateP2ReviewPanel
+        engagementId={engagementId}
+        planningRecord={planningRecord}
+        objectives={objectives}
+        independence_affirmations={[]}
+        onDecisionRecorded={() => {
+          navigate(`/engagements/${engagementId}`);
+        }}
+      />
     );
   }
 
