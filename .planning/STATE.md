@@ -3,13 +3,13 @@ pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 2 UI-SPEC approved
-last_updated: "2026-06-05T14:36:20.528Z"
+stopped_at: Phase 2 planned — 6 plans in 3 waves
+last_updated: "2026-06-05T14:53:52.989Z"
 last_activity: 2026-06-05 — Roadmap created; all 15 v1 requirements (F0–F14) mapped to 6 phases
 progress:
   total_phases: 6
   completed_phases: 0
-  total_plans: 4
+  total_plans: 10
   completed_plans: 0
   percent: 0
 ---
@@ -75,6 +75,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-05T14:36:20.524Z
-Stopped at: Phase 2 UI-SPEC approved
-Resume file: .planning/phases/02-application-shell/02-UI-SPEC.md
+Last session: 2026-06-05T14:53:52.980Z
+Stopped at: Phase 2 planned — 6 plans in 3 waves
+Resume file: .planning/phases/02-application-shell/02-01-PLAN.md
