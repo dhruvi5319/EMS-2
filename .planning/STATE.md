@@ -2,16 +2,16 @@
 pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: planning
-stopped_at: Completed 01-foundation-02-PLAN.md
-last_updated: "2026-06-05T15:05:04Z"
-last_activity: 2026-06-05 — Plan 01-02 complete: Knex migrations — all 21 PostgreSQL tables with CHECK constraints and 11 indexes
+status: executing
+stopped_at: Completed 01-03-PLAN.md
+last_updated: "2026-06-05T15:11:55.388Z"
+last_activity: "2026-06-05 — Plan 01-02 complete: Knex migrations — 21 PostgreSQL tables (users/user_roles/sessions + 18 core domain tables), db singleton, 11 TechArch indexes"
 progress:
   total_phases: 6
   completed_phases: 0
   total_plans: 10
-  completed_plans: 2
-  percent: 20
+  completed_plans: 3
+  percent: 30
 ---
 
 # Project State
@@ -26,29 +26,29 @@ See: .planning/PROJECT.md (updated 2026-06-05)
 ## Current Position
 
 Phase: 1 of 6 (Foundation)
-Plan: 2 of 4 in current phase (01-02 complete)
+Plan: 3 of 4 in current phase (01-03 complete)
 Status: In progress
-Last activity: 2026-06-05 — Plan 01-02 complete: Knex migrations — 21 PostgreSQL tables (users/user_roles/sessions + 18 core domain tables), db singleton, 11 TechArch indexes
+Last activity: 2026-06-05 — Plan 01-03 complete: Auth service, RBAC middleware, session-cookie login/logout, admin seed with 8 roles
 
-Progress: [██░░░░░░░░] 20%
+Progress: [███░░░░░░░] 30%
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 2
-- Average duration: 3min
+- Total plans completed: 3
+- Average duration: 2.7min
 - Total execution time: ~0.1 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-foundation | 2/4 | 6min | 3min |
+| 01-foundation | 3/4 | 8min | 2.7min |
 
 **Recent Trend:**
 
-- Last 5 plans: 01-01 (4min), 01-02 (2min)
+- Last 5 plans: 01-01 (4min), 01-02 (2min), 01-03 (2min)
 - Trend: baseline
 
 *Updated after each plan completion*
@@ -57,6 +57,7 @@ Progress: [██░░░░░░░░] 20%
 |------|----------|-------|-------|
 | Phase 01-foundation P01 | 4min | 2 tasks | 19 files |
 | Phase 01-foundation P02 | 2min | 2 tasks | 4 files |
+| Phase 01-foundation P03 | 2min | 3 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -73,6 +74,9 @@ Recent decisions affecting current work:
 - [Phase 01-foundation]: docker-compose frontend uses stock node:20-alpine image (no custom Dockerfile) — simpler for dev; backend uses custom Dockerfile with build context
 - [Phase 01-02]: Two-migration split (auth in 001, core domain in 002) — allows Plan 01-03 auth endpoints to reference users/sessions tables independently
 - [Phase 01-02]: knexfile.ts uses extension: 'ts' for dev migrations, 'js' for production (post-compile) — avoids tsx in production containers
+- [Phase 01-foundation]: bcryptjs over bcrypt: pure JavaScript, avoids Alpine Linux native module compilation in Docker containers
+- [Phase 01-foundation]: DB session hash over stateless JWT: session_hash in sessions table enables per-session revocation via DELETE on logout
+- [Phase 01-foundation]: Generic 401 for both bad username and bad password: prevents user enumeration attacks
 
 ### Pending Todos
 
@@ -84,6 +88,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-05T15:05:04Z
-Stopped at: Completed 01-foundation-02-PLAN.md
+Last session: 2026-06-05T15:11:55.378Z
+Stopped at: Completed 01-03-PLAN.md
 Resume file: None
