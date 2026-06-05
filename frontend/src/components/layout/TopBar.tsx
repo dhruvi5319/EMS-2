@@ -1,5 +1,6 @@
-import { useAuthContext } from '../../context/AuthContext';
+import { useAuthContext } from '@/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { GlobalSearchBar } from '@/components/search/GlobalSearchBar';
 
 export function TopBar() {
   const { user, logout } = useAuthContext();
@@ -41,7 +42,7 @@ export function TopBar() {
       </div>
 
       {/* User menu */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 shrink-0">
         <div className="flex items-center gap-2">
           <div
             className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-semibold"
@@ -49,7 +50,7 @@ export function TopBar() {
           >
             {initials}
           </div>
-          <span className="text-sm text-foreground">{user?.display_name}</span>
+          <span className="text-sm text-foreground hidden sm:block">{user?.display_name}</span>
         </div>
         <button
           onClick={handleLogout}

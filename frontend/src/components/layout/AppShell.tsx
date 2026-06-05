@@ -8,7 +8,7 @@ export function AppShell() {
       <TopBar />
       <Sidebar />
       <main
-        className="p-8"
+        className="p-8 transition-all duration-200"
         style={{ marginLeft: 220, paddingTop: 64 + 32 }}
       >
         <div className="max-w-[1280px] mx-auto">

@@ -1,13 +1,15 @@
 import { Router } from 'express';
 import { authRouter } from './auth';
+import { searchRouter } from './search';
+import { usersRouter } from './users';
+import { auditRouter } from './audit';
 
 export const apiRouter = Router();
 
-// Public routes (no auth)
+// Public routes
 apiRouter.use('/auth', authRouter);
 
-// All other /api routes require authentication
-// Future route modules are registered here with authenticateSession applied
-// Example for Phase 2+:
-// apiRouter.use('/users', authenticateSession, usersRouter);
-// apiRouter.use('/engagements', authenticateSession, engagementsRouter);
+// Authenticated routes
+apiRouter.use('/search', searchRouter);
+apiRouter.use('/users', usersRouter);
+apiRouter.use('/engagements', auditRouter);
