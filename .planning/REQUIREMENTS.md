@@ -82,26 +82,26 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| F0 | — | Pending |
-| F1 | — | Pending |
-| F2 | — | Pending |
-| F3 | — | Pending |
-| F4 | — | Pending |
-| F5 | — | Pending |
-| F6 | — | Pending |
-| F7 | — | Pending |
-| F8 | — | Pending |
-| F9 | — | Pending |
-| F10 | — | Pending |
-| F11 | — | Pending |
-| F12 | — | Pending |
-| F13 | — | Pending |
-| F14 | — | Pending |
+| F0 | Phase 1 (partial — auth/session/user infra) + Phase 2 (full shell) | Pending |
+| F1 | Phase 1 | Pending |
+| F2 | Phase 3 | Pending |
+| F3 | Phase 3 | Pending |
+| F4 | Phase 4 | Pending |
+| F5 | Phase 4 | Pending |
+| F6 | Phase 4 | Pending |
+| F7 | Phase 4 | Pending |
+| F8 | Phase 5 | Pending |
+| F9 | Phase 5 | Pending |
+| F10 | Phase 5 | Pending |
+| F11 | Phase 6 | Pending |
+| F12 | Phase 6 | Pending |
+| F13 | Phase 6 | Pending |
+| F14 | Phase 6 | Pending |
 
 **Coverage:**
 - v1 requirements: 15 total (F0–F14)
-- Mapped to phases: 0
-- Unmapped: 15 ⚠️
+- Mapped to phases: 15
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-06-05*
