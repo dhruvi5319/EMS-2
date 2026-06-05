@@ -3,14 +3,14 @@ pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 03-02-PLAN.md
-last_updated: "2026-06-05T20:43:48.137Z"
+stopped_at: Completed 03-04-PLAN.md
+last_updated: "2026-06-05T20:54:26.362Z"
 last_activity: "2026-06-05 — Plan 03-01 complete: Request intake API, LocalStorageProvider, upload middleware, requestsRouter registered"
 progress:
   total_phases: 6
   completed_phases: 2
   total_plans: 37
-  completed_plans: 12
+  completed_plans: 13
   percent: 30
 ---
 
@@ -68,6 +68,7 @@ Progress: [███░░░░░░░] 30%
 | Phase 02-application-shell P06 | 2min | 2 tasks | 9 files |
 | Phase 03-intake-and-gate-a1 P01 | 2min | 2 tasks | 7 files |
 | Phase 03-intake-and-gate-a1 P02 | 2min | 2 tasks | 3 files |
+| Phase 03-intake-and-gate-a1 P04 | 7min | 2 tasks | 20 files |
 
 ## Accumulated Context
 
@@ -108,6 +109,9 @@ Recent decisions affecting current work:
 - [Phase 03-intake-and-gate-a1]: gate_decisions.engagement_id is NOT NULL — decline path returns synthetic GateDecision, not a DB row; approve path stores real row with engagement_id FK
 - [Phase 03-intake-and-gate-a1]: No engagement_number serial in DB schema — job code sequence uses COUNT(engagements)+1 within transaction for ENG-YYYY-NNNNN format
 - [Phase 03-intake-and-gate-a1]: audit_events uses object_type/object_id/after_state JSONB instead of entity_type/metadata — actor_roles stored in after_state JSON
+- [Phase 03-intake-and-gate-a1]: IntakeFileUpload uses raw fetch() for FormData multipart — api.ts forces Content-Type: application/json which breaks file uploads
+- [Phase 03-intake-and-gate-a1]: shadcn registry unavailable (ECONNRESET) — components written manually from official new-york templates, same as Phase 2
+- [Phase 03-intake-and-gate-a1]: data-section=gate-a1 slot in RequestDetailPage: Plan 03-05 injects GateA1Panel via this anchor point
 
 ### Pending Todos
 
@@ -119,6 +123,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-05T20:43:48.135Z
-Stopped at: Completed 03-02-PLAN.md
+Last session: 2026-06-05T20:54:26.360Z
+Stopped at: Completed 03-04-PLAN.md
 Resume file: None
