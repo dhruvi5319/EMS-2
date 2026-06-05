@@ -4,6 +4,7 @@ import { LoginPage } from './pages/LoginPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { ForbiddenPage } from './pages/ForbiddenPage';
 import { AppShell } from './components/layout/AppShell';
+import { UserManagementPage } from './pages/admin/UserManagementPage';
 
 // ProtectedRoute — unauthenticated → /login
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -103,8 +104,7 @@ function AppRoutes() {
           path="/admin/users"
           element={
             <RoleGuard roles={['AD']}>
-              {/* UserManagementPage implemented in plan 02-05 */}
-              <div className="text-sm text-muted-foreground">User Management — loading in 02-05</div>
+              <UserManagementPage />
             </RoleGuard>
           }
         />
