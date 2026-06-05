@@ -3,14 +3,14 @@ pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 02-06-PLAN.md
-last_updated: "2026-06-05T19:58:22.212Z"
-last_activity: "2026-06-05 — Plan 02-05 complete: Admin user management page, useUsers hook, all dialogs, Playwright E2E tests"
+stopped_at: Completed 03-01-PLAN.md
+last_updated: "2026-06-05T20:42:53.023Z"
+last_activity: "2026-06-05 — Plan 02-06 complete: Audit trail page, useAuditTrail hook, all audit components, Playwright E2E tests"
 progress:
   total_phases: 6
-  completed_phases: 1
-  total_plans: 30
-  completed_plans: 10
+  completed_phases: 2
+  total_plans: 37
+  completed_plans: 11
   percent: 33
 ---
 
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-05)
 
 **Core value:** A simple engagement workflow with persistent records, clear status, role-based actions, and basic traceability from request to evidence-supported final readiness.
-**Current focus:** Phase 2 — Application Shell
+**Current focus:** Phase 3 — Intake and Gate A1
 
 ## Current Position
 
-Phase: 2 of 6 (Application Shell)
-Plan: 6 of 8 in current phase (02-06 complete — Audit trail UI, useAuditTrail hook, components, Playwright E2E tests)
-Status: Phase 2 in progress
-Last activity: 2026-06-05 — Plan 02-06 complete: Audit trail page, useAuditTrail hook, all audit components, Playwright E2E tests
+Phase: 3 of 6 (Intake and Gate A1)
+Plan: 1 of 5 in current phase (03-01 complete — Request CRUD API, StorageProvider, multer upload middleware)
+Status: Phase 3 in progress
+Last activity: 2026-06-05 — Plan 03-01 complete: Request intake API, LocalStorageProvider, upload middleware, requestsRouter registered
 
-Progress: [███░░░░░░░] 33%
+Progress: [███░░░░░░░] 30%
 
 ## Performance Metrics
 
@@ -66,6 +66,7 @@ Progress: [███░░░░░░░] 33%
 | Phase 02-application-shell P04 | 2min | 2 tasks | 6 files |
 | Phase 02-application-shell P05 | 2min | 2 tasks | 10 files |
 | Phase 02-application-shell P06 | 2min | 2 tasks | 9 files |
+| Phase 03-intake-and-gate-a1 P01 | 2min | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -101,6 +102,8 @@ Recent decisions affecting current work:
 - [Phase 02-application-shell]: E2E user management tests written as artifacts; browser execution deferred to verify phase
 - [Phase 02-application-shell]: Filter draft state in AuditTrailFilters component committed on Apply — prevents premature re-fetching
 - [Phase 02-application-shell]: actor_roles parsed defensively with Array.isArray + JSON.parse fallback for array/string API formats
+- [Phase 03-intake-and-gate-a1]: Multer memory storage: buffer passes directly to StorageProvider.save() — avoids temp file cleanup complexity
+- [Phase 03-intake-and-gate-a1]: Submit validation returns 422 with fields array — frontend can highlight specific missing fields
 
 ### Pending Todos
 
@@ -112,6 +115,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-05T19:58:22.211Z
-Stopped at: Completed 02-06-PLAN.md
+Last session: 2026-06-05T20:42:53.021Z
+Stopped at: Completed 03-01-PLAN.md
 Resume file: None
