@@ -3,15 +3,15 @@ pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: Phase 5 planned — 8 plans in 5 waves
-last_updated: "2026-06-05T17:47:57.293Z"
-last_activity: "2026-06-05 — Plan 01-04 complete: React login page, AuthContext, AppShell (220px sidebar + 64px topbar), 13 Playwright E2E tests"
+stopped_at: Completed 02-application-shell-01-PLAN.md
+last_updated: "2026-06-05T19:29:01.485Z"
+last_activity: "2026-06-05 — Plan 02-01 complete: shadcn/ui initialized, 14 UI components, CSS variable tokens, Phase 1 components migrated to shadcn tokens"
 progress:
   total_phases: 6
   completed_phases: 1
   total_plans: 30
-  completed_plans: 4
-  percent: 40
+  completed_plans: 5
+  percent: 17
 ---
 
 # Project State
@@ -21,34 +21,35 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-05)
 
 **Core value:** A simple engagement workflow with persistent records, clear status, role-based actions, and basic traceability from request to evidence-supported final readiness.
-**Current focus:** Phase 1 — Foundation
+**Current focus:** Phase 2 — Application Shell
 
 ## Current Position
 
-Phase: 1 of 6 (Foundation)
-Plan: 4 of 4 in current phase (01-04 complete — Phase 1 complete)
-Status: Phase 1 complete
-Last activity: 2026-06-05 — Plan 01-04 complete: React login page, AuthContext, AppShell (220px sidebar + 64px topbar), 13 Playwright E2E tests
+Phase: 2 of 6 (Application Shell)
+Plan: 1 of 8 in current phase (02-01 complete — shadcn/ui initialized)
+Status: Phase 2 in progress
+Last activity: 2026-06-05 — Plan 02-01 complete: shadcn/ui initialized, 14 UI components, CSS variable tokens, Phase 1 components migrated to shadcn tokens, Toaster mounted
 
-Progress: [████░░░░░░] 40%
+Progress: [██░░░░░░░░] 17%
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 4
+- Total plans completed: 5
 - Average duration: 3min
-- Total execution time: ~0.2 hours
+- Total execution time: ~0.3 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-foundation | 4/4 | 12min | 3min |
+| 02-application-shell | 1/8 | 5min | 5min |
 
 **Recent Trend:**
 
-- Last 5 plans: 01-01 (4min), 01-02 (2min), 01-03 (2min), 01-04 (4min)
+- Last 5 plans: 01-01 (4min), 01-02 (2min), 01-03 (2min), 01-04 (4min), 02-01 (5min)
 - Trend: baseline
 
 *Updated after each plan completion*
@@ -59,6 +60,7 @@ Progress: [████░░░░░░] 40%
 | Phase 01-foundation P02 | 2min | 2 tasks | 4 files |
 | Phase 01-foundation P03 | 2min | 3 tasks | 9 files |
 | Phase 01-foundation P04 | 4min | 2 tasks | 14 files |
+| Phase 02-application-shell P01 | 5min | 2 tasks | 25 files |
 
 ## Accumulated Context
 
@@ -81,6 +83,8 @@ Recent decisions affecting current work:
 - [Phase 01-foundation]: Plain Tailwind CSS (no shadcn) for Phase 1 UI — shadcn_initialized: false per UI-SPEC; tokens pre-aligned for seamless Phase 2 migration
 - [Phase 01-foundation]: AuthContext restores session on mount via GET /api/auth/me — eliminates re-login on page reload
 - [Phase 01-foundation]: E2E Playwright tests written as artifacts; execution deferred to verify phase (requires full running stack)
+- [Phase 02-application-shell]: shadcn CLI had ECONNRESET network failure — components manually written from official new-york templates to ensure exact contract parity
+- [Phase 02-application-shell]: CSS variable token pattern established: --primary: 221 83% 53% in :root, consumed as hsl(var(--primary)) in Tailwind theme extension
 
 ### Pending Todos
 
@@ -92,6 +96,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-05T17:47:57.286Z
-Stopped at: Phase 5 planned — 8 plans in 5 waves
-Resume file: .planning/phases/05-evidence-findings-and-gate-p3/05-01-PLAN.md
+Last session: 2026-06-05T19:29:01.483Z
+Stopped at: Completed 02-application-shell-01-PLAN.md
+Resume file: None
