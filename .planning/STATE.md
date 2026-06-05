@@ -3,15 +3,15 @@ pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 02-02-PLAN.md
-last_updated: "2026-06-05T19:33:16.072Z"
-last_activity: "2026-06-05 — Plan 02-01 complete: shadcn/ui initialized, 14 UI components, CSS variable tokens, Phase 1 components migrated to shadcn tokens, Toaster mounted"
+stopped_at: Completed 02-03-PLAN.md
+last_updated: "2026-06-05T19:45:09.619Z"
+last_activity: "2026-06-05 — Plan 02-03 complete: Search API (scoped ILIKE), User Management API (bcrypt+RBAC), Audit Trail API (paginated+filtered)"
 progress:
   total_phases: 6
   completed_phases: 1
   total_plans: 30
-  completed_plans: 6
-  percent: 20
+  completed_plans: 7
+  percent: 23
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-06-05)
 ## Current Position
 
 Phase: 2 of 6 (Application Shell)
-Plan: 2 of 8 in current phase (02-02 complete — RBAC nav, ForbiddenPage, RoleGuard)
+Plan: 3 of 8 in current phase (02-03 complete — Search API, User Management API, Audit Trail API)
 Status: Phase 2 in progress
-Last activity: 2026-06-05 — Plan 02-02 complete: RoleFilteredNav with 6×8 role matrix, NavItem, ReviewQueueBadge, responsive Sidebar, ForbiddenPage, RoleGuard route wrapper
+Last activity: 2026-06-05 — Plan 02-03 complete: Search/user management/audit trail backend APIs, scoped DB queries, bcrypt, RBAC enforcement
 
-Progress: [██░░░░░░░░] 20%
+Progress: [██░░░░░░░░] 23%
 
 ## Performance Metrics
 
@@ -62,6 +62,7 @@ Progress: [██░░░░░░░░] 20%
 | Phase 01-foundation P04 | 4min | 2 tasks | 14 files |
 | Phase 02-application-shell P01 | 5min | 2 tasks | 25 files |
 | Phase 02-application-shell P02 | 2min | 2 tasks | 7 files |
+| Phase 02-application-shell P03 | 8min | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -88,6 +89,8 @@ Recent decisions affecting current work:
 - [Phase 02-application-shell]: CSS variable token pattern established: --primary: 221 83% 53% in :root, consumed as hsl(var(--primary)) in Tailwind theme extension
 - [Phase 02-application-shell]: RoleGuard renders ForbiddenPage in-place (not redirect to /403) — URL stays, sidebar/topbar remain visible, matches UI-SPEC Screen E
 - [Phase 02-application-shell]: NAV_SECTIONS empty allowedRoles[] = all roles allowed — avoids enumerating 8 roles for Dashboard/Engagements sections
+- [Phase 02-application-shell]: Search scoping: non-AD users only see engagements with team_assignments; AD users see all — enforced in service layer via whereIn subquery
+- [Phase 02-application-shell]: User deactivation invalidates all sessions (DELETE FROM sessions WHERE user_id=?) to prevent continued access
 
 ### Pending Todos
 
@@ -99,6 +102,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-05T19:33:16.070Z
-Stopped at: Completed 02-02-PLAN.md
+Last session: 2026-06-05T19:45:09.617Z
+Stopped at: Completed 02-03-PLAN.md
 Resume file: None
