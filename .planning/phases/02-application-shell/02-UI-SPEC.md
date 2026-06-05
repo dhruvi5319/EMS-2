@@ -98,7 +98,7 @@ Inherited from Phase 1 — no changes. Declared here for executor reference:
   `ui-monospace, 'Cascadia Code', 'Source Code Pro', monospace`
 - Engagement job codes (e.g., `ENG-2026-00001`): monospace at 14px/400 (body size)
 - Search result highlights: 14px/600 (semibold body) on matched substring
-- Empty state heading: 16px/600 (between body and heading — use Tailwind `text-base font-semibold`)
+- Empty state heading: 20px/600 — use Heading role (`text-xl font-semibold`)
 - Empty state body: 14px/400, muted color (`hsl(215 16% 47%)`)
 
 ---
@@ -382,7 +382,7 @@ filtering needed; results returned by API are already role-scoped).
   - Password * (password input with show/hide toggle, 40px height)
   - Roles * (RoleCheckboxGroup — 8 checkboxes: AL, EM, AN, QA, IR, PC, RO, AD)
     — must select at least one; no selection shows "At least one role is required."
-- Actions: `[Cancel]` (ghost) + `[Create User]` (primary, disabled until valid)
+ - Actions: `[Discard]` (ghost) + `[Create User]` (primary, disabled until valid)
 - Success: dialog closes + toast "User created successfully." (green, 4s)
 - Error: inline error below field or dialog-level error banner
 
@@ -390,7 +390,7 @@ filtering needed; results returned by API are already role-scoped).
 - Trigger: `[Edit Roles]` in table row
 - Same `RoleCheckboxGroup` as Create, pre-populated with current roles
 - Heading: "Edit Roles — {user full_name}" (20px/600)
-- Actions: `[Cancel]` (ghost) + `[Save Roles]` (primary)
+ - Actions: `[Discard Changes]` (ghost) + `[Save Roles]` (primary)
 - Success: dialog closes + toast "Roles updated." (green, 4s)
 
 **Deactivate user confirmation:**
@@ -420,7 +420,7 @@ filtering needed; results returned by API are already role-scoped).
 - Action Type: multi-select `Select` (or `Command` popover) — list of all action codes
 - Date From: date input (MM/DD/YYYY), 40px height
 - Date To: date input (MM/DD/YYYY), 40px height
-- `[Apply]` primary-outline button; `[Clear]` ghost button
+ - `[Apply Filters]` primary-outline button; `[Clear]` ghost button
 - When filtered: "Showing {N} events matching filter" (12px muted, above timeline)
 
 **Event card anatomy (each card):**
@@ -482,7 +482,7 @@ for non-Admin, or `/engagements/{id}` for unauthorized user).
 |---------|------|---------|
 | Create user CTA | "Create User" | User table empty state and top-right button |
 | Save roles CTA | "Save Roles" | Edit roles dialog |
-| Apply filter CTA | "Apply" | Audit trail filter row |
+| Apply filter CTA | "Apply Filters" | Audit trail filter row |
 | Confirm deactivate | "Confirm Deactivate" | AlertDialog confirm button |
 
 ### Search
@@ -515,6 +515,8 @@ for non-Admin, or `/engagements/{id}` for unauthorized user).
 | Deactivate title | "Deactivate {user full_name}?" | Phase 1 UI-SPEC pattern |
 | Deactivate body | "They will no longer be able to log in. This can be reversed." | Phase 1 UI-SPEC |
 | Confirm deactivate | "Confirm Deactivate" | researcher default |
+| Create dialog discard | "Discard" | Ghost button in Create User dialog — communicates abandoning creation without saving |
+| Edit roles discard | "Discard Changes" | Ghost button in Edit Roles dialog — communicates abandoning unsaved role edits |
 | No-role validation | "At least one role is required." | US-0.6 acceptance criteria |
 | User created toast | "User created successfully." | Phase 1 UI-SPEC |
 | Roles updated toast | "Roles updated." | researcher default |
@@ -667,6 +669,7 @@ Phase 1 accessibility contract is fully inherited. Phase 2 additions:
 | 403 page heading | `<h1>` "Access Denied" (replaces page title h1) | WCAG single h1 per page |
 | Search loading | `aria-busy="true"` on results container while loading; `aria-live="polite"` on results | UX Mockup ARIA patterns |
 | Audit export button | `aria-label="Export audit log to CSV"` (Admin only) | UX Mockup ARIA patterns |
+| Mobile search icon button | `aria-label="Open search"` on the icon-only search button in mobile top bar | WCAG 2.1 — icon-only controls must have accessible name |
 | Modal role assignment | Checkboxes in `<fieldset>` with `<legend>` "Assign Roles" | UX Mockup form accessibility patterns |
 
 ---
