@@ -16,7 +16,7 @@ The EMS delivers a complete, governed engagement lifecycle in six phases that mi
 ## Phase Details
 
 ### Phase 1: Foundation
-**Status**: In Progress
+**Status**: passed
 **Goal**: The project runs locally, the database schema exists, all core data objects are seeded, and the API boots with authentication working
 **Depends on**: Nothing (first phase)
 **Requirements**: F0 (partial — auth/session/user infrastructure), F1
@@ -35,6 +35,7 @@ Plans:
 - [ ] 01-04-PLAN.md — Login UI + app shell (React login page, AuthContext, AppShell with sidebar/topbar, Playwright E2E tests)
 
 ### Phase 2: Application Shell
+**Status**: In Progress
 **Goal**: Authenticated users can access the full application shell — navigation, role-filtered views, global search, audit trail, and user/role management — from any device with a browser
 **Depends on**: Phase 1
 **Requirements**: F0 (full — navigation, search, role assignment, audit trail view)
