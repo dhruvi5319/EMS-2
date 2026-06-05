@@ -25,7 +25,13 @@ The EMS delivers a complete, governed engagement lifecycle in six phases that mi
   3. A user can log in with username/password and receive a session token; the system locks accounts after 5 failed attempts
   4. All ten core data objects (Request, Engagement, Team Assignment, Planning Record, Objective, Evidence Item, Finding, Draft Product, Gate Decision, Audit Event) are accessible via the database and their fields match the PRD data model
   5. The backend API boots, health check passes, and RBAC middleware is active on all routes
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Docker + project scaffold (backend Node.js/Express/TypeScript, frontend React/Vite/Tailwind, docker-compose 4-service stack)
+- [ ] 01-02-PLAN.md — Database migrations (all 20 tables with exact TechArch DDL, 11 indexes, Knex connection)
+- [ ] 01-03-PLAN.md — Auth API + RBAC middleware + seed (login/logout/me endpoints, session-cookie hybrid, account lockout, requireRole middleware, admin seed)
+- [ ] 01-04-PLAN.md — Login UI + app shell (React login page, AuthContext, AppShell with sidebar/topbar, Playwright E2E tests)
 
 ### Phase 2: Application Shell
 **Goal**: Authenticated users can access the full application shell — navigation, role-filtered views, global search, audit trail, and user/role management — from any device with a browser
@@ -92,7 +98,7 @@ The EMS delivers a complete, governed engagement lifecycle in six phases that mi
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/TBD | Not started | - |
+| 1. Foundation | 0/4 | Planned | - |
 | 2. Application Shell | 0/TBD | Not started | - |
 | 3. Intake and Gate A1 | 0/TBD | Not started | - |
 | 4. Engagement Setup and Gate P2 | 0/TBD | Not started | - |
