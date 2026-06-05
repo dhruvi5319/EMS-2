@@ -5,6 +5,7 @@ import { DashboardPage } from './pages/DashboardPage';
 import { ForbiddenPage } from './pages/ForbiddenPage';
 import { AppShell } from './components/layout/AppShell';
 import { UserManagementPage } from './pages/admin/UserManagementPage';
+import { AuditTrailPage } from './pages/AuditTrailPage';
 
 // ProtectedRoute — unauthenticated → /login
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -112,7 +113,7 @@ function AppRoutes() {
         {/* Engagement audit trail — authenticated, engagements read by all roles */}
         <Route
           path="/engagements/:id/audit"
-          element={<div className="text-sm text-muted-foreground">Audit Trail — loading in 02-06</div>}
+          element={<AuditTrailPage />}
         />
 
         {/* 403 direct route */}
