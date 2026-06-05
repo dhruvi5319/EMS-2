@@ -2,16 +2,16 @@
 pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: Completed 03-05-PLAN.md
-last_updated: "2026-06-05T21:00:40.137Z"
-last_activity: "2026-06-05 — Plan 03-01 complete: Request intake API, LocalStorageProvider, upload middleware, requestsRouter registered"
+status: completed
+stopped_at: Completed 04-01-PLAN.md
+last_updated: "2026-06-05T21:56:42.475Z"
+last_activity: "2026-06-05 — Phase 3 complete: GateA1Panel + ReviewQueuePage + Playwright E2E completing F3 gate workflow"
 progress:
   total_phases: 6
   completed_phases: 3
   total_plans: 37
-  completed_plans: 15
-  percent: 41
+  completed_plans: 16
+  percent: 43
 ---
 
 # Project State
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-06-05)
 
 ## Current Position
 
-Phase: 3 of 6 (Intake and Gate A1) — COMPLETE
-Plan: 5 of 5 complete (03-05 complete — GateA1Panel, GateA1DecidedCard, ReviewQueuePage)
-Status: Phase 3 complete — ready for Phase 4
-Last activity: 2026-06-05 — Phase 3 complete: GateA1Panel + ReviewQueuePage + Playwright E2E completing F3 gate workflow
+Phase: 4 of 6 (Engagement Setup and Gate P2) — In Progress
+Plan: 1 of 8 complete (04-01 complete — Engagement list/detail/update API)
+Status: Plan 04-01 complete — engagement service and router ready
+Last activity: 2026-06-05 — Plan 04-01 complete: Engagement backend API (listEngagements, getEngagement, updateEngagement, engagementsRouter)
 
-Progress: [████░░░░░░] 41%
+Progress: [████░░░░░░] 43%
 
 ## Performance Metrics
 
@@ -71,6 +71,7 @@ Progress: [████░░░░░░] 41%
 | Phase 03-intake-and-gate-a1 P04 | 7min | 2 tasks | 20 files |
 | Phase 03-intake-and-gate-a1 P03 | 8min | 2 tasks | 17 files |
 | Phase 03-intake-and-gate-a1 P05 | 3min | 2 tasks | 7 files |
+| Phase 04-engagement-setup-and-gate-p2 P01 | 2min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -117,6 +118,8 @@ Recent decisions affecting current work:
 - [Phase 03-intake-and-gate-a1]: react-day-picker v10 API used: Chevron component instead of IconLeft/IconRight; initialFocus removed
 - [Phase 03-intake-and-gate-a1]: zod v4 API: z.date().optional() + runtime check instead of required_error parameter (removed in v4)
 - [Phase 03-intake-and-gate-a1]: GateA1DecidedCard uses status-based placeholder for Phase 3 — Phase 4 will add dedicated gate_decision API fetch
+- [Phase 04-engagement-setup-and-gate-p2]: gate_decisions queried by engagement_id only (A1 stored with engagement_id after approval, no request_id column in schema)
+- [Phase 04-engagement-setup-and-gate-p2]: engagementsRouter coexists with auditRouter at /api/engagements — no conflict (different sub-paths)
 
 ### Pending Todos
 
@@ -128,6 +131,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-05T21:00:40.135Z
-Stopped at: Completed 03-05-PLAN.md
+Last session: 2026-06-05T21:56:42.473Z
+Stopped at: Completed 04-01-PLAN.md
 Resume file: None
