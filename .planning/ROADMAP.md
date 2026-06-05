@@ -104,7 +104,17 @@ Plans:
   3. An Analyst can create a finding record and link it to one or more evidence items
   4. A QA Reviewer can mark each objective as Evidence Needed, In Review, or Sufficient; Gate P3 is blocked if any objective has no linked evidence or is marked Evidence Needed
   5. When the QA Reviewer records P3 approval, an immutable Gate Decision record and audit event are written and the engagement advances to the draft phase
-**Plans**: TBD
+**Plans**: 8 plans
+
+Plans:
+- [ ] 05-01-PLAN.md — Evidence API backend (F8): evidence CRUD, multer file upload, StorageProvider, sensitivity access control (AL/RO excluded from restricted)
+- [ ] 05-02-PLAN.md — Evidence-to-objective links + coverage + sufficiency API (F9): link/unlink, coverage summary, gap data, sufficiency management
+- [ ] 05-03-PLAN.md — Findings + Gate P3 API (F10): findings CRUD, P3 prerequisites check (4 conditions), Gate P3 decision (approve → engagement.phase=draft)
+- [ ] 05-04-PLAN.md — Evidence Registry UI (F8): shadcn tooltip+sheet install, EvidenceListPage, EvidenceTable, AddEvidencePanel (Sheet), EvidenceFileUpload, coverage bar, CSV export
+- [ ] 05-05-PLAN.md — Evidence Detail + Gap View UI (F8/F9): EvidenceDetailPage, LinkObjectivePopover, GapViewPanel, GapObjectiveCard, SufficiencyChip
+- [ ] 05-06-PLAN.md — Findings List UI (F10): FindingsListPage, FindingCard, AddFindingDialog, ObjectiveSufficiencySummary, P3PrerequisitesChecklist
+- [ ] 05-07-PLAN.md — Gate P3 Review UI (F10): GateP3ReviewPage, ObjectiveSufficiencyTable, SufficiencyStatusSelect, P3DecisionPanel, ApproveP3ConfirmDialog, ReturnP3ConfirmDialog
+- [ ] 05-08-PLAN.md — Human verify: complete F8/F9/F10 workflow (evidence, linking, findings, Gate P3 approval)
 
 ### Phase 6: Draft Product, Reference Check, Gate P4, and Dashboard
 **Goal**: The team can create and track a draft product, an Independent Referencer can check all statements against evidence, and the Publishing Coordinator can approve Gate P4, completing the engagement; the portfolio dashboard shows all engagements
