@@ -3,8 +3,8 @@ pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: Phase 5 planned — 8 plans in 5 waves
-last_updated: "2026-06-05T17:47:57.293Z"
+stopped_at: Phase 6 UI-SPEC approved — all 6 phase UI-SPECs complete
+last_updated: "2026-06-05T19:25:29.206Z"
 last_activity: "2026-06-05 — Plan 01-04 complete: React login page, AuthContext, AppShell (220px sidebar + 64px topbar), 13 Playwright E2E tests"
 progress:
   total_phases: 6
@@ -92,6 +92,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-05T17:47:57.286Z
-Stopped at: Phase 5 planned — 8 plans in 5 waves
-Resume file: .planning/phases/05-evidence-findings-and-gate-p3/05-01-PLAN.md
+Last session: 2026-06-05T19:25:29.200Z
+Stopped at: Phase 6 UI-SPEC approved — all 6 phase UI-SPECs complete
+Resume file: .planning/phases/06-draft-reference-check-gate-p4-and-dashboard/06-UI-SPEC.md
