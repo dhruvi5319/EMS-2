@@ -505,7 +505,7 @@ Audit events are **immutable** after creation (no UPDATE or DELETE permitted).
 - `requester` (string ≤255, required for submit): requester name or organization
 - `topic` (string ≤500, required for submit): brief description of the engagement topic
 - `agency_program` (string ≤255, required for submit): agency or program name
-- `due_date` (date, required for submit): YYYY-MM-DD format, must be a future date
+- `due_date` (date, required for submit): YYYY-MM-DD format; past dates are permitted (mandates may have retrospective dates); system shows a warning if the date is in the past but does not block submission
 - `notes` (string, optional): free-text notes, max 5000 characters
 
 **Outputs:**
@@ -747,7 +747,7 @@ Audit events are **immutable** after creation (no UPDATE or DELETE permitted).
 | `phase` | `planning` |
 | `status` | `active` |
 | `risk_level` | Value from A1 decision form |
-| `owner_id` | Set to the current AL user; must be reassigned to EM by Engagement Manager setup |
+| `owner_id` | Initially set to the approving AL user as a placeholder. The EM must reassign `owner_id` to a user with the EM role before Gate P2 can be submitted (the P2 prerequisite check requires a valid EM owner). The schema-level foreign key references `users.id` without a role constraint; the application layer enforces that `owner_id` references an active EM at edit time (F04.2) and at P2 submission (F06.4). |
 | `portfolio` | null (set later in F04) |
 | `created_at` | `now()` |
 
@@ -990,6 +990,7 @@ The shell provides navigation links to:
 | Scenario | HTTP | Code | Message |
 |---|---|---|---|
 | Removing last EM | 409 | `TEAM_MIN_VIOLATED` | "Cannot remove the last Engagement Manager from the team." |
+| Removing QA Reviewer before P2 approved | 409 | `TEAM_ROLE_REQUIRED` | "Cannot remove the QA Reviewer before Gate P2 has been approved." |
 
 ---
 
@@ -1527,6 +1528,7 @@ The planning record can be saved as Draft with any fields populated; only the fi
 ### F09.1 Link Evidence to Objectives
 
 **Roles permitted:** AN, EM, AD
+> Note: EM is permitted to link evidence to objectives (in addition to AN) to allow Engagement Managers to close coverage gaps during evidence review without depending on analyst availability. This is intentional. RO and AL cannot link evidence.
 
 **Process:**
 1. AN navigates to the evidence item detail page or the objectives page.
@@ -2275,14 +2277,30 @@ The planning record can be saved as Draft with any fields populated; only the fi
 
 **Roles permitted:** EM, AD
 
-**Process:**
-1. EM selects "Closed" as the outcome during P4 approval (F13.2).
-2. OR EM uses the "Close Engagement" action on the engagement shell (available when engagement has not reached `ready_for_issuance`).
-3. System creates a `GateDecision` with `status = approved`, `outcome = closed`, records rationale.
-4. System sets `engagement.status = closed` and `engagement.phase = closed`.
-5. System writes audit event `ENGAGEMENT_CLOSED`.
+There are two paths to close an engagement that will not be issued:
 
-**Note:** A closed engagement is read-only. No further edits, uploads, or gate approvals are permitted. All records and audit history remain visible.
+**Path A — Close via P4 approval outcome (after P3 is approved):**
+1. During F13.2, EM or AD selects "Closed" as the outcome instead of "Ready for Issuance."
+2. All P4 prerequisite checks still apply (P3 approved, no failed/in-review/not-started checks, no open blockers).
+3. System creates a `GateDecision` (gate_type=P4, status=approved, outcome=closed) and writes audit event `GATE_P4_APPROVED`.
+4. System sets `engagement.status = closed` and `engagement.phase = closed`.
+
+**Path B — Direct close without completing P4 (at any phase before `ready_for_issuance`):**
+1. EM uses the "Close Engagement" action on the engagement shell.
+2. EM enters a close rationale (minimum 10 characters).
+3. System does NOT require P3/P4 gates to be passed; this path is for engagements abandoned before completion.
+4. System sets `engagement.status = closed` and `engagement.phase = closed`.
+5. System writes audit event `ENGAGEMENT_CLOSED` (distinct from `GATE_P4_APPROVED`).
+
+**In both paths:** A closed engagement is read-only. No further edits, uploads, or gate approvals are permitted. All records and audit history remain visible.
+
+**Error States (Path B):**
+
+| Scenario | HTTP | Code | Message |
+|---|---|---|---|
+| Rationale missing or too short | 422 | `VALIDATION_ERROR` | "Close rationale must be at least 10 characters." |
+| Engagement already closed or ready for issuance | 409 | `INVALID_STATUS_TRANSITION` | "Engagement is already closed or has been issued." |
+| Unauthorized | 403 | `FORBIDDEN` | "Only an Engagement Manager may close an engagement." |
 
 ---
 

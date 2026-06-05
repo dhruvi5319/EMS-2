@@ -350,7 +350,7 @@ The product should be easy to understand, easy to navigate, and focused on a sma
 
 **Acceptance Criteria:**
 - P2 cannot pass until at least one objective exists.
-- P2 cannot pass until owner, team, milestones, risk notes, data reliability notes, and independence status are present.
+- P2 cannot pass until all of the following are present: an owner assigned to the engagement, at least one Engagement Manager on the team, at least one QA Reviewer on the team, at least one milestone date set, non-empty risk notes, non-empty data reliability notes, and independence status set.
 - After P2 approval, changes to the planning record require a new revision note.
 
 **Priority:** P0 (Critical — MVP requirement)

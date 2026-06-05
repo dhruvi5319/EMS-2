@@ -318,7 +318,7 @@ Sandra is a senior program director who needs high-level visibility into the eng
 | **F6** Lightweight Planning Record | — | P | S | S | — | — | — |
 | **F7** Planning Approval — Gate P2 | — | S | — | P | — | — | — |
 | **F8** Evidence Registry | — | S | P | S | S | — | — |
-| **F9** Evidence-to-Objective Link | — | S | P | S | — | — | — |
+| **F9** Evidence-to-Objective Link | — | P | P | S | — | — | — |
 | **F10** Findings and Sufficiency — Gate P3 | — | S | P | P | — | — | — |
 | **F11** Draft Product Record | — | P | S | S | — | S | — |
 | **F12** Basic Indexing and Reference Check | — | S | P | — | P | S | — |

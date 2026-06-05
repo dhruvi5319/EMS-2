@@ -187,7 +187,7 @@
 - [ ] Successful submission sets `status = submitted` and records `submitted_at` timestamp
 - [ ] Submitted request appears in the A1 Review Queue
 - [ ] Audit event `REQUEST_SUBMITTED` is written on successful submission
-- [ ] A past due_date triggers a warning but does not block submission (mandates may have retrospective dates)
+- [ ] Past due dates are permitted at submission (mandates may have retrospective dates); the system shows a non-blocking warning when the due date is in the past but does not prevent submission
 
 **Priority:** P0 | **Feature Ref:** F2
 
@@ -389,8 +389,8 @@
 
 **Acceptance Criteria:**
 - [ ] Only EM and Admin can remove team members
-- [ ] Removal of the last EM on an engagement is blocked with HTTP 409
-- [ ] QA Reviewer cannot be removed if P2 has not yet been approved
+- [ ] Removal of the last EM on an engagement is blocked with HTTP 409: "Cannot remove the last Engagement Manager from the team."
+- [ ] Removal of a QA Reviewer before P2 is approved is blocked with HTTP 409: "Cannot remove the QA Reviewer before Gate P2 has been approved."
 - [ ] Removal soft-deletes the TeamAssignment record
 - [ ] Audit event `TEAM_MEMBER_REMOVED` is written on removal
 
@@ -606,8 +606,8 @@
 
 **Acceptance Criteria:**
 - [ ] Sensitivity can be set to "Standard" (default) or "Restricted" during creation or editing
-- [ ] Restricted evidence items are visible only to AN, EM, QA, IR, PC, and Admin assigned to the engagement
-- [ ] AL and RO cannot see restricted evidence items or their download links
+- [ ] Restricted evidence items are visible only to users assigned to the engagement with one of the following roles: AN, EM, QA, IR, PC, or Admin. This is an explicit role list — not a general "assigned to the engagement" rule. AL and RO are excluded even if they are assigned to the engagement.
+- [ ] AL and RO cannot see restricted evidence items or their download links regardless of team assignment
 - [ ] Changing an item from standard to restricted writes audit event `EVIDENCE_RESTRICTED`
 - [ ] Unauthorized download of a restricted file returns HTTP 403: "You are not authorized to download restricted evidence files."
 
@@ -647,13 +647,14 @@
 ---
 
 ### US-9.1: Link Evidence to Planning Objectives
-**As a** Priya Nair (AN), **I want to** link evidence items to one or more planning objectives, **so that** the system can show which objectives are supported and which have gaps.
+**As a** Priya Nair (AN) or Diana Okafor (EM), **I want to** link evidence items to one or more planning objectives, **so that** the system can show which objectives are supported and which have gaps.
 
 **Acceptance Criteria:**
-- [ ] AN can link an evidence item to one or more objectives from either the evidence detail page or the objectives page
+- [ ] AN and EM can link an evidence item to one or more objectives from either the evidence detail page or the objectives page
 - [ ] Evidence item and objectives must belong to the same engagement; cross-engagement links return HTTP 422
 - [ ] Duplicate links (same evidence + same objective) return HTTP 409: "This evidence item is already linked to this objective."
 - [ ] Audit event `EVIDENCE_OBJECTIVE_LINKED` is written for each new link
+- [ ] AL and RO cannot link evidence to objectives; attempts return HTTP 403
 
 **Priority:** P0 | **Feature Ref:** F9
 
@@ -969,12 +970,18 @@
 ### US-13.3: Close an Engagement Without Issuance
 **As a** Diana Okafor (EM), **I want to** close an engagement that will not be issued, **so that** the record is finalized with clear status and no further edits are permitted.
 
+There are two supported paths (see FRD F13.3 for full detail):
+- **Path A:** During P4 approval, EM or Admin selects "Closed" as the outcome instead of "Ready for Issuance." All P4 prerequisites still apply. This path generates a `GATE_P4_APPROVED` audit event.
+- **Path B:** EM uses the "Close Engagement" action directly on the engagement shell at any phase before `ready_for_issuance`. P3/P4 gates are not required to have passed. This path generates an `ENGAGEMENT_CLOSED` audit event.
+
 **Acceptance Criteria:**
-- [ ] Only EM and Admin can close an engagement
-- [ ] Closing sets `engagement.status = closed` and `engagement.phase = closed`
+- [ ] Only EM and Admin can close an engagement via Path B (direct close action)
+- [ ] Path B requires a close rationale (minimum 10 characters); missing or short rationale returns HTTP 422
+- [ ] Path B is blocked if the engagement is already `closed` or `ready_for_issuance`; returns HTTP 409
+- [ ] Both paths set `engagement.status = closed` and `engagement.phase = closed`
 - [ ] A closed engagement is read-only; no further edits, uploads, or gate approvals are permitted
 - [ ] All records and audit history remain visible on a closed engagement
-- [ ] Audit event `ENGAGEMENT_CLOSED` is written
+- [ ] Path A writes audit event `GATE_P4_APPROVED` with outcome=closed; Path B writes audit event `ENGAGEMENT_CLOSED`
 
 **Priority:** P0 | **Feature Ref:** F13
 
