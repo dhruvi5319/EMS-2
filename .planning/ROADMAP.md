@@ -16,7 +16,7 @@ The EMS delivers a complete, governed engagement lifecycle in six phases that mi
 ## Phase Details
 
 ### Phase 1: Foundation
-**Status**: In Progress
+**Status**: awaiting verify
 **Goal**: The project runs locally, the database schema exists, all core data objects are seeded, and the API boots with authentication working
 **Depends on**: Nothing (first phase)
 **Requirements**: F0 (partial — auth/session/user infrastructure), F1
@@ -83,7 +83,16 @@ Plans:
   3. An EM or Analyst can create a planning record with one or more objectives, design approach, risk notes, data reliability notes, and independence affirmation status; the record can be saved as Draft or submitted as Ready for Review
   4. Gate P2 is blocked if any prerequisite is missing (no objectives, no owner, no QA on team, no milestones, missing risk notes, missing data reliability notes, or missing independence status)
   5. When the QA Reviewer approves Gate P2, the planning record is locked; subsequent edits require a revision note; an audit event and Gate Decision record are written
-**Plans**: TBD
+**Plans**: 7 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Engagement backend API (F4): GET list, GET detail with gates+blockers, PATCH metadata
+- [ ] 04-02-PLAN.md — Team + Milestones backend API (F5): team CRUD with role guards, milestone upsert + status computation, P2 prerequisites check
+- [ ] 04-03-PLAN.md — Planning Record + Gate P2 backend (F6/F7): planning CRUD, objectives, independence affirmations, P2 gate decision with server-side re-validation, revision workflow
+- [ ] 04-04-PLAN.md — Engagement List + Engagement Shell UI (F4): EngagementListPage, tabbed EngagementShellPage, reusable GateStatusCard, BlockerPanel, EditMetadataForm, Playwright E2E
+- [ ] 04-05-PLAN.md — Team + Milestones UI (F5): TeamPanel, TeamMemberTable, AddMemberForm, MilestoneTable, MilestoneStatusChip, Playwright E2E
+- [ ] 04-06-PLAN.md — Planning Record form UI (F6): ObjectiveList (Accordion), P2ReadinessChecklist, PlanningLockedBanner, PlanningRecordPanel (all 4 states), RadioGroup independence affirmation, Playwright E2E
+- [ ] 04-07-PLAN.md — Gate P2 Review UI (F7): GateP2ReviewPanel, ApproveP2ConfirmDialog, ReturnP2ConfirmDialog, post-decision redirects, Playwright E2E
 
 ### Phase 5: Evidence, Findings, and Gate P3
 **Goal**: Analysts can upload and manage evidence, link evidence to objectives, create findings, and a QA Reviewer can mark all objectives sufficient and approve Gate P3
@@ -117,6 +126,6 @@ Plans:
 | 1. Foundation | 0/4 | Planned | - |
 | 2. Application Shell | 0/TBD | Not started | - |
 | 3. Intake and Gate A1 | 0/TBD | Not started | - |
-| 4. Engagement Setup and Gate P2 | 0/TBD | Not started | - |
+| 4. Engagement Setup and Gate P2 | 0/7 | Not started | - |
 | 5. Evidence, Findings, and Gate P3 | 0/TBD | Not started | - |
 | 6. Draft Product, Reference Check, Gate P4, and Dashboard | 0/TBD | Not started | - |
