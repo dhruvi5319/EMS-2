@@ -35,7 +35,8 @@ Plans:
 - [ ] 01-04-PLAN.md — Login UI + app shell (React login page, AuthContext, AppShell with sidebar/topbar, Playwright E2E tests)
 
 ### Phase 2: Application Shell
-**Status**: In Progress
+**Status**: passed
+**Completed**: 2026-06-05
 **Goal**: Authenticated users can access the full application shell — navigation, role-filtered views, global search, audit trail, and user/role management — from any device with a browser
 **Depends on**: Phase 1
 **Requirements**: F0 (full — navigation, search, role assignment, audit trail view)
@@ -134,8 +135,8 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/4 | Planned | - |
-| 2. Application Shell | 0/TBD | Not started | - |
+| 1. Foundation | 4/4 | passed | 2026-06-05 |
+| 2. Application Shell | 6/6 | passed | 2026-06-05 |
 | 3. Intake and Gate A1 | 0/TBD | Not started | - |
 | 4. Engagement Setup and Gate P2 | 0/7 | Not started | - |
 | 5. Evidence, Findings, and Gate P3 | 0/TBD | Not started | - |
