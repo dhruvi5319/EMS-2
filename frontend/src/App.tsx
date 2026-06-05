@@ -6,6 +6,9 @@ import { ForbiddenPage } from './pages/ForbiddenPage';
 import { AppShell } from './components/layout/AppShell';
 import { UserManagementPage } from './pages/admin/UserManagementPage';
 import { AuditTrailPage } from './pages/AuditTrailPage';
+import { RequestListPage } from '@/pages/requests/RequestListPage';
+import { RequestFormPage } from '@/pages/requests/RequestFormPage';
+import { RequestDetailPage } from '@/pages/requests/RequestDetailPage';
 
 // ProtectedRoute — unauthenticated → /login
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -59,7 +62,31 @@ function AppRoutes() {
           path="/requests"
           element={
             <RoleGuard roles={['AL', 'EM', 'RO', 'AD']}>
-              <div className="text-sm text-muted-foreground">Requests — Phase 3</div>
+              <RequestListPage />
+            </RoleGuard>
+          }
+        />
+        <Route
+          path="/requests/new"
+          element={
+            <RoleGuard roles={['AL', 'AD']}>
+              <RequestFormPage />
+            </RoleGuard>
+          }
+        />
+        <Route
+          path="/requests/:id/edit"
+          element={
+            <RoleGuard roles={['AL', 'AD']}>
+              <RequestFormPage />
+            </RoleGuard>
+          }
+        />
+        <Route
+          path="/requests/:id"
+          element={
+            <RoleGuard roles={['AL', 'EM', 'RO', 'AD']}>
+              <RequestDetailPage />
             </RoleGuard>
           }
         />
