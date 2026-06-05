@@ -128,6 +128,8 @@ Fully inherited from Phase 1. No contradictions. Declared here for executor refe
 8. Search match highlight background (`hsl(221 83% 93%)` — blue-100 tint) with accent text
 9. Review Queue badge background (pending count pill in sidebar)
 
+Primary visual anchor: the active navigation item's 4px accent-colored left bar and accent text orient the user's current location within the app shell.
+
 **Semantic status colors (inherited from Phase 1 — no additions in Phase 2):**
 
 | Status | Background | Text | Usage |
@@ -398,7 +400,7 @@ filtering needed; results returned by API are already role-scoped).
 - shadcn `AlertDialog` (cannot dismiss by clicking outside)
 - Title: "Deactivate {user full_name}?"
 - Body: "They will no longer be able to log in. This can be reversed."
-- Buttons: `[Cancel]` (ghost) + `[Confirm Deactivate]` (destructive, red)
+- Buttons: `[Keep User Active]` (ghost) + `[Confirm Deactivate]` (destructive, red)
 - Success: row updates to "Deactivated" badge + toast "User deactivated." (green, 4s)
 
 ---
@@ -557,7 +559,7 @@ for non-Admin, or `/engagements/{id}` for unauthorized user).
 
 | Action | Trigger | Confirmation approach |
 |--------|---------|----------------------|
-| Deactivate user | `[Deactivate]` in user table | shadcn `AlertDialog` — cannot close by backdrop click. Title names user. Two buttons: `[Cancel]` + `[Confirm Deactivate]` (destructive) |
+| Deactivate user | `[Deactivate]` in user table | shadcn `AlertDialog` — cannot close by backdrop click. Title names user. Two buttons: `[Keep User Active]` + `[Confirm Deactivate]` (destructive) |
 | (No other Phase 2 destructive actions) | — | — |
 
 > **Note on role assignment:** Removing all roles from a user via Edit Roles is blocked at the
