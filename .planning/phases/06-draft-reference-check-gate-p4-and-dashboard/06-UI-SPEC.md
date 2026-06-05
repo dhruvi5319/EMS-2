@@ -422,7 +422,7 @@ Owner *
 [Priya Nair                                                 ▾]
 Must be an active user assigned to this engagement.
 
-[Cancel]                              [Create Draft Product]
+[Discard Draft]                       [Create Draft Product]
 ```
 
 **Layout — Draft product exists:**
@@ -745,7 +745,7 @@ CORRECTION NOTE (recommended)
 - Note text: 14px/400 italic
 
 **"Mark as Revision Ready" checkbox:**
-- On check: confirmation inline — "Send back to referencer?" with [Cancel] [Confirm] inline actions
+- On check: confirmation inline — "Send back to referencer?" with [Keep Editing] [Confirm] inline actions
 - On confirm: `reference_status → in_review`, statement returns to IR's queue
 - Banner after confirmation: "Sent back to referencer (Carla Voss)."
 
@@ -775,7 +775,7 @@ Waiver Justification *  (minimum 10 characters)
 └────────────────────────────────────────────────────────────────┘
 [14 / 10] ✓
 
-[Cancel]                              [Waive Reference Check]
+[Keep Reference Check]                [Waive Reference Check]
 ```
 
 **Waiver justification:**
@@ -900,7 +900,7 @@ P4  Pending
 - `AlertDialog`, max-width 520px
 - Title: "Approve Final Readiness (Gate P4)?" (20px/600)
 - Body: "This will mark ENG-2026-{NNNNN} as [Ready for Issuance/Closed]. This action creates a permanent gate decision record and sets the engagement to read-only."
-- Buttons: `[Cancel]` (ghost) + `[Confirm Approve P4 ✓]` (primary accent)
+- Buttons: `[Keep Reviewing]` (ghost) + `[Confirm Approve P4 ✓]` (primary accent)
 - Loading: "Confirm Approve P4 ✓" → spinner + "Processing..." disabled
 
 **Post-approve:**
@@ -1063,10 +1063,13 @@ P4  Pending
 | Mark revision ready | "Mark as Revision Ready — Send Back to Referencer" | AN correction view checkbox |
 | Approve final readiness | "✓ Approve Final Readiness" | P4 decision panel |
 | Confirm P4 approval | "Confirm Approve P4 ✓" | AlertDialog confirm button |
-| P4 cancel | "Cancel" | AlertDialog ghost button |
+| P4 dismiss | "Keep Reviewing" | AlertDialog ghost button — returns user to prerequisites without committing gate decision |
 | Export engagement register | "Export to CSV" | Portfolio dashboard top-right |
 | Delete statement | "Delete Statement" | Destructive statement action |
 | Keep statement | "Keep Statement" | AlertDialog cancel — deleting statement |
+| Discard draft product form | "Discard Draft" | Create Draft Product dialog ghost button — dismisses without saving |
+| Keep reference check | "Keep Reference Check" | Waive Reference Check dialog ghost button — returns user to statements without waiving |
+| Keep editing correction | "Keep Editing" | Inline confirmation cancel — AN stays in correction view without sending back to referencer |
 
 ### Loading States
 

@@ -127,7 +127,16 @@ Plans:
   2. An Analyst can add draft statement records and link each to one or more evidence items; an Independent Referencer can mark each statement as Not Started / In Review / Passed / Failed and capture discrepancy notes when Failed, assigning the discrepancy back to the Analyst
   3. Gate P4 is blocked if any reference check is In Review or Failed, or if P3 has not passed; when all checks are Passed or waived and no blockers remain, the Publishing Coordinator can record P4 approval, setting the engagement to Ready for Issuance or Closed with an audit event
   4. Any user can view the portfolio dashboard showing counts by phase and status, filters by owner/risk level/due date/phase/status, a sortable list with engagement ID/title/phase/owner/risk/next milestone/gate status, and can export the list to CSV
-**Plans**: TBD
+**Plans**: 7 plans
+
+Plans:
+- [ ] 06-01-PLAN.md — Draft product backend API (F11): CRUD, file upload/replace, append-only review comments
+- [ ] 06-02-PLAN.md — Statements + reference check backend API (F12): CRUD, evidence multi-link, waiver, discrepancy assignment
+- [ ] 06-03-PLAN.md — Gate P4 backend API (F13) + portfolio list/export API (F14): prerequisites, decision, engagement list, CSV export
+- [ ] 06-04-PLAN.md — Draft Product UI (F11): DraftProductPage, custom DraftStatusStepper, file section, comment thread, Playwright E2E
+- [ ] 06-05-PLAN.md — Statements / Indexing UI (F12 AN/EM view): StatementsPage, 5-segment progress bar, statement table, AddStatementForm, WaiveDialog, Playwright E2E
+- [ ] 06-06-PLAN.md — Statement Detail UI (F12 IR + AN views): IR decision panel, discrepancy fields, AN correction view, DiscrepancyPanel, AnalystCorrectionNotice, Playwright E2E
+- [ ] 06-07-PLAN.md — Gate P4 UI (F13) + Portfolio Dashboard UI (F14): prerequisites checklist, P4 decision panel, confirm dialog; stat cards, sortable register table, CSV export, Playwright E2E
 
 ## Progress
 
@@ -140,4 +149,4 @@ Plans:
 | 3. Intake and Gate A1 | 0/TBD | Not started | - |
 | 4. Engagement Setup and Gate P2 | 0/7 | Not started | - |
 | 5. Evidence, Findings, and Gate P3 | 0/TBD | Not started | - |
-| 6. Draft Product, Reference Check, Gate P4, and Dashboard | 0/TBD | Not started | - |
+| 6. Draft Product, Reference Check, Gate P4, and Dashboard | 0/7 | Not started | - |

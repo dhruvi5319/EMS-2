@@ -24,12 +24,22 @@ export function TopBar() {
       style={{ height: 64 }}
     >
       {/* Logo */}
-      <div className="font-semibold text-foreground text-base shrink-0" style={{ width: 220 }}>
+      <div className="font-semibold text-foreground text-base" style={{ width: 220 }}>
         EMS
       </div>
 
-      {/* Global search — functional (replaces Phase 1 placeholder) */}
-      <GlobalSearchBar />
+      {/* Search placeholder — replaced by GlobalSearchBar in plan 02-04 */}
+      <div className="flex-1 mx-6">
+        <div className="max-w-md mx-auto" id="global-search-container">
+          <input
+            type="text"
+            placeholder="Search engagements, requests..."
+            disabled
+            className="w-full h-9 rounded-md border border-border px-3 text-sm text-muted-foreground bg-secondary cursor-not-allowed"
+            aria-label="Global search (coming soon)"
+          />
+        </div>
+      </div>
 
       {/* User menu */}
       <div className="flex items-center gap-3 shrink-0">
