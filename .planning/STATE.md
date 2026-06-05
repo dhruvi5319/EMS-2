@@ -3,15 +3,15 @@ pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-03-PLAN.md
-last_updated: "2026-06-05T15:11:55.388Z"
-last_activity: "2026-06-05 — Plan 01-02 complete: Knex migrations — 21 PostgreSQL tables (users/user_roles/sessions + 18 core domain tables), db singleton, 11 TechArch indexes"
+stopped_at: Completed 01-04-PLAN.md
+last_updated: "2026-06-05T15:20:54.342Z"
+last_activity: "2026-06-05 — Plan 01-04 complete: React login page, AuthContext, AppShell (220px sidebar + 64px topbar), 13 Playwright E2E tests"
 progress:
   total_phases: 6
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 10
-  completed_plans: 3
-  percent: 30
+  completed_plans: 4
+  percent: 40
 ---
 
 # Project State
@@ -26,29 +26,29 @@ See: .planning/PROJECT.md (updated 2026-06-05)
 ## Current Position
 
 Phase: 1 of 6 (Foundation)
-Plan: 3 of 4 in current phase (01-03 complete)
-Status: In progress
-Last activity: 2026-06-05 — Plan 01-03 complete: Auth service, RBAC middleware, session-cookie login/logout, admin seed with 8 roles
+Plan: 4 of 4 in current phase (01-04 complete — Phase 1 complete)
+Status: Phase 1 complete
+Last activity: 2026-06-05 — Plan 01-04 complete: React login page, AuthContext, AppShell (220px sidebar + 64px topbar), 13 Playwright E2E tests
 
-Progress: [███░░░░░░░] 30%
+Progress: [████░░░░░░] 40%
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 3
-- Average duration: 2.7min
-- Total execution time: ~0.1 hours
+- Total plans completed: 4
+- Average duration: 3min
+- Total execution time: ~0.2 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-foundation | 3/4 | 8min | 2.7min |
+| 01-foundation | 4/4 | 12min | 3min |
 
 **Recent Trend:**
 
-- Last 5 plans: 01-01 (4min), 01-02 (2min), 01-03 (2min)
+- Last 5 plans: 01-01 (4min), 01-02 (2min), 01-03 (2min), 01-04 (4min)
 - Trend: baseline
 
 *Updated after each plan completion*
@@ -58,6 +58,7 @@ Progress: [███░░░░░░░] 30%
 | Phase 01-foundation P01 | 4min | 2 tasks | 19 files |
 | Phase 01-foundation P02 | 2min | 2 tasks | 4 files |
 | Phase 01-foundation P03 | 2min | 3 tasks | 9 files |
+| Phase 01-foundation P04 | 4min | 2 tasks | 14 files |
 
 ## Accumulated Context
 
@@ -77,6 +78,9 @@ Recent decisions affecting current work:
 - [Phase 01-foundation]: bcryptjs over bcrypt: pure JavaScript, avoids Alpine Linux native module compilation in Docker containers
 - [Phase 01-foundation]: DB session hash over stateless JWT: session_hash in sessions table enables per-session revocation via DELETE on logout
 - [Phase 01-foundation]: Generic 401 for both bad username and bad password: prevents user enumeration attacks
+- [Phase 01-foundation]: Plain Tailwind CSS (no shadcn) for Phase 1 UI — shadcn_initialized: false per UI-SPEC; tokens pre-aligned for seamless Phase 2 migration
+- [Phase 01-foundation]: AuthContext restores session on mount via GET /api/auth/me — eliminates re-login on page reload
+- [Phase 01-foundation]: E2E Playwright tests written as artifacts; execution deferred to verify phase (requires full running stack)
 
 ### Pending Todos
 
@@ -88,6 +92,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-05T15:11:55.378Z
-Stopped at: Completed 01-03-PLAN.md
+Last session: 2026-06-05T15:20:54.334Z
+Stopped at: Completed 01-04-PLAN.md
 Resume file: None
