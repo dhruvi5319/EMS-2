@@ -43,7 +43,15 @@ Plans:
   3. Global search returns matching engagements by ID, title, requester, phase, or owner within the user's access scope
   4. Admin can create a user, assign one or more roles, and the new permissions take effect on the user's next request
   5. Any authorized user can view the audit trail for an engagement, filtered by action type or date range
-**Plans**: TBD
+**Plans**: 6 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — shadcn/ui initialization, CSS variable token config, Phase 1 component token migration
+- [ ] 02-02-PLAN.md — Role-filtered navigation sidebar, RoleFilteredNav (6×8 matrix), ReviewQueueBadge, ForbiddenPage, RoleGuard route wrapper
+- [ ] 02-03-PLAN.md — Backend APIs: search (GET /api/search), user management (GET/POST/PUT /api/users), audit trail (GET /api/engagements/:id/audit)
+- [ ] 02-04-PLAN.md — Global search UI: shadcn Command overlay, debounced hook, ⌘K shortcut, keyboard navigation, Playwright E2E
+- [ ] 02-05-PLAN.md — User management page: Admin-only UserTable, CreateUserDialog, EditUserRolesDialog, DeactivateUserConfirm, Playwright E2E
+- [ ] 02-06-PLAN.md — Audit trail view: AuditEventCard, ActionCodeBadge, AuditTrailFilters, AuditTimeline, pagination, Playwright E2E
 
 ### Phase 3: Intake and Gate A1
 **Goal**: An Engagement Acceptance Lead can create and submit a request, and either approve it (automatically creating an engagement shell with audit trail) or decline it with recorded rationale
