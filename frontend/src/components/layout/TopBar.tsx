@@ -1,6 +1,5 @@
 import { useAuthContext } from '@/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { GlobalSearchBar } from '@/components/search/GlobalSearchBar';
 
 export function TopBar() {
   const { user, logout } = useAuthContext();
