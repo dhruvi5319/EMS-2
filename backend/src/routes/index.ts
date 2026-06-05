@@ -4,6 +4,7 @@ import { searchRouter } from './search';
 import { usersRouter } from './users';
 import { auditRouter } from './audit';
 import { requestsRouter } from './requests';
+import { gateRouter } from './gate';
 
 export const apiRouter = Router();
 
@@ -14,4 +15,9 @@ apiRouter.use('/auth', authRouter);
 apiRouter.use('/search', searchRouter);
 apiRouter.use('/users', usersRouter);
 apiRouter.use('/engagements', auditRouter);
+
+// Phase 3: Request intake
 apiRouter.use('/requests', requestsRouter);
+
+// Phase 3: Gate A1 decisions — mounted at /requests so full path is /api/requests/:id/gate/a1
+apiRouter.use('/requests', gateRouter);
