@@ -10,6 +10,8 @@ import { RequestListPage } from '@/pages/requests/RequestListPage';
 import { RequestFormPage } from '@/pages/requests/RequestFormPage';
 import { RequestDetailPage } from '@/pages/requests/RequestDetailPage';
 import { ReviewQueuePage } from '@/pages/requests/ReviewQueuePage';
+import { EngagementListPage } from '@/pages/EngagementListPage';
+import { EngagementShellPage } from '@/pages/EngagementShellPage';
 
 // ProtectedRoute — unauthenticated → /login
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -93,10 +95,8 @@ function AppRoutes() {
         />
 
         {/* Engagements — ALL roles */}
-        <Route
-          path="/engagements"
-          element={<div className="text-sm text-muted-foreground">Engagements — Phase 4</div>}
-        />
+        <Route path="/engagements" element={<EngagementListPage />} />
+        <Route path="/engagements/:id" element={<EngagementShellPage />} />
 
         {/* Evidence — AN, EM, QA, IR, PC, AD */}
         <Route
