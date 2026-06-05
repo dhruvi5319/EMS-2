@@ -69,7 +69,7 @@ Phase 4 exceptions (new additions — no Phase 1/2/3 contradictions):
 - Milestone table row height: 48px (touch-target compliant, inherits from Phase 3 table rows)
 - Independence affirmation switch row: 40px height per team member row (touch target)
 - Objective list card: 16px (`md`) internal padding; 8px (`sm`) gap between objective rows
-- Revision note banner: 12px vertical padding, 16px horizontal padding (amber banner style)
+- Revision note banner: 8px vertical padding (sm), 16px horizontal padding (md) (amber banner style)
 - Tab bar height: 40px (inherits from Phase 3 `RequestStatusTabs`)
 - Touch target minimum: 44×44px on all interactive controls (inherited from Phase 1/2)
 
@@ -456,7 +456,7 @@ Team: 4 members  ·  Objectives: 3  ·  Evidence: 8 items  ·  Findings: 2  ·  
 | Phase override | `Select` | — | Any phase; requires revision note when changed |
 | Revision Note (if phase override) | `Textarea` | YES when phase changed | ≥10 chars |
 
-**Actions:** `[Cancel]` (ghost, reverts to read-only header) + `[Save Changes]` (primary, accent fill)
+**Actions:** `[Discard Changes]` (ghost, reverts to read-only header) + `[Save Changes]` (primary, accent fill)
 
 **Save Changes loading state:** spinner + "Saving..." disabled
 
@@ -638,7 +638,7 @@ Status: [Draft]                              [Save Draft]  [Submit for P2 Review
 - Uses `Accordion` component for each objective — collapsed by default; click to expand and see information need + edit form
 - Drag handle: `⋮⋮` grip icon (8px, muted color, left edge); drag-to-reorder enabled (via dnd library)
 - [Edit] button: secondary/outline, 12px, 36px height — opens inline edit form within accordion
-- [✕] button: ghost/destructive, 12px — opens inline confirmation "Delete this objective?" with [Cancel] [Delete] buttons (no AlertDialog — inline only, since deletion is blocked if evidence linked)
+- [✕] button: ghost/destructive, 12px — opens inline confirmation "Delete this objective?" with [Keep Objective] [Delete] buttons (no AlertDialog — inline only, since deletion is blocked if evidence linked)
 - Delete blocked state: red error banner inline — "Cannot delete this objective — it has linked evidence. Unlink evidence first."
 - [+ Add Objective] button: secondary/outline, top-right of Objectives section header
 - Add objective inline form: expands below the objective list (not a modal):
@@ -649,7 +649,7 @@ Status: [Draft]                              [Save Draft]  [Submit for P2 Review
   Information Need  (optional)
   [What information is needed to answer this objective?]
 
-  [Cancel]                                        [Save Objective]
+  [Discard Objective]                             [Save Objective]
   ```
 
 **Planning section headers:**
@@ -700,7 +700,7 @@ Status: [Draft]                              [Save Draft]  [Submit for P2 Review
    ```
    Revision Note * (required, ≥10 chars)
    [Reason for revising the approved planning baseline...]
-   [Cancel]                          [Unlock for Editing]
+   [Keep Locked]                     [Unlock for Editing]
    ```
 3. Revision note ≥10 chars → [Unlock for Editing] enables (accent fill)
 4. On submit: fields unlock, status remains `approved`, revision note saved
@@ -923,7 +923,7 @@ All items pass. You may approve this planning baseline.
 | Delete objective | "Delete this objective?" | "This cannot be undone. The objective text and information need will be permanently removed." (only shown if no linked evidence — otherwise blocked inline) | "Delete Objective" (destructive red) |
 
 > All confirmation dialogs use shadcn `AlertDialog` (blocks outside-click dismissal).
-> "Keep Under Review" / "Keep in Review" / "Cancel" are ghost buttons in all dialogs.
+> "Keep Under Review" / "Keep in Review" / "Keep Objective" / "Discard Changes" are the ghost dismiss buttons used across Phase 4 dialogs and forms.
 
 ### Empty State Copy
 
