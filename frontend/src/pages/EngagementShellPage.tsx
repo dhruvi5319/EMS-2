@@ -6,13 +6,10 @@ import { EngagementHeaderCard } from '@/components/engagements/EngagementHeaderC
 import { GateStatusCardRow } from '@/components/engagements/GateStatusCardRow';
 import { BlockerPanel } from '@/components/engagements/BlockerPanel';
 import { TeamPanel } from '@/components/engagements/TeamPanel';
+import { PlanningRecordPanel } from '@/components/engagements/PlanningRecordPanel';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAuthContext } from '@/context/AuthContext';
-
-function PlanningRecordPanel() {
-  return <div className="py-8 text-sm text-muted-foreground">Planning Record panel — coming in Plan 04-06.</div>;
-}
 
 function PlaceholderPanel({ name }: { name: string }) {
   return <div className="py-8 text-sm text-muted-foreground">{name} — coming in a future phase.</div>;
@@ -193,7 +190,12 @@ export function EngagementShellPage() {
         </TabsContent>
 
         <TabsContent value="planning">
-          <PlanningRecordPanel />
+          <PlanningRecordPanel
+            engagementId={engagement.id}
+            canEdit={canEdit}
+            isQA={user?.roles?.includes('QA') ?? false}
+            gate_decisions={gateDecisions}
+          />
         </TabsContent>
 
         <TabsContent value="evidence">
