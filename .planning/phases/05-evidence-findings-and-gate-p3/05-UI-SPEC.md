@@ -458,7 +458,7 @@ Sensitivity *
 │  Max 50 MB per file · Max 20 files                                │
 └──────────────────────────────────────────────────────────────────┘
 
-[Cancel]                                     [Save Evidence Item]
+[Discard Evidence]                           [Save Evidence Item]
 ```
 
 **Field specifications:**
@@ -493,7 +493,7 @@ Sensitivity *
 - On success: panel closes + evidence list refreshes + toast "Evidence item saved."
 - On partial (files still uploading): button shows "Save Evidence Item (uploading...)" — allows save of metadata while files complete asynchronously (or block if that's simpler — either is acceptable, implementation decision)
 
-**"Cancel" button:** ghost; closes panel without saving; if files were uploading, warns: "File uploads in progress. Cancel anyway?" (inline, not AlertDialog)
+**"Discard Evidence" button:** ghost; closes panel without saving; if files were uploading, warns: "File uploads in progress. Discard anyway?" (inline, not AlertDialog)
 
 **Validation trigger:** onBlur per field; full validation on save attempt
 
@@ -747,7 +747,7 @@ Link to Evidence (required before P3) *
 └──────────────────────────────────────────────────────────────────┘
 ⚠ At least one evidence item must be linked before Gate P3.
 
-[Cancel]                                              [Save Finding]
+[Discard Finding]                                     [Save Finding]
 ```
 
 **Field specifications:**
@@ -769,7 +769,7 @@ Link to Evidence (required before P3) *
 - Loading: spinner + "Saving..." disabled
 - On success: dialog closes + finding appears in list + toast "Finding saved."
 
-**"Cancel" button:** ghost; closes without saving
+**"Discard Finding" button:** ghost; closes without saving
 
 **Edit mode:** same layout; fields pre-populated; "Save Finding" → "Update Finding"; finding-evidence links shown checked
 
@@ -954,6 +954,8 @@ FD-002: Agency financial reporting lacks procedures...
 | Upload additional | "+ Upload additional file" | Evidence detail file section |
 | Edit evidence | "Edit Evidence" | Evidence detail secondary action |
 | View finding | "View Finding →" | Linked finding in evidence detail |
+| Discard evidence (panel dismiss) | "Discard Evidence" | ghost button — dismisses Add Evidence panel without saving evidence |
+| Discard finding (dialog dismiss) | "Discard Finding" | ghost button — dismisses Add Finding dialog without saving finding |
 
 ### Loading States
 
