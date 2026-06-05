@@ -2,16 +2,16 @@
 pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-stopped_at: Completed 02-application-shell-01-PLAN.md
-last_updated: "2026-06-05T19:29:01.485Z"
-last_activity: "2026-06-05 — Plan 02-01 complete: shadcn/ui initialized, 14 UI components, CSS variable tokens, Phase 1 components migrated to shadcn tokens"
+status: executing
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-06-05T19:33:16.072Z"
+last_activity: "2026-06-05 — Plan 02-01 complete: shadcn/ui initialized, 14 UI components, CSS variable tokens, Phase 1 components migrated to shadcn tokens, Toaster mounted"
 progress:
   total_phases: 6
   completed_phases: 1
   total_plans: 30
-  completed_plans: 5
-  percent: 17
+  completed_plans: 6
+  percent: 20
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-06-05)
 ## Current Position
 
 Phase: 2 of 6 (Application Shell)
-Plan: 1 of 8 in current phase (02-01 complete — shadcn/ui initialized)
+Plan: 2 of 8 in current phase (02-02 complete — RBAC nav, ForbiddenPage, RoleGuard)
 Status: Phase 2 in progress
-Last activity: 2026-06-05 — Plan 02-01 complete: shadcn/ui initialized, 14 UI components, CSS variable tokens, Phase 1 components migrated to shadcn tokens, Toaster mounted
+Last activity: 2026-06-05 — Plan 02-02 complete: RoleFilteredNav with 6×8 role matrix, NavItem, ReviewQueueBadge, responsive Sidebar, ForbiddenPage, RoleGuard route wrapper
 
-Progress: [██░░░░░░░░] 17%
+Progress: [██░░░░░░░░] 20%
 
 ## Performance Metrics
 
@@ -61,6 +61,7 @@ Progress: [██░░░░░░░░] 17%
 | Phase 01-foundation P03 | 2min | 3 tasks | 9 files |
 | Phase 01-foundation P04 | 4min | 2 tasks | 14 files |
 | Phase 02-application-shell P01 | 5min | 2 tasks | 25 files |
+| Phase 02-application-shell P02 | 2min | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -85,6 +86,8 @@ Recent decisions affecting current work:
 - [Phase 01-foundation]: E2E Playwright tests written as artifacts; execution deferred to verify phase (requires full running stack)
 - [Phase 02-application-shell]: shadcn CLI had ECONNRESET network failure — components manually written from official new-york templates to ensure exact contract parity
 - [Phase 02-application-shell]: CSS variable token pattern established: --primary: 221 83% 53% in :root, consumed as hsl(var(--primary)) in Tailwind theme extension
+- [Phase 02-application-shell]: RoleGuard renders ForbiddenPage in-place (not redirect to /403) — URL stays, sidebar/topbar remain visible, matches UI-SPEC Screen E
+- [Phase 02-application-shell]: NAV_SECTIONS empty allowedRoles[] = all roles allowed — avoids enumerating 8 roles for Dashboard/Engagements sections
 
 ### Pending Todos
 
@@ -96,6 +99,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-05T19:29:01.483Z
-Stopped at: Completed 02-application-shell-01-PLAN.md
+Last session: 2026-06-05T19:33:16.070Z
+Stopped at: Completed 02-02-PLAN.md
 Resume file: None
