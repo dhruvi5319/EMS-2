@@ -77,7 +77,8 @@ Plans:
 - [ ] 03-05-PLAN.md — Gate A1 Decision Panel (RadioGroup, AlertDialog, post-approval banner) + Review Queue page
 
 ### Phase 4: Engagement Setup and Gate P2
-**Status**: In Progress
+**Status**: passed
+**Completed**: 2026-06-05
 **Goal**: An Engagement Manager can fully set up an accepted engagement — metadata, team, milestones, and planning record — and a QA Reviewer can approve the planning baseline, locking it at Gate P2
 **Depends on**: Phase 3
 **Requirements**: F4, F5, F6, F7
@@ -90,13 +91,13 @@ Plans:
 **Plans**: 7 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — Engagement backend API (F4): GET list, GET detail with gates+blockers, PATCH metadata
-- [ ] 04-02-PLAN.md — Team + Milestones backend API (F5): team CRUD with role guards, milestone upsert + status computation, P2 prerequisites check
-- [ ] 04-03-PLAN.md — Planning Record + Gate P2 backend (F6/F7): planning CRUD, objectives, independence affirmations, P2 gate decision with server-side re-validation, revision workflow
-- [ ] 04-04-PLAN.md — Engagement List + Engagement Shell UI (F4): EngagementListPage, tabbed EngagementShellPage, reusable GateStatusCard, BlockerPanel, EditMetadataForm, Playwright E2E
-- [ ] 04-05-PLAN.md — Team + Milestones UI (F5): TeamPanel, TeamMemberTable, AddMemberForm, MilestoneTable, MilestoneStatusChip, Playwright E2E
-- [ ] 04-06-PLAN.md — Planning Record form UI (F6): ObjectiveList (Accordion), P2ReadinessChecklist, PlanningLockedBanner, PlanningRecordPanel (all 4 states), RadioGroup independence affirmation, Playwright E2E
-- [ ] 04-07-PLAN.md — Gate P2 Review UI (F7): GateP2ReviewPanel, ApproveP2ConfirmDialog, ReturnP2ConfirmDialog, post-decision redirects, Playwright E2E
+- [x] 04-01-PLAN.md — Engagement backend API (F4): GET list, GET detail with gates+blockers, PATCH metadata
+- [x] 04-02-PLAN.md — Team + Milestones backend API (F5): team CRUD with role guards, milestone upsert + status computation, P2 prerequisites check
+- [x] 04-03-PLAN.md — Planning Record + Gate P2 backend (F6/F7): planning CRUD, objectives, independence affirmations, P2 gate decision with server-side re-validation, revision workflow
+- [x] 04-04-PLAN.md — Engagement List + Engagement Shell UI (F4): EngagementListPage, tabbed EngagementShellPage, reusable GateStatusCard, BlockerPanel, EditMetadataForm, Playwright E2E
+- [x] 04-05-PLAN.md — Team + Milestones UI (F5): TeamPanel, TeamMemberTable, AddMemberForm, MilestoneTable, MilestoneStatusChip, Playwright E2E
+- [x] 04-06-PLAN.md — Planning Record form UI (F6): ObjectiveList (Accordion), P2ReadinessChecklist, PlanningLockedBanner, PlanningRecordPanel (all 4 states), RadioGroup independence affirmation, Playwright E2E
+- [x] 04-07-PLAN.md — Gate P2 Review UI (F7): GateP2ReviewPanel, ApproveP2ConfirmDialog, ReturnP2ConfirmDialog, post-decision redirects, Playwright E2E
 
 ### Phase 5: Evidence, Findings, and Gate P3
 **Goal**: Analysts can upload and manage evidence, link evidence to objectives, create findings, and a QA Reviewer can mark all objectives sufficient and approve Gate P3
@@ -148,7 +149,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/4 | passed | 2026-06-05 |
 | 2. Application Shell | 6/6 | passed | 2026-06-05 |
-| 3. Intake and Gate A1 | 0/TBD | Not started | - |
-| 4. Engagement Setup and Gate P2 | 0/7 | Not started | - |
+| 3. Intake and Gate A1 | 5/5 | passed | 2026-06-05 |
+| 4. Engagement Setup and Gate P2 | 7/7 | passed | 2026-06-05 |
 | 5. Evidence, Findings, and Gate P3 | 0/TBD | Not started | - |
 | 6. Draft Product, Reference Check, Gate P4, and Dashboard | 0/7 | Not started | - |
