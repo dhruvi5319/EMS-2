@@ -607,7 +607,7 @@ This will:
 • Record your decision with a timestamp
 • This action cannot be undone.
 
-          [Cancel]    [Confirm Approve ✓]
+          [Keep Request Pending]    [Confirm Approve ✓]
 ```
 
 **Dimensions:** max-width 520px
@@ -616,7 +616,7 @@ This will:
 - Title: "Approve Request" (20px/600)
 - Body: request topic name in quotes + risk level badge + bullet list (14px/400)
 - Risk level badge: shown inline with same colors as `RequestStatusBadge` risk variants
-- "[Cancel]": ghost button
+- "[Keep Request Pending]": ghost button
 - "[Confirm Approve ✓]": primary accent-filled button
 - Loading: "Confirm Approve ✓" → spinner + "Processing..." disabled
 
@@ -643,7 +643,7 @@ You are about to decline this request:
 No engagement will be created.
 This decision is permanent.
 
-          [Cancel]    [Confirm Decline ✗]
+          [Keep Request Pending]    [Confirm Decline ✗]
 ```
 
 **Dimensions:** max-width 480px
@@ -651,7 +651,7 @@ This decision is permanent.
 **Content:**
 - Title: "Decline Request" (20px/600)
 - Body: topic name in quotes + plain warning sentences (14px/400)
-- "[Cancel]": ghost button
+- "[Keep Request Pending]": ghost button
 - "[Confirm Decline ✗]": destructive button (red fill `hsl(0 72% 51%)`, white text)
 - Loading: spinner + "Processing..." disabled
 
@@ -737,6 +737,8 @@ No separate confirmation "screen" — it is the standard Request Detail page in 
 | Decline CTA | "✗ Decline Request" | Gate A1 panel decline button |
 | Confirm approve | "Confirm Approve ✓" | Confirmation dialog CTA |
 | Confirm decline | "Confirm Decline ✗" | Confirmation dialog CTA (destructive) |
+| Approve dialog cancel | "Keep Request Pending" | Ghost button — dismisses dialog without taking gate action |
+| Decline dialog cancel | "Keep Request Pending" | Ghost button — dismisses dialog without taking gate action |
 | Download intake doc | "Download ↓" | Request detail intake document card |
 | View audit trail | "View Audit Trail →" | Request detail bottom link |
 | View engagement | "View Engagement Shell →" | Post-approval success banner |
@@ -800,7 +802,7 @@ No separate confirmation "screen" — it is the standard Request Detail page in 
 | Decline request | "Decline Request" | "You are about to decline '{topic}'. No engagement will be created. This decision is permanent." | "Confirm Decline ✗" (destructive red) |
 
 > Both confirmation dialogs use shadcn `AlertDialog` which blocks outside-click dismissal.
-> "Cancel" is a ghost button in both dialogs.
+> "Keep Request Pending" is the ghost button in both dialogs — preserves the request in its current pending/submitted state.
 
 ---
 
@@ -892,6 +894,20 @@ All Phase 1 and Phase 2 layout constants are inherited unchanged. Phase 3 additi
 **Mobile form actions:** Sticky footer bar — both buttons stack vertically (Submit on top, Save as Draft below) at <480px.
 
 **Mobile request table:** Each row collapses to a card showing: ID (monospace 12px) + Topic (14px/600) + Status badge + Due date (12px muted). Tap card → Request Detail.
+
+---
+
+## Visuals
+
+### Visual Hierarchy
+
+Each major surface has one primary visual anchor — the single element that draws the user's eye first and signals the available action.
+
+- **Primary visual anchor (Request List):** the `[+ New Request]` accent-filled button in the top-right action area.
+- **Primary visual anchor (New/Edit Request Form):** the `[Submit Request →]` accent-filled sticky footer CTA.
+- **Primary visual anchor (Gate A1 Panel):** the 4px accent-colored left border bar and the `[✓ Approve Request →]` accent-filled primary button.
+
+All other interactive elements on these surfaces use secondary (outline) or ghost button styles so the primary anchor reads as the clear call-to-action.
 
 ---
 
