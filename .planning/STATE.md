@@ -3,15 +3,15 @@ pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 02-06-PLAN.md
-last_updated: "2026-06-05T19:58:22.212Z"
-last_activity: "2026-06-05 — Plan 02-05 complete: Admin user management page, useUsers hook, all dialogs, Playwright E2E tests"
+stopped_at: Completed 03-05-PLAN.md
+last_updated: "2026-06-05T21:00:40.137Z"
+last_activity: "2026-06-05 — Plan 03-01 complete: Request intake API, LocalStorageProvider, upload middleware, requestsRouter registered"
 progress:
   total_phases: 6
-  completed_phases: 1
-  total_plans: 30
-  completed_plans: 10
-  percent: 33
+  completed_phases: 3
+  total_plans: 37
+  completed_plans: 15
+  percent: 41
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-05)
 
 **Core value:** A simple engagement workflow with persistent records, clear status, role-based actions, and basic traceability from request to evidence-supported final readiness.
-**Current focus:** Phase 2 — Application Shell
+**Current focus:** Phase 4 — Engagement Setup
 
 ## Current Position
 
-Phase: 2 of 6 (Application Shell)
-Plan: 6 of 8 in current phase (02-06 complete — Audit trail UI, useAuditTrail hook, components, Playwright E2E tests)
-Status: Phase 2 in progress
-Last activity: 2026-06-05 — Plan 02-06 complete: Audit trail page, useAuditTrail hook, all audit components, Playwright E2E tests
+Phase: 3 of 6 (Intake and Gate A1) — COMPLETE
+Plan: 5 of 5 complete (03-05 complete — GateA1Panel, GateA1DecidedCard, ReviewQueuePage)
+Status: Phase 3 complete — ready for Phase 4
+Last activity: 2026-06-05 — Phase 3 complete: GateA1Panel + ReviewQueuePage + Playwright E2E completing F3 gate workflow
 
-Progress: [███░░░░░░░] 33%
+Progress: [████░░░░░░] 41%
 
 ## Performance Metrics
 
@@ -66,6 +66,11 @@ Progress: [███░░░░░░░] 33%
 | Phase 02-application-shell P04 | 2min | 2 tasks | 6 files |
 | Phase 02-application-shell P05 | 2min | 2 tasks | 10 files |
 | Phase 02-application-shell P06 | 2min | 2 tasks | 9 files |
+| Phase 03-intake-and-gate-a1 P01 | 2min | 2 tasks | 7 files |
+| Phase 03-intake-and-gate-a1 P02 | 2min | 2 tasks | 3 files |
+| Phase 03-intake-and-gate-a1 P04 | 7min | 2 tasks | 20 files |
+| Phase 03-intake-and-gate-a1 P03 | 8min | 2 tasks | 17 files |
+| Phase 03-intake-and-gate-a1 P05 | 3min | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -101,6 +106,17 @@ Recent decisions affecting current work:
 - [Phase 02-application-shell]: E2E user management tests written as artifacts; browser execution deferred to verify phase
 - [Phase 02-application-shell]: Filter draft state in AuditTrailFilters component committed on Apply — prevents premature re-fetching
 - [Phase 02-application-shell]: actor_roles parsed defensively with Array.isArray + JSON.parse fallback for array/string API formats
+- [Phase 03-intake-and-gate-a1]: Multer memory storage: buffer passes directly to StorageProvider.save() — avoids temp file cleanup complexity
+- [Phase 03-intake-and-gate-a1]: Submit validation returns 422 with fields array — frontend can highlight specific missing fields
+- [Phase 03-intake-and-gate-a1]: gate_decisions.engagement_id is NOT NULL — decline path returns synthetic GateDecision, not a DB row; approve path stores real row with engagement_id FK
+- [Phase 03-intake-and-gate-a1]: No engagement_number serial in DB schema — job code sequence uses COUNT(engagements)+1 within transaction for ENG-YYYY-NNNNN format
+- [Phase 03-intake-and-gate-a1]: audit_events uses object_type/object_id/after_state JSONB instead of entity_type/metadata — actor_roles stored in after_state JSON
+- [Phase 03-intake-and-gate-a1]: IntakeFileUpload uses raw fetch() for FormData multipart — api.ts forces Content-Type: application/json which breaks file uploads
+- [Phase 03-intake-and-gate-a1]: shadcn registry unavailable (ECONNRESET) — components written manually from official new-york templates, same as Phase 2
+- [Phase 03-intake-and-gate-a1]: data-section=gate-a1 slot in RequestDetailPage: Plan 03-05 injects GateA1Panel via this anchor point
+- [Phase 03-intake-and-gate-a1]: react-day-picker v10 API used: Chevron component instead of IconLeft/IconRight; initialFocus removed
+- [Phase 03-intake-and-gate-a1]: zod v4 API: z.date().optional() + runtime check instead of required_error parameter (removed in v4)
+- [Phase 03-intake-and-gate-a1]: GateA1DecidedCard uses status-based placeholder for Phase 3 — Phase 4 will add dedicated gate_decision API fetch
 
 ### Pending Todos
 
@@ -112,6 +128,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-05T19:58:22.211Z
-Stopped at: Completed 02-06-PLAN.md
+Last session: 2026-06-05T21:00:40.135Z
+Stopped at: Completed 03-05-PLAN.md
 Resume file: None
