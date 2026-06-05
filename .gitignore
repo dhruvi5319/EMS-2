@@ -1,4 +1,9 @@
 
+# ── Project-specific ──
+.env
+*.env.local
+uploads/
+
 # >>> pivota:gitignore-managed
 # Patterns auto-managed by Pivota — refreshed on every push so coverage
 # stays current as new ecosystems land. Edits inside this block are
@@ -116,8 +121,3 @@ AGENTS.md
 .opencode.session
 .pivota/
 # <<< pivota:gitignore-managed
-
-# ── Project-specific ──
-.env
-*.env.local
-uploads/
