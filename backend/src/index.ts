@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { config } from './config/env';
+import { apiRouter } from './routes';
 
 const app = express();
 
@@ -12,12 +13,15 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-// Health check — required by Plan 01-03 RBAC middleware
+// Health check — no auth required
 app.get('/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Placeholder — routes registered in Plan 01-03
+// API routes
+app.use('/api', apiRouter);
+
+// 404 fallback
 app.use((_req, res) => {
   res.status(404).json({ error: 'Not found' });
 });
