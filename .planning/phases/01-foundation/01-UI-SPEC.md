@@ -70,15 +70,15 @@ Exceptions:
 | Role | Size | Weight | Line Height | Usage |
 |------|------|--------|-------------|-------|
 | Body | 14px | 400 (regular) | 1.5 | Form labels, table cells, nav items, general text |
-| Label | 12px | 500 (medium) | 1.4 | Badge text, role chips, status labels, helper text, error messages |
+| Label | 12px | 400 (regular) | 1.4 | Badge text, role chips, status labels, helper text, error messages |
 | Heading | 20px | 600 (semibold) | 1.2 | Page titles, card headings, login card title |
-| Display | 28px | 700 (bold) | 1.15 | App wordmark / EMS branding on login page only |
+| Display | 28px | 600 (semibold) | 1.15 | App wordmark / EMS branding on login page only |
 
 **Font stack:** `Inter, ui-sans-serif, system-ui, -apple-system, sans-serif`
 
 **Notes:**
-- Only 2 weights used in Phase 1 components: 400 (body/nav) and 600 (headings/CTAs). Weight 500 for labels only in badges.
-- Monospace fallback for IDs (e.g., `ENG-2026-00001`): `ui-monospace, 'Cascadia Code', 'Source Code Pro', monospace` at 13px/400.
+- Only 2 weights used in Phase 1 components: 400 and 600.
+- Monospace fallback for IDs (e.g., `ENG-2026-00001`): `ui-monospace, 'Cascadia Code', 'Source Code Pro', monospace` at 14px/400 (body size).
 - Error messages use 12px/400 (body weight, label size) in `destructive` color.
 
 ---
@@ -177,7 +177,7 @@ to shadcn in Phase 2.
 - Full-viewport centered layout: white background (`hsl(0 0% 100%)`)
 - Login card: 400px wide, white background, border (`hsl(214 32% 91%)`), shadow-md, border-radius 8px
 - Card vertical padding: 48px (`2xl`); horizontal padding: 32px (`xl`)
-- Logo/wordmark above card: "EMS" wordmark at 28px/700 + "Engagement Management System" at 14px/400 in muted text
+- Logo/wordmark above card: "EMS" wordmark at 28px/600 + "Engagement Management System" at 14px/400 in muted text
 - Footer copyright below card: 12px/400 muted text
 
 **Field layout (inside card):**
@@ -263,7 +263,7 @@ to shadcn in Phase 2.
 | Action | Trigger | Confirmation approach |
 |--------|---------|----------------------|
 | Log Out | "Log Out" button in user menu | No confirmation dialog — logout is low-stakes and reversible (can log back in) |
-| Deactivate user (Admin) | "Deactivate" button in user table | Inline confirmation: "Deactivate [user name]? They will no longer be able to log in." with [Cancel] [Confirm Deactivate] buttons. No modal — inline row expansion. |
+| Deactivate user (Admin) | "Deactivate" button in user table | Inline confirmation: "Deactivate [user name]? They will no longer be able to log in." with [Keep User Active] [Confirm Deactivate] buttons. No modal — inline row expansion. |
 
 ---
 
@@ -360,7 +360,7 @@ These are exact pixel values used in the layout shell (not spacing tokens — la
 | Governance-first UX principles | Role isolation, submit-readiness signaling, blockers named | UX-Mockup-EMS.md Design Principles |
 | Font choice | Inter (neutral sans for governance tools) | researcher default |
 | Spacing scale | 8-point grid | researcher default (shadcn compatible) |
-| Typography sizes | 12/14/20/28px | researcher default (shadcn compatible) |
+| Typography sizes | 12/14/20/28px, 2 weights (400/600) | researcher default (shadcn compatible) |
 | Accent color | blue-600 | researcher default (government/governance convention) |
 
 ---
