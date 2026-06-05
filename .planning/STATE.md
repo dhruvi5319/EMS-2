@@ -3,15 +3,15 @@ pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 03-01-PLAN.md
-last_updated: "2026-06-05T20:42:53.023Z"
-last_activity: "2026-06-05 — Plan 02-06 complete: Audit trail page, useAuditTrail hook, all audit components, Playwright E2E tests"
+stopped_at: Completed 03-02-PLAN.md
+last_updated: "2026-06-05T20:43:48.137Z"
+last_activity: "2026-06-05 — Plan 03-01 complete: Request intake API, LocalStorageProvider, upload middleware, requestsRouter registered"
 progress:
   total_phases: 6
   completed_phases: 2
   total_plans: 37
-  completed_plans: 11
-  percent: 33
+  completed_plans: 12
+  percent: 30
 ---
 
 # Project State
@@ -67,6 +67,7 @@ Progress: [███░░░░░░░] 30%
 | Phase 02-application-shell P05 | 2min | 2 tasks | 10 files |
 | Phase 02-application-shell P06 | 2min | 2 tasks | 9 files |
 | Phase 03-intake-and-gate-a1 P01 | 2min | 2 tasks | 7 files |
+| Phase 03-intake-and-gate-a1 P02 | 2min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -104,6 +105,9 @@ Recent decisions affecting current work:
 - [Phase 02-application-shell]: actor_roles parsed defensively with Array.isArray + JSON.parse fallback for array/string API formats
 - [Phase 03-intake-and-gate-a1]: Multer memory storage: buffer passes directly to StorageProvider.save() — avoids temp file cleanup complexity
 - [Phase 03-intake-and-gate-a1]: Submit validation returns 422 with fields array — frontend can highlight specific missing fields
+- [Phase 03-intake-and-gate-a1]: gate_decisions.engagement_id is NOT NULL — decline path returns synthetic GateDecision, not a DB row; approve path stores real row with engagement_id FK
+- [Phase 03-intake-and-gate-a1]: No engagement_number serial in DB schema — job code sequence uses COUNT(engagements)+1 within transaction for ENG-YYYY-NNNNN format
+- [Phase 03-intake-and-gate-a1]: audit_events uses object_type/object_id/after_state JSONB instead of entity_type/metadata — actor_roles stored in after_state JSON
 
 ### Pending Todos
 
@@ -115,6 +119,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-05T20:42:53.021Z
-Stopped at: Completed 03-01-PLAN.md
+Last session: 2026-06-05T20:43:48.135Z
+Stopped at: Completed 03-02-PLAN.md
 Resume file: None
