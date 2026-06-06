@@ -3,15 +3,15 @@ pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 03-05-PLAN.md
-last_updated: "2026-06-05T21:00:40.137Z"
-last_activity: "2026-06-05 — Plan 03-01 complete: Request intake API, LocalStorageProvider, upload middleware, requestsRouter registered"
+stopped_at: Completed phase 4
+last_updated: "2026-06-05T22:30:00.000Z"
+last_activity: "2026-06-05 — Phase 4 complete: all 7 plans executed (F4/F5/F6/F7 — engagement shell, team, milestones, planning record, Gate P2)"
 progress:
   total_phases: 6
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 37
-  completed_plans: 15
-  percent: 41
+  completed_plans: 22
+  percent: 59
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-05)
 
 **Core value:** A simple engagement workflow with persistent records, clear status, role-based actions, and basic traceability from request to evidence-supported final readiness.
-**Current focus:** Phase 4 — Engagement Setup
+**Current focus:** Phase 5 — Evidence, Findings, and Gate P3
 
 ## Current Position
 
-Phase: 3 of 6 (Intake and Gate A1) — COMPLETE
-Plan: 5 of 5 complete (03-05 complete — GateA1Panel, GateA1DecidedCard, ReviewQueuePage)
-Status: Phase 3 complete — ready for Phase 4
-Last activity: 2026-06-05 — Phase 3 complete: GateA1Panel + ReviewQueuePage + Playwright E2E completing F3 gate workflow
+Phase: 4 of 6 (Engagement Setup and Gate P2) — COMPLETE
+Plan: 7/7 complete
+Status: Phase 4 complete — ready for Phase 5
+Last activity: 2026-06-05 — Phase 4 complete: all backend APIs (F4/F5/F6/F7) + full frontend UI (engagement shell, team, milestones, planning record, Gate P2 review)
 
-Progress: [████░░░░░░] 41%
+Progress: [████████░░] 62%
 
 ## Performance Metrics
 
@@ -71,6 +71,13 @@ Progress: [████░░░░░░] 41%
 | Phase 03-intake-and-gate-a1 P04 | 7min | 2 tasks | 20 files |
 | Phase 03-intake-and-gate-a1 P03 | 8min | 2 tasks | 17 files |
 | Phase 03-intake-and-gate-a1 P05 | 3min | 2 tasks | 7 files |
+| Phase 04-engagement-setup-and-gate-p2 P01 | 2min | 2 tasks | 3 files |
+| Phase 04-engagement-setup-and-gate-p2 P02 | 3min | 2 tasks | 3 files |
+| Phase 04-engagement-setup-and-gate-p2 P03 | 5min | 2 tasks | 3 files |
+| Phase 04-engagement-setup-and-gate-p2 P04 | 5min | 2 tasks | 11 files |
+| Phase 04-engagement-setup-and-gate-p2 P05 | 6min | 2 tasks | 8 files |
+| Phase 04-engagement-setup-and-gate-p2 P06 | 7min | 2 tasks | 9 files |
+| Phase 04-engagement-setup-and-gate-p2 P07 | 4min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -117,6 +124,23 @@ Recent decisions affecting current work:
 - [Phase 03-intake-and-gate-a1]: react-day-picker v10 API used: Chevron component instead of IconLeft/IconRight; initialFocus removed
 - [Phase 03-intake-and-gate-a1]: zod v4 API: z.date().optional() + runtime check instead of required_error parameter (removed in v4)
 - [Phase 03-intake-and-gate-a1]: GateA1DecidedCard uses status-based placeholder for Phase 3 — Phase 4 will add dedicated gate_decision API fetch
+- [Phase 04-engagement-setup-and-gate-p2]: gate_decisions queried by engagement_id only (A1 stored with engagement_id after approval, no request_id column in schema)
+- [Phase 04-engagement-setup-and-gate-p2]: engagementsRouter coexists with auditRouter at /api/engagements — no conflict (different sub-paths)
+- [Phase 04-engagement-setup-and-gate-p2]: teamRouter mounted in routes/index.ts at /engagements/:id (not nested in engagements.ts) for simplicity
+- [Phase 04-engagement-setup-and-gate-p2]: 8th P2 prerequisite (independence_status_complete) queries independence_affirmations with try/catch fallback for Plan 04-03 cross-dependency
+- [Phase 04-engagement-setup-and-gate-p2]: Milestone status computed on read from target_date vs today — not stored in DB — status stays accurate without triggers
+- [Phase 04-engagement-setup-and-gate-p2]: Adapted planning service to actual DB schema: objectives table (not planning_record_objectives), gate_decisions uses gate_type/status (not gate_name/decision), no independence_affirmations table
+- [Phase 04-engagement-setup-and-gate-p2]: requestRevision reverts planning_record to draft status to properly unlock editing (plan spec said status unchanged but that contradicts the unlock requirement)
+- [Phase 04-engagement-setup-and-gate-p2]: card.tsx written manually from new-york template (shadcn registry ECONNRESET) — same pattern as Phases 2/3
+- [Phase 04-engagement-setup-and-gate-p2]: GateStatusCard: outcome-to-border-color map (emerald/amber/red/yellow/slate) established as reusable pattern for all gate displays
+- [Phase 04-engagement-setup-and-gate-p2]: canRemove() guard passed as prop from TeamPanel to TeamMemberTable — centralizes guard logic, decouples rendering
+- [Phase 04-engagement-setup-and-gate-p2]: TeamPanel receives p2Approved from EngagementShellPage gate_decisions — avoids extra API call in TeamPanel
+- [Phase 04-engagement-setup-and-gate-p2]: Independence affirmation uses RadioGroup with 3 values (affirmed/pending/exception_noted) NOT boolean Switch — per UI-SPEC IndependenceStatusRadio component
+- [Phase 04-engagement-setup-and-gate-p2]: setIndependenceStatus is a client-side stub — no backend independence_affirmations route exists; P2 prerequisite check uses try/catch fallback
+- [Phase 04-engagement-setup-and-gate-p2]: P2ReadinessChecklist uses refreshTrigger numeric prop to force reload after parent form saves (draft save, objective add, etc.)
+- [Phase 04-engagement-setup-and-gate-p2]: isQA prop declared in PlanningRecordPanelProps for Plan 04-07 forward compatibility; unused in this plan
+- [Phase 04-engagement-setup-and-gate-p2]: GateP2ReviewPanel conditionally rendered in PlanningRecordPanel (isQA && status=ready_for_review) — avoids separate route, reuses existing data flow
+- [Phase 04-engagement-setup-and-gate-p2]: AlertDialog custom buttons (not AlertDialogAction/Cancel) to support async loading states — prevents auto-close before loading spinner completes
 
 ### Pending Todos
 
@@ -128,6 +152,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-05T21:00:40.135Z
-Stopped at: Completed 03-05-PLAN.md
+Last session: 2026-06-05T22:17:29.535Z
+Stopped at: Completed 04-07-PLAN.md
 Resume file: None
