@@ -159,6 +159,38 @@ function validateDateReceived(value: unknown): void {
 
 // ─── Service functions ────────────────────────────────────────────────────────
 
+export async function getEvidence(
+  engagementId: string,
+  evidenceId: string,
+  viewerRoles: string[]
+): Promise<EvidenceItem> {
+  let q = db('evidence_items as e')
+    .where('e.engagement_id', engagementId)
+    .where('e.id', evidenceId);
+
+  const row = await q
+    .select(
+      'e.*',
+      db.raw(
+        '(SELECT COUNT(*) FROM evidence_files ef WHERE ef.evidence_id = e.id)::int AS file_count'
+      ),
+      db.raw(
+        '(SELECT COUNT(*) FROM objective_evidence_links oel WHERE oel.evidence_id = e.id)::int AS objective_count'
+      )
+    )
+    .first();
+
+  if (!row) {
+    throw Object.assign(new Error('Evidence item not found.'), { status: 404 });
+  }
+
+  if (row.sensitivity === 'restricted' && !canViewRestricted(viewerRoles)) {
+    throw Object.assign(new Error('Access denied — restricted evidence.'), { status: 403 });
+  }
+
+  return toEvidenceItem(row);
+}
+
 export async function listEvidence(
   engagementId: string,
   filters: {

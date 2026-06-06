@@ -66,6 +66,35 @@ export async function getObjectiveCoverage(engagementId: string): Promise<{
 }
 
 /**
+ * Get objectives linked to a specific evidence item.
+ */
+export async function getLinkedObjectivesForEvidence(
+  engagementId: string,
+  evidenceId: string
+): Promise<Array<{ id: string; objective_text: string }>> {
+  // Validate evidence belongs to engagement
+  const evidence = await db('evidence_items')
+    .where({ id: evidenceId, engagement_id: engagementId })
+    .first();
+
+  if (!evidence) {
+    throw Object.assign(new Error('Evidence item not found.'), { status: 404 });
+  }
+
+  const rows = await db('objectives as o')
+    .join('objective_evidence_links as oel', 'oel.objective_id', 'o.id')
+    .where('oel.evidence_id', evidenceId)
+    .where('o.engagement_id', engagementId)
+    .select('o.id', 'o.objective_text')
+    .orderBy('o.display_order', 'asc');
+
+  return rows.map((r: Record<string, unknown>) => ({
+    id: r.id as string,
+    objective_text: r.objective_text as string,
+  }));
+}
+
+/**
  * Link evidence to one or more objectives.
  * Deduplicates: checks existing links first, inserts only new pairs using ON CONFLICT DO NOTHING.
  * linked_by is populated from the authenticated actor via the route handler (passed as actorId).

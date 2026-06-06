@@ -12,6 +12,7 @@ import { RequestDetailPage } from '@/pages/requests/RequestDetailPage';
 import { ReviewQueuePage } from '@/pages/requests/ReviewQueuePage';
 import { EngagementListPage } from '@/pages/EngagementListPage';
 import { EngagementShellPage } from '@/pages/EngagementShellPage';
+import { EvidenceDetailPage } from '@/components/evidence/EvidenceDetailPage';
 
 // ProtectedRoute — unauthenticated → /login
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -106,6 +107,12 @@ function AppRoutes() {
               <div className="text-sm text-muted-foreground">Evidence — Phase 5</div>
             </RoleGuard>
           }
+        />
+
+        {/* Evidence Detail — accessible to all roles (server enforces restricted access) */}
+        <Route
+          path="/engagements/:engagementId/evidence/:evidenceId"
+          element={<EvidenceDetailPage />}
         />
 
         {/* Review Queue — AL, QA, IR, PC, AD */}

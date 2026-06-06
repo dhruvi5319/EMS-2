@@ -4,6 +4,7 @@ import { authenticateSession } from '../middleware/auth';
 import { requireRole } from '../middleware/rbac';
 import {
   listEvidence,
+  getEvidence,
   createEvidence,
   updateEvidence,
   deleteEvidence,
@@ -141,6 +142,16 @@ evidenceRouter.post(
     }
   }
 );
+
+// GET /api/engagements/:id/evidence/:evidence_id — all authenticated roles (with sensitivity filter)
+evidenceRouter.get('/:evidence_id', async (req: Request, res: Response) => {
+  try {
+    const evidence = await getEvidence(req.params.id, req.params.evidence_id, req.user!.roles);
+    res.json({ evidence });
+  } catch (err) {
+    handleError(err, res, 'GET /evidence/:evidence_id');
+  }
+});
 
 // PATCH /api/engagements/:id/evidence/:evidence_id — AN, AD only
 evidenceRouter.patch(

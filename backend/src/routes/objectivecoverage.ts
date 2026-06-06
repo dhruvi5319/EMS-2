@@ -5,11 +5,36 @@ import {
   linkEvidenceToObjectives,
   unlinkEvidenceFromObjective,
   getObjectiveCoverage,
+  getLinkedObjectivesForEvidence,
   setSufficiency,
 } from '../services/objectivecoverage.service';
 
 export const objectiveCoverageRouter = Router({ mergeParams: true });
 objectiveCoverageRouter.use(authenticateSession);
+
+// GET /evidence/:evidence_id/objectives — get objectives linked to this evidence item
+// Full path: GET /api/engagements/:id/evidence/:evidence_id/objectives
+// Role access: all authenticated roles
+objectiveCoverageRouter.get(
+  '/evidence/:evidence_id/objectives',
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const objectives = await getLinkedObjectivesForEvidence(
+        req.params.id,
+        req.params.evidence_id
+      );
+      res.json({ objectives });
+    } catch (err: unknown) {
+      const error = err as { status?: number; message?: string };
+      if (error.status && error.status < 500) {
+        res.status(error.status).json({ error: error.message });
+        return;
+      }
+      console.error('Get linked objectives error:', err);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+);
 
 // POST /evidence/:evidence_id/objectives — link evidence to one or more objectives
 // Full path (mounted at /:id): POST /api/engagements/:id/evidence/:evidence_id/objectives
