@@ -3,14 +3,14 @@ pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: Completed 05-01-PLAN.md
-last_updated: "2026-06-06T21:38:20.056Z"
+stopped_at: Completed 05-02-PLAN.md
+last_updated: "2026-06-06T21:39:42.720Z"
 last_activity: "2026-06-05 — Phase 4 complete: all backend APIs (F4/F5/F6/F7) + full frontend UI (engagement shell, team, milestones, planning record, Gate P2 review)"
 progress:
   total_phases: 6
   completed_phases: 4
   total_plans: 37
-  completed_plans: 23
+  completed_plans: 25
   percent: 62
 ---
 
@@ -79,6 +79,8 @@ Progress: [████████░░] 62%
 | Phase 04-engagement-setup-and-gate-p2 P06 | 7min | 2 tasks | 9 files |
 | Phase 04-engagement-setup-and-gate-p2 P07 | 4min | 2 tasks | 4 files |
 | Phase 05-evidence-findings-and-gate-p3 P01 | 4min | 2 tasks | 3 files |
+| Phase 05-evidence-findings-and-gate-p3 P03 | 4min | 2 tasks | 4 files |
+| Phase 05-evidence-findings-and-gate-p3 P02 | 4min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -144,6 +146,11 @@ Recent decisions affecting current work:
 - [Phase 04-engagement-setup-and-gate-p2]: AlertDialog custom buttons (not AlertDialogAction/Cancel) to support async loading states — prevents auto-close before loading spinner completes
 - [Phase 05-evidence-findings-and-gate-p3]: Adapted to actual DB schema: evidence_files uses evidence_id/file_ref/filename; mapped in toEvidenceFile() to preserve EvidenceFile interface contract
 - [Phase 05-evidence-findings-and-gate-p3]: canViewRestricted(roles) checks PRIVILEGED_ROLES set [AN,EM,QA,IR,PC,AD] — AL/RO excluded from restricted evidence items in listEvidence and getEvidenceFile
+- [Phase 05-evidence-findings-and-gate-p3]: Gate P3 routes on engagementsRouter (not findingsRouter) to avoid /:finding_id path conflict with /gate/p3/prerequisites
+- [Phase 05-evidence-findings-and-gate-p3]: finding_evidence_links uses evidence_id FK (not evidence_item_id per spec) — matched actual migration 002 schema
+- [Phase 05-evidence-findings-and-gate-p3]: objectivecoverage.service.ts created in plan 05-03 as blocking dependency for checkP3Prerequisites (plan 05-02 not yet executed)
+- [Phase 05-evidence-findings-and-gate-p3]: sufficiency_status stored on objectives table (migration 003) — no separate objective_sufficiency table; objective_evidence_links uses evidence_id (not evidence_item_id) per actual schema
+- [Phase 05-evidence-findings-and-gate-p3]: linkEvidenceToObjectives accepts actorId to populate linked_by NOT NULL column in objective_evidence_links
 
 ### Pending Todos
 
@@ -155,6 +162,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-06T21:38:14.390Z
-Stopped at: Completed 05-01-PLAN.md
+Last session: 2026-06-06T21:39:42.718Z
+Stopped at: Completed 05-02-PLAN.md
 Resume file: None
