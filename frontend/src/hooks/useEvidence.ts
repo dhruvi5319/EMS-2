@@ -77,7 +77,7 @@ export function useEvidenceCoverage(engagementId: string) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const fetchCoverage = () => {
     if (!engagementId) return;
     setLoading(true);
     api
@@ -95,7 +95,12 @@ export function useEvidenceCoverage(engagementId: string) {
         setError(e instanceof Error ? e.message : 'Failed to load coverage');
       })
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchCoverage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [engagementId]);
 
-  return { coverage, loading, error };
+  return { coverage, loading, error, refresh: fetchCoverage };
 }
