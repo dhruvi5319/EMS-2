@@ -8,6 +8,7 @@ import { BlockerPanel } from '@/components/engagements/BlockerPanel';
 import { TeamPanel } from '@/components/engagements/TeamPanel';
 import { PlanningRecordPanel } from '@/components/engagements/PlanningRecordPanel';
 import { EvidenceListPage } from '@/pages/engagements/EvidenceListPage';
+import { FindingsListPage } from '@/pages/engagements/FindingsListPage';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAuthContext } from '@/context/AuthContext';
@@ -204,7 +205,7 @@ export function EngagementShellPage() {
         </TabsContent>
 
         <TabsContent value="findings">
-          <PlaceholderPanel name="Findings" />
+          <FindingsListPage />
         </TabsContent>
 
         <TabsContent value="draft">
