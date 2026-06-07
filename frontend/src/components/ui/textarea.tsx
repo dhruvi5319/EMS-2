@@ -3,13 +3,20 @@ import { cn } from '@/lib/utils';
 
 /**
  * Textarea — Design System
- * Same visual treatment as Input:
- *   8px 12px padding, 1px border-strong, radius-md, white bg
- *   Focus: accent-600 border + 3px accent-100 halo
+ *
+ * IMPORTANT: must use React.forwardRef so react-hook-form's `register()` ref
+ * callback reaches the underlying <textarea> DOM node. Without it, RHF sees
+ * the input as uncontrolled and never reads the value → form state stays
+ * undefined → validation reports "expected string, received undefined" even
+ * while the user is typing visible characters into the textarea.
  */
-function Textarea({ className, ...props }: React.TextareaHTMLAttributes<HTMLTextAreaElement>) {
+const Textarea = React.forwardRef<
+  HTMLTextAreaElement,
+  React.TextareaHTMLAttributes<HTMLTextAreaElement>
+>(({ className, ...props }, ref) => {
   return (
     <textarea
+      ref={ref}
       className={cn(
         'flex min-h-[80px] w-full',
         'rounded-[var(--r-md)] border border-[var(--c-border-strong)]',
@@ -26,6 +33,7 @@ function Textarea({ className, ...props }: React.TextareaHTMLAttributes<HTMLText
       {...props}
     />
   );
-}
+});
+Textarea.displayName = 'Textarea';
 
 export { Textarea };
