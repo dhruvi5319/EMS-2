@@ -7,8 +7,8 @@ export interface AuditEvent {
   actor_name: string;
   actor_roles: string[];
   action: string;
-  entity_type: string | null;
-  entity_id: string | null;
+  object_type: string | null;
+  object_id: string | null;
   summary: string;
   metadata: Record<string, unknown> | null;
   created_at: string;
@@ -63,8 +63,8 @@ export async function getAuditEvents(
       'actor.display_name as actor_name',
       'ae.actor_roles',
       'ae.action',
-      'ae.entity_type',
-      'ae.entity_id',
+      'ae.object_type',
+      'ae.object_id',
       'ae.summary',
       'ae.metadata',
       'ae.created_at'
@@ -83,8 +83,8 @@ export async function getAuditEvents(
         ? JSON.parse(r.actor_roles as string)
         : [],
     action: r.action as string,
-    entity_type: r.entity_type as string | null,
-    entity_id: r.entity_id as string | null,
+    object_type: r.object_type as string | null,
+    object_id: r.object_id as string | null,
     summary: r.summary as string,
     metadata: r.metadata ? (typeof r.metadata === 'string' ? JSON.parse(r.metadata as string) : r.metadata as Record<string, unknown>) : null,
     created_at: r.created_at instanceof Date ? (r.created_at as Date).toISOString() : r.created_at as string,
