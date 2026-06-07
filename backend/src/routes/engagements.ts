@@ -6,6 +6,7 @@ import { checkP3Prerequisites, recordP3Decision } from '../services/findings.ser
 import { findingsRouter } from './findings';
 import { evidenceRouter } from './evidence';
 import { objectiveCoverageRouter } from './objectivecoverage';
+import { statementsRouter } from './statements';
 
 export const engagementsRouter = Router();
 engagementsRouter.use(authenticateSession);
@@ -30,6 +31,12 @@ engagementsRouter.get('/', async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+// IMPORTANT: /export must be registered before /:id to avoid param capture
+// GET /api/engagements/export — will be implemented in 06-03-PLAN.md
+engagementsRouter.get('/export', authenticateSession, (_req: Request, res: Response) =>
+  res.status(501).json({ error: 'Not yet implemented' })
+);
 
 // GET /api/engagements/:id — all authenticated roles
 engagementsRouter.get('/:id', async (req: Request, res: Response) => {
@@ -59,6 +66,9 @@ engagementsRouter.patch('/:id', requireRole('EM', 'AD'), async (req: Request, re
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+// Mount statements sub-router — /api/engagements/:id/statements
+engagementsRouter.use('/:id/statements', statementsRouter);
 
 // Mount findings sub-router — /api/engagements/:id/findings
 engagementsRouter.use('/:id/findings', findingsRouter);
