@@ -3,14 +3,14 @@ pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: verifying
-stopped_at: Completed 06-02-PLAN.md
-last_updated: "2026-06-07T00:20:28.509Z"
+stopped_at: Completed 06-01-PLAN.md
+last_updated: "2026-06-07T00:21:17.177Z"
 last_activity: "2026-06-06 — Phase 5 complete: Evidence registry (F8), objective-evidence linking + gap view (F9), findings + sufficiency + Gate P3 approval (F10) — human verified"
 progress:
   total_phases: 6
   completed_phases: 5
   total_plans: 37
-  completed_plans: 31
+  completed_plans: 32
   percent: 81
 ---
 
@@ -87,6 +87,7 @@ Progress: [████████░░] 81%
 | Phase 05-evidence-findings-and-gate-p3 P07 | 5min | 2 tasks | 10 files |
 | Phase 05-evidence-findings-and-gate-p3 P08 | 0min | 1 tasks | 1 files |
 | Phase 06-draft-reference-check-gate-p4-and-dashboard P02 | 3min | 2 tasks | 3 files |
+| Phase 06-draft-reference-check-gate-p4-and-dashboard P01 | 4min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -169,6 +170,8 @@ Recent decisions affecting current work:
 - [Phase 05-evidence-findings-and-gate-p3]: Phase 5 human verification passed — all 31 steps confirmed, Phase 6 unblocked
 - [Phase 06-draft-reference-check-gate-p4-and-dashboard]: Statements adapted to actual DB schema: draft_product_id FK bridge (not direct engagement_id), display_order, no waived/assigned_back_to columns; STATEMENT_DISCREPANCY_ASSIGNED audit event uses action/object_type/after_state pattern
 - [Phase 06-draft-reference-check-gate-p4-and-dashboard]: /export placeholder registered BEFORE /:id in engagements.ts to prevent parameterized route capture — pattern for all future /export routes
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: Adapted to actual 002 migration schema: draft_file_ref/draft_filename columns; draft_comments uses draft_product_id/commented_by/commented_at
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: QA Return-to-Drafting (under_review→drafting) enforced at route layer; ALLOWED_TRANSITIONS kept clean in service
 
 ### Pending Todos
 
@@ -180,6 +183,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-07T00:20:28.507Z
-Stopped at: Completed 06-02-PLAN.md
+Last session: 2026-06-07T00:21:17.175Z
+Stopped at: Completed 06-01-PLAN.md
 Resume file: None
