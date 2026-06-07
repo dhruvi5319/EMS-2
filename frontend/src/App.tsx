@@ -12,6 +12,8 @@ import { ReviewQueuePage } from '@/pages/requests/ReviewQueuePage';
 import { EngagementListPage } from '@/pages/EngagementListPage';
 import { EngagementShellPage } from '@/pages/EngagementShellPage';
 import { EvidenceDetailPage } from '@/components/evidence/EvidenceDetailPage';
+import { EvidenceOverviewPage } from '@/pages/EvidenceOverviewPage';
+import { ReportsOverviewPage } from '@/pages/ReportsOverviewPage';
 import { GateP3ReviewPage } from '@/pages/engagements/GateP3ReviewPage';
 import GateP4ReviewPage from '@/pages/engagements/GateP4ReviewPage';
 import { PortfolioDashboardPage } from '@/pages/PortfolioDashboardPage';
@@ -120,7 +122,7 @@ function AppRoutes() {
           path="/evidence"
           element={
             <RoleGuard roles={['AN', 'EM', 'QA', 'IR', 'PC', 'AD']}>
-              <div className="text-sm text-muted-foreground">Evidence — Phase 5</div>
+              <EvidenceOverviewPage />
             </RoleGuard>
           }
         />
@@ -158,7 +160,7 @@ function AppRoutes() {
           path="/reports"
           element={
             <RoleGuard roles={['AL', 'EM', 'QA', 'PC', 'RO', 'AD']}>
-              <div className="text-sm text-muted-foreground">Reports — Phase 6</div>
+              <ReportsOverviewPage />
             </RoleGuard>
           }
         />
