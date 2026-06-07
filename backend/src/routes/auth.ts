@@ -19,8 +19,14 @@ authRouter.post('/login', async (req: Request, res: Response) => {
     // Set httpOnly session cookie
     res.cookie(SESSION_COOKIE, result.sessionHash, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      // Daytona preview iframes are cross-site relative to the embedding page,
+      // so SameSite=Lax silently drops the cookie on subsequent XHRs and the
+      // app shows "Authentication required" on every API call after login.
+      // SameSite=None requires Secure=true (browser policy), but the Daytona
+      // proxy serves over HTTPS so this is fine. For pure localhost dev (no
+      // iframe), this still works — Chrome allows Secure+None on localhost.
+      secure: true,
+      sameSite: 'none',
       expires: result.expiresAt,
       path: '/',
     });
