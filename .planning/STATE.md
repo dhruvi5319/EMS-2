@@ -3,14 +3,14 @@ pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: verifying
-stopped_at: Completed 06-03-PLAN.md
-last_updated: "2026-06-07T00:22:30.802Z"
+stopped_at: Completed 06-04-PLAN.md
+last_updated: "2026-06-07T00:30:18.750Z"
 last_activity: "2026-06-06 — Phase 5 complete: Evidence registry (F8), objective-evidence linking + gap view (F9), findings + sufficiency + Gate P3 approval (F10) — human verified"
 progress:
   total_phases: 6
   completed_phases: 5
   total_plans: 37
-  completed_plans: 33
+  completed_plans: 34
   percent: 81
 ---
 
@@ -89,6 +89,7 @@ Progress: [████████░░] 81%
 | Phase 06-draft-reference-check-gate-p4-and-dashboard P02 | 3min | 2 tasks | 3 files |
 | Phase 06-draft-reference-check-gate-p4-and-dashboard P01 | 4min | 2 tasks | 3 files |
 | Phase 06-draft-reference-check-gate-p4-and-dashboard P03 | 5min | 2 tasks | 3 files |
+| Phase 06-draft-reference-check-gate-p4-and-dashboard P04 | 5min | 2 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -175,6 +176,8 @@ Recent decisions affecting current work:
 - [Phase 06-draft-reference-check-gate-p4-and-dashboard]: QA Return-to-Drafting (under_review→drafting) enforced at route layer; ALLOWED_TRANSITIONS kept clean in service
 - [Phase 06-draft-reference-check-gate-p4-and-dashboard]: P4 outcome 'ready_for_issuance' maps to engagement.phase='readiness'; 'closed' maps to phase='closed'+status='closed'
 - [Phase 06-draft-reference-check-gate-p4-and-dashboard]: draft_statements queried via draft_products FK (no direct engagement_id) — P4 prerequisites check joins through draft_products
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: DraftStatusStepper is pure Tailwind (no shadcn stepper) — 4-step nodes with CheckCircle for completed, number for active/upcoming
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: useDraftProduct uses raw fetch() for FormData file upload, api.ts for all other calls — consistent with Phase 3/5 pattern
 
 ### Pending Todos
 
@@ -186,6 +189,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-07T00:22:25.619Z
-Stopped at: Completed 06-03-PLAN.md
+Last session: 2026-06-07T00:30:18.748Z
+Stopped at: Completed 06-04-PLAN.md
 Resume file: None
