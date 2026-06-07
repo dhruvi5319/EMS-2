@@ -3,14 +3,14 @@ pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: verifying
-stopped_at: Completed 06-05-PLAN.md
-last_updated: "2026-06-07T00:33:25.424Z"
+stopped_at: Completed 06-07-PLAN.md
+last_updated: "2026-06-07T00:34:48.201Z"
 last_activity: "2026-06-06 — Phase 5 complete: Evidence registry (F8), objective-evidence linking + gap view (F9), findings + sufficiency + Gate P3 approval (F10) — human verified"
 progress:
   total_phases: 6
-  completed_phases: 5
+  completed_phases: 6
   total_plans: 37
-  completed_plans: 36
+  completed_plans: 37
   percent: 81
 ---
 
@@ -92,6 +92,7 @@ Progress: [████████░░] 81%
 | Phase 06-draft-reference-check-gate-p4-and-dashboard P04 | 5min | 2 tasks | 10 files |
 | Phase 06-draft-reference-check-gate-p4-and-dashboard P06 | 7min | 2 tasks | 8 files |
 | Phase 06-draft-reference-check-gate-p4-and-dashboard P05 | 7min | 2 tasks | 15 files |
+| Phase 06-draft-reference-check-gate-p4-and-dashboard P07 | 10min | 2 tasks | 14 files |
 
 ## Accumulated Context
 
@@ -183,6 +184,9 @@ Recent decisions affecting current work:
 - [Phase 06-draft-reference-check-gate-p4-and-dashboard]: StatementDetailPage uses GET list endpoint + client-side filter (no single-statement GET in backend); team API shape is {assignments} grouped by user_id for multi-role users
 - [Phase 06-draft-reference-check-gate-p4-and-dashboard]: ReferenceStatusBadge uses inline className (not shadcn Badge variants) per UI-SPEC exact color table
 - [Phase 06-draft-reference-check-gate-p4-and-dashboard]: PortfolioDashboardPage stub created as Rule 3 fix — blocked TypeScript compilation from prior plan forward reference
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: P4DecisionPanel follows identical 4px accent left border pattern as P2/P3 panels (borderLeft inline + border-l-4 className)
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: PortfolioDashboardPage replaces DashboardPage stub at /dashboard — full F14 implementation shipped as plan 06-07
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: usePortfolio fetchPhaseCounts uses 4 parallel phase-filtered queries (limit=1) for accurate counts; exportCSV uses fetch blob → createObjectURL → anchor.click() pattern
 
 ### Pending Todos
 
@@ -194,6 +198,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-07T00:33:25.422Z
-Stopped at: Completed 06-05-PLAN.md
+Last session: 2026-06-07T00:34:48.199Z
+Stopped at: Completed 06-07-PLAN.md
 Resume file: None
