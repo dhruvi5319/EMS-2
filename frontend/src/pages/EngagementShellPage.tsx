@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
+import { X } from 'lucide-react';
 import { getEngagement } from '@/lib/engagements.api';
 import type { Engagement, GateDecision, Blocker } from '@/lib/engagements.api';
 import { EngagementHeaderCard } from '@/components/engagements/EngagementHeaderCard';
@@ -7,6 +8,8 @@ import { GateStatusCardRow } from '@/components/engagements/GateStatusCardRow';
 import { BlockerPanel } from '@/components/engagements/BlockerPanel';
 import { TeamPanel } from '@/components/engagements/TeamPanel';
 import { PlanningRecordPanel } from '@/components/engagements/PlanningRecordPanel';
+import { EvidenceListPage } from '@/pages/engagements/EvidenceListPage';
+import { FindingsListPage } from '@/pages/engagements/FindingsListPage';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAuthContext } from '@/context/AuthContext';
@@ -53,12 +56,18 @@ function SkeletonGateCards() {
 export function EngagementShellPage() {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuthContext();
+  const location = useLocation();
   const [engagement, setEngagement] = useState<Engagement | null>(null);
   const [gateDecisions, setGateDecisions] = useState<GateDecision[]>([]);
   const [blockers, setBlockers] = useState<Blocker[]>([]);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
+
+  // Green P3 approved banner — read from router location state on mount
+  const [showP3Banner, setShowP3Banner] = useState(
+    () => !!(location.state as { p3Approved?: boolean } | null)?.p3Approved
+  );
 
   const canEdit = user?.roles?.some((r) => ['EM', 'AD'].includes(r)) ?? false;
 
@@ -107,6 +116,46 @@ export function EngagementShellPage() {
 
   return (
     <div className="px-6 py-6 max-w-screen-xl mx-auto">
+      {/* P3 Approved green success banner */}
+      {showP3Banner && (
+        <div
+          role="status"
+          aria-live="polite"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            background: 'hsl(142 71% 88%)',
+            color: 'hsl(142 70% 28%)',
+            border: '1px solid hsl(142 71% 45%)',
+            borderRadius: 6,
+            padding: '12px 16px',
+            marginBottom: 16,
+            fontSize: 14,
+            fontWeight: 500,
+          }}
+        >
+          <span>
+            ✅ Gate P3 approved. {engagement.job_code} is now in the Draft phase.
+          </span>
+          <button
+            aria-label="Dismiss P3 approval banner"
+            onClick={() => setShowP3Banner(false)}
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              color: 'hsl(142 70% 28%)',
+              display: 'flex',
+              alignItems: 'center',
+              padding: 4,
+            }}
+          >
+            <X size={16} />
+          </button>
+        </div>
+      )}
+
       {/* Breadcrumb */}
       <nav className="text-xs text-muted-foreground mb-4" aria-label="Breadcrumb">
         <Link to="/engagements" className="hover:text-foreground hover:underline">
@@ -199,11 +248,11 @@ export function EngagementShellPage() {
         </TabsContent>
 
         <TabsContent value="evidence">
-          <PlaceholderPanel name="Evidence" />
+          <EvidenceListPage />
         </TabsContent>
 
         <TabsContent value="findings">
-          <PlaceholderPanel name="Findings" />
+          <FindingsListPage />
         </TabsContent>
 
         <TabsContent value="draft">

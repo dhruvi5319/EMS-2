@@ -2,16 +2,16 @@
 pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: Completed phase 4
-last_updated: "2026-06-05T22:30:00.000Z"
-last_activity: "2026-06-05 — Phase 4 complete: all 7 plans executed (F4/F5/F6/F7 — engagement shell, team, milestones, planning record, Gate P2)"
+status: completed
+stopped_at: Completed 05-08-PLAN.md
+last_updated: "2026-06-06T22:08:57.902Z"
+last_activity: "2026-06-05 — Phase 4 complete: all backend APIs (F4/F5/F6/F7) + full frontend UI (engagement shell, team, milestones, planning record, Gate P2 review)"
 progress:
   total_phases: 6
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 37
-  completed_plans: 22
-  percent: 59
+  completed_plans: 30
+  percent: 81
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-05)
 
 **Core value:** A simple engagement workflow with persistent records, clear status, role-based actions, and basic traceability from request to evidence-supported final readiness.
-**Current focus:** Phase 5 — Evidence, Findings, and Gate P3
+**Current focus:** Phase 6 — Draft Product, Reference Check, Gate P4
 
 ## Current Position
 
-Phase: 4 of 6 (Engagement Setup and Gate P2) — COMPLETE
-Plan: 7/7 complete
-Status: Phase 4 complete — ready for Phase 5
-Last activity: 2026-06-05 — Phase 4 complete: all backend APIs (F4/F5/F6/F7) + full frontend UI (engagement shell, team, milestones, planning record, Gate P2 review)
+Phase: 5 of 6 (Evidence, Findings, and Gate P3) — COMPLETE
+Plan: 8/8 complete
+Status: Phase 5 complete — all 31 verification steps passed (human sign-off 2026-06-06); ready for Phase 6
+Last activity: 2026-06-06 — Phase 5 complete: Evidence registry (F8), objective-evidence linking + gap view (F9), findings + sufficiency + Gate P3 approval (F10) — human verified
 
-Progress: [████████░░] 62%
+Progress: [████████░░] 81%
 
 ## Performance Metrics
 
@@ -78,6 +78,14 @@ Progress: [████████░░] 62%
 | Phase 04-engagement-setup-and-gate-p2 P05 | 6min | 2 tasks | 8 files |
 | Phase 04-engagement-setup-and-gate-p2 P06 | 7min | 2 tasks | 9 files |
 | Phase 04-engagement-setup-and-gate-p2 P07 | 4min | 2 tasks | 4 files |
+| Phase 05-evidence-findings-and-gate-p3 P01 | 4min | 2 tasks | 3 files |
+| Phase 05-evidence-findings-and-gate-p3 P03 | 4min | 2 tasks | 4 files |
+| Phase 05-evidence-findings-and-gate-p3 P02 | 4min | 2 tasks | 4 files |
+| Phase 05-evidence-findings-and-gate-p3 P04 | 12min | 2 tasks | 13 files |
+| Phase 05-evidence-findings-and-gate-p3 P06 | 4min | 2 tasks | 10 files |
+| Phase 05-evidence-findings-and-gate-p3 P05 | 6min | 2 tasks | 14 files |
+| Phase 05-evidence-findings-and-gate-p3 P07 | 5min | 2 tasks | 10 files |
+| Phase 05-evidence-findings-and-gate-p3 P08 | 0min | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -141,6 +149,23 @@ Recent decisions affecting current work:
 - [Phase 04-engagement-setup-and-gate-p2]: isQA prop declared in PlanningRecordPanelProps for Plan 04-07 forward compatibility; unused in this plan
 - [Phase 04-engagement-setup-and-gate-p2]: GateP2ReviewPanel conditionally rendered in PlanningRecordPanel (isQA && status=ready_for_review) — avoids separate route, reuses existing data flow
 - [Phase 04-engagement-setup-and-gate-p2]: AlertDialog custom buttons (not AlertDialogAction/Cancel) to support async loading states — prevents auto-close before loading spinner completes
+- [Phase 05-evidence-findings-and-gate-p3]: Adapted to actual DB schema: evidence_files uses evidence_id/file_ref/filename; mapped in toEvidenceFile() to preserve EvidenceFile interface contract
+- [Phase 05-evidence-findings-and-gate-p3]: canViewRestricted(roles) checks PRIVILEGED_ROLES set [AN,EM,QA,IR,PC,AD] — AL/RO excluded from restricted evidence items in listEvidence and getEvidenceFile
+- [Phase 05-evidence-findings-and-gate-p3]: Gate P3 routes on engagementsRouter (not findingsRouter) to avoid /:finding_id path conflict with /gate/p3/prerequisites
+- [Phase 05-evidence-findings-and-gate-p3]: finding_evidence_links uses evidence_id FK (not evidence_item_id per spec) — matched actual migration 002 schema
+- [Phase 05-evidence-findings-and-gate-p3]: objectivecoverage.service.ts created in plan 05-03 as blocking dependency for checkP3Prerequisites (plan 05-02 not yet executed)
+- [Phase 05-evidence-findings-and-gate-p3]: sufficiency_status stored on objectives table (migration 003) — no separate objective_sufficiency table; objective_evidence_links uses evidence_id (not evidence_item_id) per actual schema
+- [Phase 05-evidence-findings-and-gate-p3]: linkEvidenceToObjectives accepts actorId to populate linked_by NOT NULL column in objective_evidence_links
+- [Phase 05-evidence-findings-and-gate-p3]: shadcn registry ECONNRESET (consistent with Phases 2-4) — tooltip.tsx and sheet.tsx written manually from official new-york templates
+- [Phase 05-evidence-findings-and-gate-p3]: Sheet component wraps @radix-ui/react-dialog — @radix-ui/react-sheet does not exist as npm package; shadcn Sheet is dialog + slide-in CSS variants
+- [Phase 05-evidence-findings-and-gate-p3]: EvidenceFileUpload uses raw fetch() for FormData multipart (same as IntakeFileUpload Phase 3); api.ts Content-Type: application/json breaks file uploads
+- [Phase 05-evidence-findings-and-gate-p3]: SufficiencyChip created as Rule 3 auto-fix (Plan 05-05 was skipped; required import for ObjectiveSufficiencySummary)
+- [Phase 05-evidence-findings-and-gate-p3]: Added GET /evidence/:evidence_id endpoint (missing from Plan 05-01) — needed for EvidenceDetailPage
+- [Phase 05-evidence-findings-and-gate-p3]: GapObjectiveCard uses onLinkClick callback (not embedded LinkObjectivePopover) — parent context determines link target
+- [Phase 05-evidence-findings-and-gate-p3]: E2E tests for evidence-detail.spec.ts written as artifacts; execution deferred to verify phase
+- [Phase 05-evidence-findings-and-gate-p3]: P3DecisionPanel uses aria-disabled + Tooltip wrapper on Approve P3 button (not HTML disabled) — allows tooltip on disabled state per UI-SPEC
+- [Phase 05-evidence-findings-and-gate-p3]: Post-P3-approval green banner uses react-router location state (p3Approved: true) read in EngagementShellPage on mount; dismissed by local state
+- [Phase 05-evidence-findings-and-gate-p3]: Phase 5 human verification passed — all 31 steps confirmed, Phase 6 unblocked
 
 ### Pending Todos
 
@@ -152,6 +177,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-05T22:17:29.535Z
-Stopped at: Completed 04-07-PLAN.md
+Last session: 2026-06-06T22:08:57.900Z
+Stopped at: Completed 05-08-PLAN.md
 Resume file: None

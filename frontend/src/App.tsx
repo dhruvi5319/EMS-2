@@ -12,6 +12,8 @@ import { RequestDetailPage } from '@/pages/requests/RequestDetailPage';
 import { ReviewQueuePage } from '@/pages/requests/ReviewQueuePage';
 import { EngagementListPage } from '@/pages/EngagementListPage';
 import { EngagementShellPage } from '@/pages/EngagementShellPage';
+import { EvidenceDetailPage } from '@/components/evidence/EvidenceDetailPage';
+import { GateP3ReviewPage } from '@/pages/engagements/GateP3ReviewPage';
 
 // ProtectedRoute — unauthenticated → /login
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -106,6 +108,18 @@ function AppRoutes() {
               <div className="text-sm text-muted-foreground">Evidence — Phase 5</div>
             </RoleGuard>
           }
+        />
+
+        {/* Evidence Detail — accessible to all roles (server enforces restricted access) */}
+        <Route
+          path="/engagements/:engagementId/evidence/:evidenceId"
+          element={<EvidenceDetailPage />}
+        />
+
+        {/* Gate P3 Review — accessible to all authenticated roles; decision panel QA/AD only */}
+        <Route
+          path="/engagements/:id/evidence/p3-review"
+          element={<GateP3ReviewPage />}
         />
 
         {/* Review Queue — AL, QA, IR, PC, AD */}
