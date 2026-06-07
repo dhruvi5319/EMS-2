@@ -8,7 +8,7 @@ const ADMIN_DISPLAY_NAME = 'System Administrator';
 const BCRYPT_ROUNDS = 12;
 
 // All valid roles from TechArch DDL CHECK constraint
-const ALL_ROLES = ['AL', 'EM', 'AN', 'QA', 'IR', 'PC', 'RO', 'Admin'];
+const ALL_ROLES = ['AL', 'EM', 'AN', 'QA', 'IR', 'PC', 'RO', 'AD'];
 
 export async function seed(knex: Knex): Promise<void> {
   // Idempotent: skip if admin already exists

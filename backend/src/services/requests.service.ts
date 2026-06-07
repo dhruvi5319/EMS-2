@@ -60,14 +60,18 @@ export async function listRequests(filters: {
   const limit = Math.min(filters.limit ?? 20, 100);
   const offset = filters.offset ?? 0;
 
-  let q = db('requests').orderBy('updated_at', 'desc');
+  // Build the WHERE clause first (no orderBy yet) so we can reuse it for
+  // both COUNT(*) and the page query. Postgres rejects ORDER BY in an
+  // aggregate query without a matching GROUP BY, so counting on a query
+  // that already carries orderBy() returns 'column must appear in GROUP BY'.
+  let q = db('requests');
   if (filters.status) q = q.where({ status: filters.status });
   if (filters.requester) q = q.where('requester_name', 'ilike', `%${filters.requester}%`);
 
   const countResult = await q.clone().count('id as count').first() as { count: string | number };
   const total = typeof countResult.count === 'string' ? parseInt(countResult.count, 10) : countResult.count;
 
-  const rows = await q.select('*').limit(limit).offset(offset);
+  const rows = await q.select('*').orderBy('updated_at', 'desc').limit(limit).offset(offset);
   return { requests: rows.map(toRecord), total };
 }
 
