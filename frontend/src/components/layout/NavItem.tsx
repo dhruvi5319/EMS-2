@@ -7,7 +7,7 @@ interface NavItemProps {
   icon: LucideIcon;
   to: string;
   badge?: React.ReactNode;
-  collapsed?: boolean; // 56px icon-only mode
+  collapsed?: boolean;
 }
 
 export function NavItem({ label, icon: Icon, to, badge, collapsed = false }: NavItemProps) {
@@ -17,12 +17,22 @@ export function NavItem({ label, icon: Icon, to, badge, collapsed = false }: Nav
       aria-label={collapsed ? label : undefined}
       className={({ isActive }) =>
         cn(
-          'flex items-center h-10 text-sm transition-colors cursor-pointer group relative',
-          collapsed ? 'justify-center px-0' : 'gap-2 pr-4',
+          'flex items-center h-10 text-[13px] transition-[color,background-color,border-color] duration-150 cursor-pointer group relative select-none',
+          collapsed ? 'justify-center px-0' : 'gap-2.5 pr-4',
           isActive
-            ? 'text-primary bg-muted border-l-4 border-primary'
-            : 'text-foreground hover:bg-muted border-l-4 border-transparent',
-          collapsed && isActive ? 'pl-0 justify-center' : collapsed ? 'pl-0' : isActive ? 'pl-3' : 'pl-4'
+            ? [
+                'text-[var(--c-accent-600)]',
+                'bg-[var(--c-accent-50)]',
+                'border-l-2 border-[var(--c-accent-600)]',
+                collapsed ? 'pl-0 justify-center' : 'pl-[14px]',
+              ].join(' ')
+            : [
+                'text-[var(--c-text-2)]',
+                'hover:text-[var(--c-text-1)]',
+                'hover:bg-[var(--c-sunken)]',
+                'border-l-2 border-transparent',
+                collapsed ? 'pl-0' : 'pl-4',
+              ].join(' ')
         )
       }
     >
@@ -31,7 +41,7 @@ export function NavItem({ label, icon: Icon, to, badge, collapsed = false }: Nav
           {/* Collapsed tooltip */}
           {collapsed && (
             <span
-              className="absolute left-14 z-50 hidden group-hover:flex group-focus-within:flex items-center px-2 py-1 rounded-md bg-foreground text-background text-xs whitespace-nowrap pointer-events-none shadow-md"
+              className="absolute left-14 z-50 hidden group-hover:flex group-focus-within:flex items-center px-2 py-1 rounded-[var(--r-sm)] bg-[var(--c-text-1)] text-white text-[12px] whitespace-nowrap pointer-events-none shadow-md"
               role="tooltip"
             >
               {label}
@@ -42,19 +52,18 @@ export function NavItem({ label, icon: Icon, to, badge, collapsed = false }: Nav
             size={16}
             className={cn(
               'shrink-0',
-              isActive ? 'text-primary' : 'text-muted-foreground'
+              isActive ? 'text-[var(--c-accent-600)]' : 'text-[var(--c-text-3)]'
             )}
             aria-hidden="true"
           />
 
           {!collapsed && (
             <>
-              <span className="flex-1">{label}</span>
+              <span className="flex-1 font-sans">{label}</span>
               {badge && <span className="ml-auto">{badge}</span>}
             </>
           )}
 
-          {/* Active indicator aria */}
           {isActive && <span className="sr-only">(current page)</span>}
         </>
       )}

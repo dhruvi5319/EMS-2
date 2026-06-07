@@ -2,18 +2,36 @@ import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
+/**
+ * Badge — Design System
+ *
+ * Thin wrapper kept for backward compat with shadcn/ui code that imports Badge.
+ * Prefer StatusPill for all status / risk / phase display.
+ *
+ * Variants map to DS color families:
+ *   default     → accent (federal blue)
+ *   secondary   → neutral (sunken)
+ *   destructive → bad (blocked/failed)
+ *   outline     → border only, no fill
+ */
 const badgeVariants = cva(
-  'inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
+  [
+    'inline-flex items-center rounded-[var(--r-pill)]',
+    'px-2.5 py-[3px] text-[12px] font-medium leading-none',
+    'transition-colors duration-150',
+    'focus:outline-none focus:shadow-[0_0_0_3px_var(--c-accent-100)]',
+  ].join(' '),
   {
     variants: {
       variant: {
         default:
-          'border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80',
+          'bg-[var(--c-accent-50)] text-[var(--c-accent-800)] border-transparent',
         secondary:
-          'border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80',
+          'bg-[var(--c-sunken)] text-[var(--c-text-2)] border-transparent',
         destructive:
-          'border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80',
-        outline: 'text-foreground',
+          'bg-[var(--c-bad-50)] text-[var(--c-bad-800)] border-transparent',
+        outline:
+          'bg-transparent text-[var(--c-text-1)] border border-[var(--c-border-strong)]',
       },
     },
     defaultVariants: {

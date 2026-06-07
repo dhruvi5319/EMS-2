@@ -4,11 +4,11 @@ import { TopBar } from './TopBar';
 
 export function AppShell() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[var(--c-canvas)]">
       <TopBar />
       <Sidebar />
       <main
-        className="p-8 transition-all duration-200"
+        className="p-8 transition-all duration-150"
         style={{ marginLeft: 220, paddingTop: 64 + 32 }}
       >
         <div className="max-w-[1280px] mx-auto">

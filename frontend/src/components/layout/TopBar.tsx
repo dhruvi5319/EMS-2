@@ -19,22 +19,25 @@ export function TopBar() {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 bg-background border-b border-border flex items-center px-6 z-10"
+      className="fixed top-0 left-0 right-0 bg-white border-b border-[var(--c-border)] flex items-center px-6 z-10"
       style={{ height: 64 }}
     >
-      {/* Logo */}
-      <div className="font-semibold text-foreground text-base" style={{ width: 220 }}>
-        EMS
+      {/* Wordmark */}
+      <div
+        className="font-sans font-semibold text-[14px] text-[var(--c-text-1)] shrink-0"
+        style={{ width: 220 }}
+      >
+        <span className="font-mono text-[var(--c-accent-600)] tracking-tight">EMS</span>
       </div>
 
-      {/* Search placeholder — replaced by GlobalSearchBar in plan 02-04 */}
+      {/* Search — center slot */}
       <div className="flex-1 mx-6">
         <div className="max-w-md mx-auto" id="global-search-container">
           <input
             type="text"
             placeholder="Search engagements, requests..."
             disabled
-            className="w-full h-9 rounded-md border border-border px-3 text-sm text-muted-foreground bg-secondary cursor-not-allowed"
+            className="w-full h-9 rounded-[var(--r-md)] border border-[var(--c-border)] px-3 text-[13px] text-[var(--c-text-3)] bg-[var(--c-sunken)] cursor-not-allowed font-sans"
             aria-label="Global search (coming soon)"
           />
         </div>
@@ -44,18 +47,20 @@ export function TopBar() {
       <div className="flex items-center gap-3 shrink-0">
         <div className="flex items-center gap-2">
           <div
-            className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-semibold"
+            className="w-8 h-8 rounded-full bg-[var(--c-accent-600)] text-white flex items-center justify-center font-mono text-[11px] font-medium"
             aria-hidden="true"
           >
             {initials}
           </div>
-          <span className="text-sm text-foreground hidden sm:block">{user?.display_name}</span>
+          <span className="text-[13px] text-[var(--c-text-1)] hidden sm:block font-sans">
+            {user?.display_name}
+          </span>
         </div>
         <button
           onClick={handleLogout}
-          className="text-sm text-muted-foreground hover:text-foreground px-3 py-1.5 rounded-md hover:bg-muted transition-colors"
+          className="text-[13px] text-[var(--c-text-2)] hover:text-[var(--c-text-1)] px-3 py-1.5 rounded-[var(--r-md)] hover:bg-[var(--c-sunken)] transition-[color,background-color] duration-150"
         >
-          Log Out
+          Log out
         </button>
       </div>
     </header>
