@@ -216,7 +216,7 @@ export async function listEvidence(
 
   q = q.orderBy('e.date_received', 'desc').orderBy('e.created_at', 'desc');
 
-  const countResult = (await q.clone().count('e.id as count').first()) as {
+  const countResult = (await q.clone().clearOrder().count('e.id as count').first()) as {
     count: string | number;
   };
   const total =

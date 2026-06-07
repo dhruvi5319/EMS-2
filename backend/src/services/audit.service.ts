@@ -50,7 +50,7 @@ export async function getAuditEvents(
   }
 
   // Count total matching events (before pagination)
-  const countQuery = query.clone().count('ae.id as count').first();
+  const countQuery = query.clone().clearOrder().count('ae.id as count').first();
   const { count } = await countQuery as { count: string | number };
   const total = typeof count === 'string' ? parseInt(count, 10) : count;
 

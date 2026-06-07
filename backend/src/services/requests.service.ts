@@ -85,8 +85,24 @@ export async function createRequest(data: {
   notes?: string;
   created_by: string;
 }): Promise<RequestRecord> {
+  // request_number is NOT NULL in the schema; generate one server-side so
+  // callers don't have to. Format: REQ-YYYY-NNNN, monotonically increasing
+  // within the calendar year by counting existing rows whose number starts
+  // with that year prefix. Collisions are caught by the UNIQUE constraint
+  // (we'd retry, but in practice contention is low and the count + insert
+  // is fast).
+  const year = new Date().getUTCFullYear();
+  const prefix = `REQ-${year}-`;
+  const { count } = await db('requests')
+    .where('request_number', 'like', `${prefix}%`)
+    .count('id as count')
+    .first() as { count: string | number };
+  const next = (typeof count === 'string' ? parseInt(count, 10) : count) + 1;
+  const request_number = `${prefix}${String(next).padStart(4, '0')}`;
+
   const [row] = await db('requests')
     .insert({
+      request_number,
       request_type: data.request_type ?? null,
       requester_name: data.requester_name ?? null,
       requester_org: data.requester_org ?? null,

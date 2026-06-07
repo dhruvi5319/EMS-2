@@ -346,7 +346,7 @@ export async function listEngagements(
   }
 
   // Count query
-  const countResult = (await q.clone().count('e.id as count').first()) as { count: string | number };
+  const countResult = (await q.clone().clearOrder().count('e.id as count').first()) as { count: string | number };
   const total = typeof countResult.count === 'string' ? parseInt(countResult.count, 10) : (countResult.count as number);
 
   // Data query with selected columns

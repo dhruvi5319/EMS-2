@@ -138,7 +138,7 @@ export async function listStatements(
     "CASE ds.ref_status WHEN 'not_started' THEN 0 WHEN 'in_review' THEN 1 WHEN 'failed' THEN 2 WHEN 'passed' THEN 3 ELSE 4 END"
   ).orderBy('ds.display_order', 'asc');
 
-  const countResult = (await q.clone().count('ds.id as count').first()) as {
+  const countResult = (await q.clone().clearOrder().clearSelect().count('ds.id as count').first()) as {
     count: string | number;
   };
   const total =
