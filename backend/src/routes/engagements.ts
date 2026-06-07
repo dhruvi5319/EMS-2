@@ -7,6 +7,7 @@ import { findingsRouter } from './findings';
 import { evidenceRouter } from './evidence';
 import { objectiveCoverageRouter } from './objectivecoverage';
 import { statementsRouter } from './statements';
+import { draftRouter } from './draft';
 
 export const engagementsRouter = Router();
 engagementsRouter.use(authenticateSession);
@@ -75,6 +76,9 @@ engagementsRouter.use('/:id/findings', findingsRouter);
 
 // Mount evidence sub-router — /api/engagements/:id/evidence
 engagementsRouter.use('/:id/evidence', evidenceRouter);
+
+// Mount draft sub-router — /api/engagements/:id/draft
+engagementsRouter.use('/:id/draft', draftRouter);
 
 // Mount objective coverage sub-router at /:id
 // Provides: POST /:id/evidence/:evidence_id/objectives (link)
