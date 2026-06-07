@@ -3,14 +3,14 @@ pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: verifying
-stopped_at: Completed 06-01-PLAN.md
-last_updated: "2026-06-07T00:21:17.177Z"
+stopped_at: Completed 06-03-PLAN.md
+last_updated: "2026-06-07T00:22:30.802Z"
 last_activity: "2026-06-06 — Phase 5 complete: Evidence registry (F8), objective-evidence linking + gap view (F9), findings + sufficiency + Gate P3 approval (F10) — human verified"
 progress:
   total_phases: 6
   completed_phases: 5
   total_plans: 37
-  completed_plans: 32
+  completed_plans: 33
   percent: 81
 ---
 
@@ -88,6 +88,7 @@ Progress: [████████░░] 81%
 | Phase 05-evidence-findings-and-gate-p3 P08 | 0min | 1 tasks | 1 files |
 | Phase 06-draft-reference-check-gate-p4-and-dashboard P02 | 3min | 2 tasks | 3 files |
 | Phase 06-draft-reference-check-gate-p4-and-dashboard P01 | 4min | 2 tasks | 3 files |
+| Phase 06-draft-reference-check-gate-p4-and-dashboard P03 | 5min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -172,6 +173,8 @@ Recent decisions affecting current work:
 - [Phase 06-draft-reference-check-gate-p4-and-dashboard]: /export placeholder registered BEFORE /:id in engagements.ts to prevent parameterized route capture — pattern for all future /export routes
 - [Phase 06-draft-reference-check-gate-p4-and-dashboard]: Adapted to actual 002 migration schema: draft_file_ref/draft_filename columns; draft_comments uses draft_product_id/commented_by/commented_at
 - [Phase 06-draft-reference-check-gate-p4-and-dashboard]: QA Return-to-Drafting (under_review→drafting) enforced at route layer; ALLOWED_TRANSITIONS kept clean in service
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: P4 outcome 'ready_for_issuance' maps to engagement.phase='readiness'; 'closed' maps to phase='closed'+status='closed'
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: draft_statements queried via draft_products FK (no direct engagement_id) — P4 prerequisites check joins through draft_products
 
 ### Pending Todos
 
@@ -183,6 +186,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-07T00:21:17.175Z
-Stopped at: Completed 06-01-PLAN.md
+Last session: 2026-06-07T00:22:25.619Z
+Stopped at: Completed 06-03-PLAN.md
 Resume file: None
