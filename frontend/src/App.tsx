@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuthContext } from './context/AuthContext';
 import { LoginPage } from './pages/LoginPage';
-import { DashboardPage } from './pages/DashboardPage';
 import { ForbiddenPage } from './pages/ForbiddenPage';
 import { AppShell } from './components/layout/AppShell';
 import { UserManagementPage } from './pages/admin/UserManagementPage';
@@ -14,6 +13,10 @@ import { EngagementListPage } from '@/pages/EngagementListPage';
 import { EngagementShellPage } from '@/pages/EngagementShellPage';
 import { EvidenceDetailPage } from '@/components/evidence/EvidenceDetailPage';
 import { GateP3ReviewPage } from '@/pages/engagements/GateP3ReviewPage';
+import GateP4ReviewPage from '@/pages/engagements/GateP4ReviewPage';
+import { PortfolioDashboardPage } from '@/pages/PortfolioDashboardPage';
+import StatementsPage from '@/pages/StatementsPage';
+import { StatementDetailPage } from '@/pages/engagements/StatementDetailPage';
 
 // ProtectedRoute — unauthenticated → /login
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -60,7 +63,7 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       >
-        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/dashboard" element={<PortfolioDashboardPage />} />
 
         {/* Requests — AL, EM, RO, AD */}
         <Route
@@ -100,6 +103,18 @@ function AppRoutes() {
         <Route path="/engagements" element={<EngagementListPage />} />
         <Route path="/engagements/:id" element={<EngagementShellPage />} />
 
+        {/* Draft Statements page — all roles view; AN/EM/AD add/edit; EM/AD waive */}
+        <Route
+          path="/engagements/:id/draft/statements"
+          element={<StatementsPage />}
+        />
+
+        {/* Statement Detail — all roles view; IR decision panel; AN correction view */}
+        <Route
+          path="/engagements/:id/draft/statements/:statementId"
+          element={<StatementDetailPage />}
+        />
+
         {/* Evidence — AN, EM, QA, IR, PC, AD */}
         <Route
           path="/evidence"
@@ -120,6 +135,12 @@ function AppRoutes() {
         <Route
           path="/engagements/:id/evidence/p3-review"
           element={<GateP3ReviewPage />}
+        />
+
+        {/* Gate P4 Review — accessible to all authenticated roles; decision panel PC/EM/AD only */}
+        <Route
+          path="/engagements/:id/gates/p4"
+          element={<GateP4ReviewPage />}
         />
 
         {/* Review Queue — AL, QA, IR, PC, AD */}

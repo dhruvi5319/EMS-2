@@ -2,15 +2,15 @@
 pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-stopped_at: Completed 05-08-PLAN.md
-last_updated: "2026-06-06T22:08:57.902Z"
-last_activity: "2026-06-05 — Phase 4 complete: all backend APIs (F4/F5/F6/F7) + full frontend UI (engagement shell, team, milestones, planning record, Gate P2 review)"
+status: verifying
+stopped_at: Completed 06-07-PLAN.md
+last_updated: "2026-06-07T00:34:48.201Z"
+last_activity: "2026-06-06 — Phase 5 complete: Evidence registry (F8), objective-evidence linking + gap view (F9), findings + sufficiency + Gate P3 approval (F10) — human verified"
 progress:
   total_phases: 6
-  completed_phases: 5
+  completed_phases: 6
   total_plans: 37
-  completed_plans: 30
+  completed_plans: 37
   percent: 81
 ---
 
@@ -86,6 +86,13 @@ Progress: [████████░░] 81%
 | Phase 05-evidence-findings-and-gate-p3 P05 | 6min | 2 tasks | 14 files |
 | Phase 05-evidence-findings-and-gate-p3 P07 | 5min | 2 tasks | 10 files |
 | Phase 05-evidence-findings-and-gate-p3 P08 | 0min | 1 tasks | 1 files |
+| Phase 06-draft-reference-check-gate-p4-and-dashboard P02 | 3min | 2 tasks | 3 files |
+| Phase 06-draft-reference-check-gate-p4-and-dashboard P01 | 4min | 2 tasks | 3 files |
+| Phase 06-draft-reference-check-gate-p4-and-dashboard P03 | 5min | 2 tasks | 3 files |
+| Phase 06-draft-reference-check-gate-p4-and-dashboard P04 | 5min | 2 tasks | 10 files |
+| Phase 06-draft-reference-check-gate-p4-and-dashboard P06 | 7min | 2 tasks | 8 files |
+| Phase 06-draft-reference-check-gate-p4-and-dashboard P05 | 7min | 2 tasks | 15 files |
+| Phase 06-draft-reference-check-gate-p4-and-dashboard P07 | 10min | 2 tasks | 14 files |
 
 ## Accumulated Context
 
@@ -166,6 +173,20 @@ Recent decisions affecting current work:
 - [Phase 05-evidence-findings-and-gate-p3]: P3DecisionPanel uses aria-disabled + Tooltip wrapper on Approve P3 button (not HTML disabled) — allows tooltip on disabled state per UI-SPEC
 - [Phase 05-evidence-findings-and-gate-p3]: Post-P3-approval green banner uses react-router location state (p3Approved: true) read in EngagementShellPage on mount; dismissed by local state
 - [Phase 05-evidence-findings-and-gate-p3]: Phase 5 human verification passed — all 31 steps confirmed, Phase 6 unblocked
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: Statements adapted to actual DB schema: draft_product_id FK bridge (not direct engagement_id), display_order, no waived/assigned_back_to columns; STATEMENT_DISCREPANCY_ASSIGNED audit event uses action/object_type/after_state pattern
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: /export placeholder registered BEFORE /:id in engagements.ts to prevent parameterized route capture — pattern for all future /export routes
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: Adapted to actual 002 migration schema: draft_file_ref/draft_filename columns; draft_comments uses draft_product_id/commented_by/commented_at
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: QA Return-to-Drafting (under_review→drafting) enforced at route layer; ALLOWED_TRANSITIONS kept clean in service
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: P4 outcome 'ready_for_issuance' maps to engagement.phase='readiness'; 'closed' maps to phase='closed'+status='closed'
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: draft_statements queried via draft_products FK (no direct engagement_id) — P4 prerequisites check joins through draft_products
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: DraftStatusStepper is pure Tailwind (no shadcn stepper) — 4-step nodes with CheckCircle for completed, number for active/upcoming
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: useDraftProduct uses raw fetch() for FormData file upload, api.ts for all other calls — consistent with Phase 3/5 pattern
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: StatementDetailPage uses GET list endpoint + client-side filter (no single-statement GET in backend); team API shape is {assignments} grouped by user_id for multi-role users
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: ReferenceStatusBadge uses inline className (not shadcn Badge variants) per UI-SPEC exact color table
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: PortfolioDashboardPage stub created as Rule 3 fix — blocked TypeScript compilation from prior plan forward reference
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: P4DecisionPanel follows identical 4px accent left border pattern as P2/P3 panels (borderLeft inline + border-l-4 className)
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: PortfolioDashboardPage replaces DashboardPage stub at /dashboard — full F14 implementation shipped as plan 06-07
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: usePortfolio fetchPhaseCounts uses 4 parallel phase-filtered queries (limit=1) for accurate counts; exportCSV uses fetch blob → createObjectURL → anchor.click() pattern
 
 ### Pending Todos
 
@@ -177,6 +198,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-06T22:08:57.900Z
-Stopped at: Completed 05-08-PLAN.md
+Last session: 2026-06-07T00:34:48.199Z
+Stopped at: Completed 06-07-PLAN.md
 Resume file: None

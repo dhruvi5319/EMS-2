@@ -10,6 +10,7 @@ import { TeamPanel } from '@/components/engagements/TeamPanel';
 import { PlanningRecordPanel } from '@/components/engagements/PlanningRecordPanel';
 import { EvidenceListPage } from '@/pages/engagements/EvidenceListPage';
 import { FindingsListPage } from '@/pages/engagements/FindingsListPage';
+import DraftProductPage from '@/pages/DraftProductPage';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAuthContext } from '@/context/AuthContext';
@@ -69,6 +70,12 @@ export function EngagementShellPage() {
     () => !!(location.state as { p3Approved?: boolean } | null)?.p3Approved
   );
 
+  // Green P4 approved banner — read from router location state on mount
+  const locationState = location.state as { p4Approved?: boolean; p4Outcome?: string; p4JobCode?: string } | null;
+  const [showP4Banner, setShowP4Banner] = useState(() => !!locationState?.p4Approved);
+  const p4Outcome = locationState?.p4Outcome ?? '';
+  const p4JobCode = locationState?.p4JobCode ?? '';
+
   const canEdit = user?.roles?.some((r) => ['EM', 'AD'].includes(r)) ?? false;
 
   useEffect(() => {
@@ -116,6 +123,48 @@ export function EngagementShellPage() {
 
   return (
     <div className="px-6 py-6 max-w-screen-xl mx-auto">
+      {/* P4 Approved green success banner */}
+      {showP4Banner && (
+        <div
+          role="status"
+          aria-live="polite"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            background: 'hsl(142 71% 88%)',
+            color: 'hsl(142 70% 28%)',
+            border: '1px solid hsl(142 71% 45%)',
+            borderRadius: 6,
+            padding: '12px 16px',
+            marginBottom: 16,
+            fontSize: 14,
+            fontWeight: 500,
+          }}
+        >
+          <span>
+            {p4Outcome === 'ready_for_issuance'
+              ? `✅ Gate P4 approved. ${p4JobCode || engagement?.job_code} is now Ready for Issuance.`
+              : `✅ Engagement ${p4JobCode || engagement?.job_code} has been closed.`}
+          </span>
+          <button
+            aria-label="Dismiss P4 approval banner"
+            onClick={() => setShowP4Banner(false)}
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              color: 'hsl(142 70% 28%)',
+              display: 'flex',
+              alignItems: 'center',
+              padding: 4,
+            }}
+          >
+            <X size={16} />
+          </button>
+        </div>
+      )}
+
       {/* P3 Approved green success banner */}
       {showP3Banner && (
         <div
@@ -256,7 +305,10 @@ export function EngagementShellPage() {
         </TabsContent>
 
         <TabsContent value="draft">
-          <PlaceholderPanel name="Draft Product" />
+          <DraftProductPage
+            engagementId={engagement.id}
+            gateDecisions={gateDecisions}
+          />
         </TabsContent>
 
         <TabsContent value="gate-history">
