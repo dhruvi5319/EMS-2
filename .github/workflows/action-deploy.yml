@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   deploy-backend:
-    uses: SilverPeak-Pivota/techsur-ovh-deployments/.github/workflows/main.yml@main
+    uses: techsur-solutions/techsur-ovh-deployments/.github/workflows/main.yml@main
     with:
       project-type: 'none'
       repository: ${{ github.repository }}
@@ -28,7 +28,7 @@ jobs:
     secrets: inherit
 
   deploy-frontend:
-    uses: SilverPeak-Pivota/techsur-ovh-deployments/.github/workflows/main.yml@main
+    uses: techsur-solutions/techsur-ovh-deployments/.github/workflows/main.yml@main
     with:
       project-type: 'none'
       repository: ${{ github.repository }}
