@@ -1,0 +1,15 @@
+# Production image for the EMS backend (Kubernetes / OVH).
+# Runs via tsx (no tsc build): knexfile.ts lives outside tsconfig's rootDir, so
+# a compiled `node dist` build would break its `../../knexfile` import. tsx
+# resolves the TS sources and the .ts migrations/seeds directly.
+FROM node:20-bookworm-slim
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY . .
+
+ENV NODE_ENV=production
+EXPOSE 3001
+CMD ["npx", "tsx", "src/index.ts"]

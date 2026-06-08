@@ -21,9 +21,15 @@ const config: { [key: string]: Knex.Config } = {
       connectionString: process.env.DATABASE_URL,
       ssl: { rejectUnauthorized: false },
     },
+    // Run via tsx in the prod image, so the .ts migrations/seeds are used
+    // directly (same files as development).
     migrations: {
       directory: './migrations',
-      extension: 'js',
+      extension: 'ts',
+    },
+    seeds: {
+      directory: './seeds',
+      extension: 'ts',
     },
   },
 };

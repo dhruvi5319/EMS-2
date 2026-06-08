@@ -1,0 +1,39 @@
+name: Main Workflow -- EMS
+
+# Prod-only: a v* tag deploys to the prod environment. The reusable workflow
+# maps refs/tags/v* -> prod and bumps prod/<deployment-chart>/kustomization.yaml
+# in techsur-ovh-deployments. Backend and frontend are built as separate images
+# / charts (ems-backend, ems-frontend).
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy-backend:
+    uses: SilverPeak-Pivota/techsur-ovh-deployments/.github/workflows/main.yml@main
+    with:
+      project-type: 'none'
+      repository: ${{ github.repository }}
+      branch-name: ${{ github.ref }}
+      docker-context: 'backend'
+      dockerfile-path: 'backend/Dockerfile.prod'
+      deployment-chart: 'ems-backend'
+    secrets: inherit
+
+  deploy-frontend:
+    uses: SilverPeak-Pivota/techsur-ovh-deployments/.github/workflows/main.yml@main
+    with:
+      project-type: 'none'
+      repository: ${{ github.repository }}
+      branch-name: ${{ github.ref }}
+      docker-context: 'frontend'
+      dockerfile-path: 'frontend/Dockerfile.prod'
+      deployment-chart: 'ems-frontend'
+    secrets: inherit
