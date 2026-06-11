@@ -5,6 +5,7 @@ import {
   Archive,
   ClipboardCheck,
   BarChart2,
+  Users,
 } from 'lucide-react';
 import { type LucideIcon } from 'lucide-react';
 import { useAuthContext } from '@/context/AuthContext';
@@ -55,6 +56,12 @@ const NAV_SECTIONS: NavSection[] = [
     icon: BarChart2,
     to: '/reports',
     allowedRoles: ['AL', 'EM', 'QA', 'PC', 'RO', 'AD'],
+  },
+  {
+    label: 'User Management',
+    icon: Users,
+    to: '/admin/users',
+    allowedRoles: ['AD'], // Admin only
   },
 ];
 
