@@ -1,9 +1,9 @@
 ---
-status: complete
+status: diagnosed
 phase: 02-application-shell
 source: 02-01-SUMMARY.md, 02-02-SUMMARY.md, 02-03-SUMMARY.md, 02-04-SUMMARY.md, 02-05-SUMMARY.md, 02-06-SUMMARY.md
 started: 2026-06-05T20:00:00Z
-updated: 2026-06-17T00:01:00Z
+updated: 2026-06-17T00:02:00Z
 ---
 
 ## Current Test
@@ -59,17 +59,26 @@ skipped: 0
   reason: "User reported: On cmd K nothing opens and when I try to click the search bar which is on top, right besides the logout button and the user name symbol, I cannot click it as well"
   severity: major
   test: 4
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "TopBar.tsx renders a hardcoded disabled <input> stub instead of <GlobalSearchBar />. The GlobalSearchBar component is fully implemented but never imported or rendered anywhere in the component tree, so the keydown listener is never registered and the bar is never interactive."
+  artifacts:
+    - path: "frontend/src/components/layout/TopBar.tsx"
+      issue: "Lines 34-44 render a disabled input placeholder stub; GlobalSearchBar is never imported or used"
+    - path: "frontend/src/components/search/GlobalSearchBar.tsx"
+      issue: "Fully implemented but orphaned — no import site exists in the entire frontend/src"
+  missing:
+    - "Import GlobalSearchBar in TopBar.tsx"
+    - "Replace the disabled stub input div with <GlobalSearchBar />"
+  debug_session: ".planning/debug/global-search-not-opening.md"
 
 - truth: "Typing a single character in the search bar shows a 'Type at least 2 characters' prompt; typing 2+ characters triggers a search"
   status: failed
   reason: "User reported: Same issue as before — search bar is not clickable and Ctrl+K / ⌘K does not open the overlay"
   severity: major
   test: 5
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "Same root cause as Test 4 — GlobalSearchBar is not mounted, so none of its interaction logic (min chars guard, API call, overlay) is reachable."
+  artifacts:
+    - path: "frontend/src/components/layout/TopBar.tsx"
+      issue: "Disabled stub renders instead of GlobalSearchBar"
+  missing:
+    - "Fix is shared with Test 4: mount GlobalSearchBar in TopBar.tsx"
+  debug_session: ".planning/debug/global-search-not-opening.md"
