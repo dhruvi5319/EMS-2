@@ -18,6 +18,9 @@
 #     fresh tmpfs; never skip on a clean directory).
 #   - Retry exits with INNER command's last exit code (not a fixed 1) so callers
 #     can disambiguate failures from the wrapper.
+#   - compose entry: docker compose up is the single foreground process; compose
+#     owns multi-service orchestration, signal propagation, and per-service log
+#     prefixing. No multi-process-template needed (multi-process-template.md §6).
 
 set -euo pipefail
 
@@ -42,6 +45,11 @@ echo "[pivota] $(date -Iseconds) start-dev.sh begin (catalog: compose)"
 # the compose file — there is no env-var lever the wrapper can pull to force
 # 0.0.0.0 binding for child containers. Env preamble is intentionally empty
 # for the compose catalog entry. (compose.md)
+#
+# WARNING — sandbox preview reachability:
+# If a compose service declares `ports: ["127.0.0.1:8080:8080"]`, the service is
+# bound to the sandbox's loopback only and the preview iframe will NOT see it.
+# This is a project-side fix in docker-compose.yml, not a wrapper fix.
 
 # === D-11.3: .env.example -> .env transitional copy (until Phase 38) ===
 if [[ ! -f .env && -f .env.example ]]; then
@@ -50,10 +58,11 @@ if [[ ! -f .env && -f .env.example ]]; then
 fi
 
 # === Optional pre-exec snippet ===
-# (none for compose entry)
+# (none for compose entry — docker compose up handles image pulls/builds internally)
 
 # === D-12: idempotent install via lockfile hash + presence check ===
 # Compose has no lock file — docker handles image caching internally.
+# LOCK_FILE_PATH and INSTALL_CMD are empty; install step is a no-op.
 SENTINEL="/tmp/pivota-setup-sentinel"
 LOCK_FILE_PATH=""
 INSTALL_PRESENCE_CHECK=""
@@ -68,6 +77,9 @@ if [[ -n "$LOCK_FILE_PATH" && -f "$LOCK_FILE_PATH" ]]; then
   CURRENT_HASH=$(sha256sum "$LOCK_FILE_PATH" | cut -d' ' -f1)
   PREVIOUS_HASH=$(cat "$SENTINEL" 2>/dev/null || echo "")
 
+  # RESEARCH.md Pitfall 6: lockfile-unchanged is necessary but not sufficient —
+  # the install-output directory must also exist (sentinel survives but
+  # node_modules / .venv / target might not on a fresh sandbox tmpfs).
   PRESENCE_OK=1
   if [[ -n "$INSTALL_PRESENCE_CHECK" && ! -e "$INSTALL_PRESENCE_CHECK" ]]; then
     PRESENCE_OK=0
@@ -85,6 +97,7 @@ if [[ -n "$LOCK_FILE_PATH" && -f "$LOCK_FILE_PATH" ]]; then
     echo "$CURRENT_HASH" > "$SENTINEL"
   fi
 elif [[ -n "$INSTALL_CMD" ]]; then
+  # No lockfile to compare; honor any sentinel mismatch by running install once per sandbox.
   if [[ ! -f "$SENTINEL" ]]; then
     run_install
     touch "$SENTINEL"
@@ -95,6 +108,8 @@ fi
 # docker compose up is the single foreground command for this stack.
 # Per compose.md: do NOT use multi-process-template; docker compose up IS
 # the single foreground process from the wrapper's perspective.
+# compose itself owns multi-service orchestration, signal propagation, and
+# per-service log prefixing (multi-process-template.md §6 compose fast path).
 EXEC_CMD='docker compose up'
 ATTEMPT=1
 DELAY=1
