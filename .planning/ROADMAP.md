@@ -10,7 +10,7 @@ The EMS delivers a complete, governed engagement lifecycle in six phases that mi
 - [ ] **Phase 2: Application Shell** - Authenticated web app, navigation, RBAC, search, audit trail, and user management
 - [ ] **Phase 3: Intake and Gate A1** - Request intake, intake document upload, acceptance decision, and engagement shell auto-creation
 - [x] **Phase 4: Engagement Setup and Gate P2** - Engagement shell, team assignments, milestones, planning record, and planning approval
-- [ ] **Phase 5: Evidence, Findings, and Gate P3** - Evidence registry, evidence-to-objective links, findings, and evidence sufficiency approval
+- [x] **Phase 5: Evidence, Findings, and Gate P3** - Evidence registry, evidence-to-objective links, findings, and evidence sufficiency approval
 - [ ] **Phase 6: Draft Product, Reference Check, Gate P4, and Dashboard** - Draft product, indexing, reference check, final readiness, and portfolio dashboard
 
 ## Phase Details
@@ -109,7 +109,8 @@ Plans:
 - [ ] 04-GAP-05-PLAN.md — Gap closure: fix mapMilestone() date bug (knex returns Date objects; instanceof Date guard + toISOString().split('T')[0] yields correct YYYY-MM-DD)
 
 ### Phase 5: Evidence, Findings, and Gate P3
-**Status**: In Progress
+**Status**: passed
+**Completed**: 2026-06-18
 **Goal**: Analysts can upload and manage evidence, link evidence to objectives, create findings, and a QA Reviewer can mark all objectives sufficient and approve Gate P3
 **Depends on**: Phase 4
 **Requirements**: F8, F9, F10
