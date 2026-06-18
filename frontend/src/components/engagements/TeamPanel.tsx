@@ -109,9 +109,18 @@ export function TeamPanel({ engagementId, canEdit, p2Approved = false }: TeamPan
   async function handleSaveMilestones(
     updates: Array<{ milestone_type: string; target_date: string }>,
   ) {
-    const result = await upsertMilestones(engagementId, updates);
-    setMilestones(result.milestones);
-    toast({ title: 'Milestones saved.' });
+    try {
+      const result = await upsertMilestones(engagementId, updates);
+      setMilestones(result.milestones);
+      toast({ title: 'Milestones saved.' });
+    } catch (err: unknown) {
+      const e = err as { message?: string };
+      toast({
+        title: 'Failed to save milestones',
+        description: e.message ?? 'An error occurred. Please try again.',
+        variant: 'destructive',
+      });
+    }
   }
 
   return (

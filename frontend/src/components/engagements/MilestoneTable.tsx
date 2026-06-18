@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { format, parseISO } from 'date-fns';
 import { CalendarIcon, Loader2 } from 'lucide-react';
 import {
@@ -92,6 +92,10 @@ export function MilestoneTable({
     setSaving(true);
     try {
       await onSave(updates);
+    } catch (err: unknown) {
+      const e = err as { message?: string };
+      // Surface error via the date errors state so it's visible inline
+      setDateErrors({ _save: e.message ?? 'Failed to save milestones. Please try again.' } as Record<string, string>);
     } finally {
       setSaving(false);
     }
@@ -120,8 +124,8 @@ export function MilestoneTable({
             const selectedDate = dates[type];
 
             return (
-              <>
-                <TableRow key={type} className="h-12">
+              <React.Fragment key={type}>
+                <TableRow className="h-12">
                   <TableCell className="text-sm font-medium">
                     {MILESTONE_LABELS[type] ?? type}
                   </TableCell>
@@ -174,11 +178,15 @@ export function MilestoneTable({
                     </TableCell>
                   </TableRow>
                 )}
-              </>
+              </React.Fragment>
             );
           })}
         </TableBody>
       </Table>
+
+      {dateErrors['_save'] && (
+        <p className="text-xs text-destructive">{dateErrors['_save']}</p>
+      )}
 
       {canEdit && (
         <div className="flex justify-start">
