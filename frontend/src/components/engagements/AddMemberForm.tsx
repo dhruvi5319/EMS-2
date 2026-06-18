@@ -136,6 +136,10 @@ export function AddMemberForm({ onAdded, onAddMember }: AddMemberFormProps) {
                         setSelectedUser(user);
                         setOpen(false);
                       }}
+                      onClick={() => {
+                        setSelectedUser(user);
+                        setOpen(false);
+                      }}
                     >
                       <Check
                         className={cn(
