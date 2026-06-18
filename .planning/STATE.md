@@ -2,15 +2,15 @@
 pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: active
-stopped_at: "Completed Phase 4 execution (all 7 plans verified complete: engagement APIs, team/milestone APIs, planning/gate P2 APIs, engagement shell UI, team/milestone UI, planning record UI, gate P2 review UI)"
-last_updated: "2026-06-18T16:30:00.000Z"
-last_activity: "2026-06-18 — Phase 4 complete: all 7 plans executed and verified (F4 engagement backend+UI, F5 team+milestones, F6 planning record, F7 gate P2 review)"
+status: planning
+stopped_at: Completed 04-GAP-02-PLAN.md
+last_updated: "2026-06-18T20:40:44.970Z"
+last_activity: "2026-06-18 — Phase 4 complete: F4 engagement backend+shell UI, F5 team+milestones, F6 planning record form, F7 Gate P2 review panel — all self-checks passed"
 progress:
   total_phases: 6
-  completed_phases: 6
-  total_plans: 40
-  completed_plans: 40
+  completed_phases: 5
+  total_plans: 43
+  completed_plans: 41
   percent: 81
 ---
 
@@ -96,6 +96,7 @@ Progress: [████████░░] 81%
 | Phase 02-application-shell PGAP-01 | 1min | 1 tasks | 1 files |
 | Phase 03-intake-and-gate-a1 PGAP-01 | 5min | 2 tasks | 6 files |
 | Phase 03-intake-and-gate-a1 PGAP-02 | 5min | 2 tasks | 2 files |
+| Phase 04-engagement-setup-and-gate-p2 PGAP-02 | 1min | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -194,6 +195,7 @@ Recent decisions affecting current work:
 - [Phase 03-intake-and-gate-a1]: GET /api/requests/:id/gate/decision uses dual-path query: approved queries gate_decisions+users join, declined queries audit_events+users join (schema constraint: gate_decisions.engagement_id NOT NULL)
 - [Phase 03-intake-and-gate-a1]: Approval banner uses React approvalResult state replacing window.location.reload() — in-place update preserves page context
 - [Phase 03-intake-and-gate-a1]: u.display_name (not u.full_name) is the correct column per migration 001_auth_tables.ts — fix applied during debug session and verified in GAP-02
+- [Phase 04-engagement-setup-and-gate-p2]: cmdk v1 requires uncontrolled CommandInput: value prop triggers selectFirstItem() on every keystroke, intercepting onSelect before it fires; remove value prop to fix
 
 ### Pending Todos
 
@@ -205,6 +207,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-18T16:12:07.085Z
-Stopped at: Completed 03-GAP-02-PLAN.md (Phase 3 all gaps closed: 3/3 RETEST-UAT tests pass)
+Last session: 2026-06-18T20:40:44.968Z
+Stopped at: Completed 04-GAP-02-PLAN.md
 Resume file: None
