@@ -1,9 +1,9 @@
 ---
-status: diagnosed
+status: complete
 phase: 03-intake-and-gate-a1
 source: [03-GAP-01-SUMMARY.md]
 started: 2026-06-18T15:35:00Z
-updated: 2026-06-18T15:50:00Z
+updated: 2026-06-18T16:10:00Z
 ---
 
 ## Current Test
@@ -22,29 +22,24 @@ result: pass
 
 ### 3. Gate A1 Decided Card (real data + navigation)
 expected: On an already-approved request, the Gate A1 section shows a read-only decided card with: real approver name (not placeholder), risk level badge, formatted date, rationale in italics. "View Gate History →" button navigates to the engagement audit trail. "View Audit Trail →" link (bottom of page) also navigates correctly to the engagement audit trail — not /dashboard.
-result: issue
-reported: "I opened a submitted request and it is not showing any approver name. The following is everything that I could see: Requests > REQ-2026-0001 Congressional Request Accepted test Submitted June 18, 2026 at 11:35 AM Intake Document LLM Black Hat Applications.pdf Request Details Request Type Congressional Request Requester Dhruvi Agency / Program Pivota Topic test Due Date June 22, 2026 Notes No notes provided. Gate A1 Decision ✓ Approved Date June 18, 2026 at 11:35 AM Rationale '—' View Gate History. I do not see 'View Audit Trail' link now"
-severity: major
+result: pass
+fix: "Changed 'u.full_name' to 'u.display_name' in both SELECT clauses of GET /api/requests/:id/gate/decision (approved path line 28, declined path line 57) in backend/src/routes/gate.ts — column name matched users table schema, resolving PostgreSQL error that was silently swallowed by frontend catch()"
+gap: GAP-02
+status: resolved
 
 ## Summary
 
 total: 3
-passed: 2
-issues: 1
+passed: 3
+issues: 0
 pending: 0
 skipped: 0
 
 ## Gaps
 
 - truth: "Gate A1 decided card shows real approver name, risk level badge, formatted date, rationale in italics; View Gate History navigates to engagement audit trail; View Audit Trail link visible and navigates correctly"
-  status: failed
-  reason: "User reported: No approver name shown, rationale shows '—', View Gate History present but View Audit Trail link missing"
-  severity: major
+  status: resolved
+  resolution: "Changed 'u.full_name' to 'u.display_name' in both SELECT clauses of GET /api/requests/:id/gate/decision (lines 28 and 57 of backend/src/routes/gate.ts). PostgreSQL error was silently swallowed by frontend catch(); fix corrects the column name mismatch with users table schema (migration 001 defines display_name). gateDecision now populated correctly — approver name, rationale, and View Audit Trail link all render."
+  gap: GAP-02
   test: 3
-  root_cause: "backend/src/routes/gate.ts lines 28 and 57 used 'u.full_name as decided_by_name' but the users table column is 'display_name' (per migration 001). PostgreSQL threw 'column u.full_name does not exist'; the catch() in the frontend useEffect swallowed the 500 error silently, leaving gateDecision null and showing the fallback (blank name, '—' rationale). View Audit Trail was absent because it only renders when gateDecision?.engagement_id is truthy."
-  artifacts:
-    - path: "backend/src/routes/gate.ts"
-      issue: "Lines 28 and 57: 'u.full_name' should be 'u.display_name' — column name mismatch with users table schema"
-  missing:
-    - "Changed 'u.full_name' to 'u.display_name' in both SELECT clauses (approved path line 28, declined path line 57) — FIXED during diagnosis"
   debug_session: ".planning/debug/gate-a1-decided-card-missing-data.md"
