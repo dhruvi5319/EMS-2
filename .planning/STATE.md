@@ -3,14 +3,14 @@ pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 04-GAP-01-PLAN.md
-last_updated: "2026-06-18T20:41:29.035Z"
+stopped_at: "Completed 04-GAP-03-PLAN.md (Phase 4 GAP-03: milestone error handling + ErrorBoundary + overdue constraint)"
+last_updated: "2026-06-18T20:42:53.449Z"
 last_activity: "2026-06-18 — Phase 4 complete: F4 engagement backend+shell UI, F5 team+milestones, F6 planning record form, F7 Gate P2 review panel — all self-checks passed"
 progress:
   total_phases: 6
-  completed_phases: 5
+  completed_phases: 6
   total_plans: 43
-  completed_plans: 42
+  completed_plans: 43
   percent: 81
 ---
 
@@ -98,6 +98,7 @@ Progress: [████████░░] 81%
 | Phase 03-intake-and-gate-a1 PGAP-02 | 5min | 2 tasks | 2 files |
 | Phase 04-engagement-setup-and-gate-p2 PGAP-02 | 1min | 1 tasks | 1 files |
 | Phase 04-engagement-setup-and-gate-p2 PGAP-01 | 1min | 2 tasks | 3 files |
+| Phase 04-engagement-setup-and-gate-p2 PGAP-03 | 2min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -198,6 +199,7 @@ Recent decisions affecting current work:
 - [Phase 03-intake-and-gate-a1]: u.display_name (not u.full_name) is the correct column per migration 001_auth_tables.ts — fix applied during debug session and verified in GAP-02
 - [Phase 04-engagement-setup-and-gate-p2]: cmdk v1 requires uncontrolled CommandInput: value prop triggers selectFirstItem() on every keystroke, intercepting onSelect before it fires; remove value prop to fix
 - [Phase 04-engagement-setup-and-gate-p2]: STATUS_MAP translates DB vocabulary (passed/failed/returned) to UI vocabulary (approved/declined/returned) at the service boundary, so all consumers receive normalized values without individual frontend fixes
+- [Phase 04-engagement-setup-and-gate-p2]: Double-layer milestone error catch: MilestoneTable inline + TeamPanel destructive toast prevents blank screen on API failure
 
 ### Pending Todos
 
@@ -209,6 +211,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-18T20:41:29.033Z
-Stopped at: Completed 04-GAP-01-PLAN.md
+Last session: 2026-06-18T20:42:53.447Z
+Stopped at: Completed 04-GAP-03-PLAN.md (Phase 4 GAP-03: milestone error handling + ErrorBoundary + overdue constraint)
 Resume file: None
