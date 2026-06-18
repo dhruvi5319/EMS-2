@@ -21,7 +21,7 @@ function isGateLocked(gate: GateName, decisions: GateDecision[]): boolean {
   const prevDecision = getDecisionForGate(prevGate, decisions);
   if (!prevDecision) return true;
   const d = prevDecision.decision?.toLowerCase();
-  return d !== 'approved' && d !== 'approve';
+  return d !== 'approved' && d !== 'approve' && d !== 'passed';
 }
 
 export function GateStatusCardRow({ gate_decisions }: GateStatusCardRowProps) {

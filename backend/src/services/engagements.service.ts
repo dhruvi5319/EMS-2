@@ -50,6 +50,13 @@ function toRecord(row: Record<string, unknown>): EngagementRecord {
   };
 }
 
+// Translate DB status vocabulary → UI decision vocabulary
+const STATUS_MAP: Record<string, string> = {
+  passed: 'approved',
+  failed: 'declined',
+  returned: 'returned',
+};
+
 function toGateDecisionRecord(row: Record<string, unknown>): GateDecisionRecord {
   // gate_decisions table has: id, engagement_id, gate_type, status, decided_by, decided_at, rationale, comment
   // Map to GateDecisionRecord shape expected by consumers:
@@ -63,7 +70,7 @@ function toGateDecisionRecord(row: Record<string, unknown>): GateDecisionRecord 
   return {
     id: row.id as string,
     gate_name: row.gate_type as string,
-    decision: row.status as string,
+    decision: STATUS_MAP[row.status as string] ?? (row.status as string),
     risk_level,
     rationale: row.rationale as string | null,
     decided_by: row.decided_by as string | null,

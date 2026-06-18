@@ -2,15 +2,15 @@
 pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: active
-stopped_at: "Completed 03-GAP-02 (Phase 3 fully closed: display_name fix confirmed, RETEST-UAT 3/3, VERIFICATION.md updated)"
-last_updated: "2026-06-18T16:20:00.000Z"
-last_activity: "2026-06-18 — Phase 3 GAP-02 closed: u.full_name → u.display_name in gate decision JOIN; RETEST-UAT 3/3 complete; VERIFICATION.md re-verified passed 18/18"
+status: planning
+stopped_at: "Completed 04-GAP-04-PLAN.md (Phase 4 GAP-04: AddMemberForm onMouseDown fix for cmdk focus-loss race)"
+last_updated: "2026-06-18T21:31:48.385Z"
+last_activity: "2026-06-18 — Phase 4 complete: F4 engagement backend+shell UI, F5 team+milestones, F6 planning record form, F7 Gate P2 review panel — all self-checks passed"
 progress:
   total_phases: 6
   completed_phases: 6
-  total_plans: 40
-  completed_plans: 40
+  total_plans: 45
+  completed_plans: 45
   percent: 81
 ---
 
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-06-05)
 
 ## Current Position
 
-Phase: 5 of 6 (Evidence, Findings, and Gate P3) — COMPLETE
-Plan: 8/8 complete
-Status: Phase 5 complete — all 31 verification steps passed (human sign-off 2026-06-06); ready for Phase 6
-Last activity: 2026-06-06 — Phase 5 complete: Evidence registry (F8), objective-evidence linking + gap view (F9), findings + sufficiency + Gate P3 approval (F10) — human verified
+Phase: 4 of 6 (Engagement Setup and Gate P2) — COMPLETE
+Plan: 7/7 complete
+Status: Phase 4 complete — all 7 plans executed (engagement APIs, team/milestones, planning record, Gate P2 review UI); ready for Phase 5
+Last activity: 2026-06-18 — Phase 4 complete: F4 engagement backend+shell UI, F5 team+milestones, F6 planning record form, F7 Gate P2 review panel — all self-checks passed
 
 Progress: [████████░░] 81%
 
@@ -96,6 +96,11 @@ Progress: [████████░░] 81%
 | Phase 02-application-shell PGAP-01 | 1min | 1 tasks | 1 files |
 | Phase 03-intake-and-gate-a1 PGAP-01 | 5min | 2 tasks | 6 files |
 | Phase 03-intake-and-gate-a1 PGAP-02 | 5min | 2 tasks | 2 files |
+| Phase 04-engagement-setup-and-gate-p2 PGAP-02 | 1min | 1 tasks | 1 files |
+| Phase 04-engagement-setup-and-gate-p2 PGAP-01 | 1min | 2 tasks | 3 files |
+| Phase 04-engagement-setup-and-gate-p2 PGAP-03 | 2min | 2 tasks | 4 files |
+| Phase 04-engagement-setup-and-gate-p2 PGAP-05 | 1min | 1 tasks | 1 files |
+| Phase 04-engagement-setup-and-gate-p2 PGAP-04 | 1min | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -194,6 +199,11 @@ Recent decisions affecting current work:
 - [Phase 03-intake-and-gate-a1]: GET /api/requests/:id/gate/decision uses dual-path query: approved queries gate_decisions+users join, declined queries audit_events+users join (schema constraint: gate_decisions.engagement_id NOT NULL)
 - [Phase 03-intake-and-gate-a1]: Approval banner uses React approvalResult state replacing window.location.reload() — in-place update preserves page context
 - [Phase 03-intake-and-gate-a1]: u.display_name (not u.full_name) is the correct column per migration 001_auth_tables.ts — fix applied during debug session and verified in GAP-02
+- [Phase 04-engagement-setup-and-gate-p2]: cmdk v1 requires uncontrolled CommandInput: value prop triggers selectFirstItem() on every keystroke, intercepting onSelect before it fires; remove value prop to fix
+- [Phase 04-engagement-setup-and-gate-p2]: STATUS_MAP translates DB vocabulary (passed/failed/returned) to UI vocabulary (approved/declined/returned) at the service boundary, so all consumers receive normalized values without individual frontend fixes
+- [Phase 04-engagement-setup-and-gate-p2]: Double-layer milestone error catch: MilestoneTable inline + TeamPanel destructive toast prevents blank screen on API failure
+- [Phase 04-engagement-setup-and-gate-p2]: instanceof Date branch uses .toISOString().split('T')[0] for knex Date columns; String fallback kept for pre-formatted strings
+- [Phase 04-engagement-setup-and-gate-p2]: onMouseDown={(e) => e.preventDefault()} on CommandItem: canonical fix for cmdk v1 + Radix Popover focus-loss race condition
 
 ### Pending Todos
 
@@ -205,6 +215,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-18T16:12:07.085Z
-Stopped at: Completed 03-GAP-02-PLAN.md (Phase 3 all gaps closed: 3/3 RETEST-UAT tests pass)
+Last session: 2026-06-18T21:31:48.383Z
+Stopped at: Completed 04-GAP-04-PLAN.md (Phase 4 GAP-04: AddMemberForm onMouseDown fix for cmdk focus-loss race)
 Resume file: None

@@ -9,7 +9,7 @@ The EMS delivers a complete, governed engagement lifecycle in six phases that mi
 - [ ] **Phase 1: Foundation** - Project scaffold, Docker environment, database migrations, auth, and all core data models
 - [ ] **Phase 2: Application Shell** - Authenticated web app, navigation, RBAC, search, audit trail, and user management
 - [ ] **Phase 3: Intake and Gate A1** - Request intake, intake document upload, acceptance decision, and engagement shell auto-creation
-- [ ] **Phase 4: Engagement Setup and Gate P2** - Engagement shell, team assignments, milestones, planning record, and planning approval
+- [x] **Phase 4: Engagement Setup and Gate P2** - Engagement shell, team assignments, milestones, planning record, and planning approval
 - [ ] **Phase 5: Evidence, Findings, and Gate P3** - Evidence registry, evidence-to-objective links, findings, and evidence sufficiency approval
 - [ ] **Phase 6: Draft Product, Reference Check, Gate P4, and Dashboard** - Draft product, indexing, reference check, final readiness, and portfolio dashboard
 
@@ -81,7 +81,7 @@ Plans:
 - [ ] 03-GAP-02-PLAN.md — Gap closure: fix u.full_name → u.display_name in gate decision JOIN (UAT Test 3 retest — approver name blank, rationale '—')
 
 ### Phase 4: Engagement Setup and Gate P2
-**Status**: failed
+**Status**: passed
 **Completed**: 2026-06-05
 **Goal**: An Engagement Manager can fully set up an accepted engagement — metadata, team, milestones, and planning record — and a QA Reviewer can approve the planning baseline, locking it at Gate P2
 **Depends on**: Phase 3
@@ -92,7 +92,7 @@ Plans:
   3. An EM or Analyst can create a planning record with one or more objectives, design approach, risk notes, data reliability notes, and independence affirmation status; the record can be saved as Draft or submitted as Ready for Review
   4. Gate P2 is blocked if any prerequisite is missing (no objectives, no owner, no QA on team, no milestones, missing risk notes, missing data reliability notes, or missing independence status)
   5. When the QA Reviewer approves Gate P2, the planning record is locked; subsequent edits require a revision note; an audit event and Gate Decision record are written
-**Plans**: 7 plans
+**Plans**: 9 plans (includes 5 gap closure plans)
 
 Plans:
 - [x] 04-01-PLAN.md — Engagement backend API (F4): GET list, GET detail with gates+blockers, PATCH metadata
@@ -102,6 +102,11 @@ Plans:
 - [x] 04-05-PLAN.md — Team + Milestones UI (F5): TeamPanel, TeamMemberTable, AddMemberForm, MilestoneTable, MilestoneStatusChip, Playwright E2E
 - [x] 04-06-PLAN.md — Planning Record form UI (F6): ObjectiveList (Accordion), P2ReadinessChecklist, PlanningLockedBanner, PlanningRecordPanel (all 4 states), RadioGroup independence affirmation, Playwright E2E
 - [x] 04-07-PLAN.md — Gate P2 Review UI (F7): GateP2ReviewPanel, ApproveP2ConfirmDialog, ReturnP2ConfirmDialog, post-decision redirects, Playwright E2E
+- [ ] 04-GAP-01-PLAN.md — Gap closure: fix gate card color borders (passed→approved translation in toGateDecisionRecord; GateStatusCard + GateStatusCardRow belt-and-suspenders guards)
+- [ ] 04-GAP-02-PLAN.md — Gap closure: fix AddMemberForm cmdk v1 selection bug (remove controlled value prop, fix CommandEmpty, fix PopoverContent width)
+- [ ] 04-GAP-03-PLAN.md — Gap closure: fix milestone save blank screen (try/catch in TeamPanel + MilestoneTable, ErrorBoundary in App, Fragment key fix, overdue in DB CHECK constraint)
+- [ ] 04-GAP-04-PLAN.md — Gap closure: fix AddMemberForm cmdk v1 click race (onMouseDown preventDefault on CommandItem prevents focus-loss before click fires)
+- [ ] 04-GAP-05-PLAN.md — Gap closure: fix mapMilestone() date bug (knex returns Date objects; instanceof Date guard + toISOString().split('T')[0] yields correct YYYY-MM-DD)
 
 ### Phase 5: Evidence, Findings, and Gate P3
 **Status**: passed

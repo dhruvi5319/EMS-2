@@ -93,7 +93,11 @@ function mapMilestone(
   row: Record<string, unknown>,
   engagementId: string
 ): MilestoneRecord {
-  const target_date = row.target_date ? String(row.target_date).slice(0, 10) : null;
+  const target_date = row.target_date
+    ? row.target_date instanceof Date
+      ? row.target_date.toISOString().split('T')[0]
+      : String(row.target_date).slice(0, 10)
+    : null;
   const completed_at = isoDate(row.completed_at as string | Date | null);
   return {
     id: (row.id as string) ?? null,
