@@ -42,7 +42,7 @@ function getOutcomeStyle(decision?: GateDecision, locked?: boolean): OutcomeStyl
 
   const d = decision.decision?.toLowerCase();
 
-  if (d === 'approved' || d === 'approve') {
+  if (d === 'approved' || d === 'approve' || d === 'passed') {
     return {
       border: 'border-l-4 border-l-emerald-500',
       bg: 'bg-emerald-50',
