@@ -25,7 +25,7 @@ gateRouter.get(
         const gateDecisionRow = await db('gate_decisions as gd')
           .join('users as u', 'gd.decided_by', 'u.id')
           .where({ 'gd.engagement_id': engagement.id, 'gd.gate_type': 'A1' })
-          .select('gd.*', 'u.full_name as decided_by_name')
+          .select('gd.*', 'u.display_name as decided_by_name')
           .first();
 
         if (gateDecisionRow) {
@@ -54,7 +54,7 @@ gateRouter.get(
       const auditEvent = await db('audit_events as ae')
         .join('users as u', 'ae.actor_id', 'u.id')
         .where({ 'ae.request_id': requestId, 'ae.action': 'GATE_A1_DECLINED' })
-        .select('ae.*', 'u.full_name as decided_by_name')
+        .select('ae.*', 'u.display_name as decided_by_name')
         .orderBy('ae.created_at', 'desc')
         .first();
 
