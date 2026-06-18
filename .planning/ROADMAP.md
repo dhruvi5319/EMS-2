@@ -46,7 +46,7 @@ Plans:
   3. Global search returns matching engagements by ID, title, requester, phase, or owner within the user's access scope
   4. Admin can create a user, assign one or more roles, and the new permissions take effect on the user's next request
   5. Any authorized user can view the audit trail for an engagement, filtered by action type or date range
-**Plans**: 6 plans
+**Plans**: 7 plans (includes 1 gap closure plan)
 
 Plans:
 - [ ] 02-01-PLAN.md — shadcn/ui initialization, CSS variable token config, Phase 1 component token migration
@@ -55,6 +55,7 @@ Plans:
 - [ ] 02-04-PLAN.md — Global search UI: shadcn Command overlay, debounced hook, ⌘K shortcut, keyboard navigation, Playwright E2E
 - [ ] 02-05-PLAN.md — User management page: Admin-only UserTable, CreateUserDialog, EditUserRolesDialog, DeactivateUserConfirm, Playwright E2E
 - [ ] 02-06-PLAN.md — Audit trail view: AuditEventCard, ActionCodeBadge, AuditTrailFilters, AuditTimeline, pagination, Playwright E2E
+- [ ] 02-GAP-01-PLAN.md — Gap closure: mount GlobalSearchBar in TopBar.tsx (UAT Tests 4 & 5 — search bar unclickable, ⌘K/Ctrl+K not working)
 
 ### Phase 3: Intake and Gate A1
 **Status**: passed

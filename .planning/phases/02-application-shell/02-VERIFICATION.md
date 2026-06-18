@@ -3,7 +3,13 @@ phase: 02-application-shell
 verified: 2026-06-05T20:15:00Z
 status: passed
 score: 30/30 must-haves verified
-re_verification: false
+re_verification: true
+gap_closure:
+  - plan: "02-GAP-01"
+    fixed: "2026-06-17"
+    issue: "GlobalSearchBar was never mounted in TopBar.tsx — disabled stub remained from Phase 1"
+    fix: "TopBar.tsx now imports and renders <GlobalSearchBar /> — disabled stub removed"
+    uat_tests_resolved: [4, 5]
 human_verification:
   - test: "Responsive sidebar collapse at ≤1024px — icon-only rail with tooltips"
     expected: "Sidebar collapses to 56px icon-only rail; hovering shows label tooltip"
