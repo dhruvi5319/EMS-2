@@ -3,14 +3,14 @@ pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: "Completed 04-GAP-03-PLAN.md (Phase 4 GAP-03: milestone error handling + ErrorBoundary + overdue constraint)"
-last_updated: "2026-06-18T20:42:53.449Z"
+stopped_at: "Completed 04-GAP-05-PLAN.md (Phase 4 GAP-05: milestone date instanceof Date fix)"
+last_updated: "2026-06-18T21:31:42.091Z"
 last_activity: "2026-06-18 — Phase 4 complete: F4 engagement backend+shell UI, F5 team+milestones, F6 planning record form, F7 Gate P2 review panel — all self-checks passed"
 progress:
   total_phases: 6
   completed_phases: 6
-  total_plans: 43
-  completed_plans: 43
+  total_plans: 45
+  completed_plans: 45
   percent: 81
 ---
 
@@ -99,6 +99,8 @@ Progress: [████████░░] 81%
 | Phase 04-engagement-setup-and-gate-p2 PGAP-02 | 1min | 1 tasks | 1 files |
 | Phase 04-engagement-setup-and-gate-p2 PGAP-01 | 1min | 2 tasks | 3 files |
 | Phase 04-engagement-setup-and-gate-p2 PGAP-03 | 2min | 2 tasks | 4 files |
+| Phase 04-engagement-setup-and-gate-p2 PGAP-05 | 1min | 1 tasks | 1 files |
+| Phase 04-engagement-setup-and-gate-p2 PGAP-04 | 1min | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -200,6 +202,7 @@ Recent decisions affecting current work:
 - [Phase 04-engagement-setup-and-gate-p2]: cmdk v1 requires uncontrolled CommandInput: value prop triggers selectFirstItem() on every keystroke, intercepting onSelect before it fires; remove value prop to fix
 - [Phase 04-engagement-setup-and-gate-p2]: STATUS_MAP translates DB vocabulary (passed/failed/returned) to UI vocabulary (approved/declined/returned) at the service boundary, so all consumers receive normalized values without individual frontend fixes
 - [Phase 04-engagement-setup-and-gate-p2]: Double-layer milestone error catch: MilestoneTable inline + TeamPanel destructive toast prevents blank screen on API failure
+- [Phase 04-engagement-setup-and-gate-p2]: instanceof Date branch uses .toISOString().split('T')[0] for knex Date columns; String fallback kept for pre-formatted strings
 
 ### Pending Todos
 
@@ -211,6 +214,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-18T20:42:53.447Z
-Stopped at: Completed 04-GAP-03-PLAN.md (Phase 4 GAP-03: milestone error handling + ErrorBoundary + overdue constraint)
+Last session: 2026-06-18T21:31:40.675Z
+Stopped at: Completed 04-GAP-05-PLAN.md (Phase 4 GAP-05: milestone date instanceof Date fix)
 Resume file: None
