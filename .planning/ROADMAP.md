@@ -58,7 +58,8 @@ Plans:
 - [ ] 02-GAP-01-PLAN.md — Gap closure: mount GlobalSearchBar in TopBar.tsx (UAT Tests 4 & 5 — search bar unclickable, ⌘K/Ctrl+K not working)
 
 ### Phase 3: Intake and Gate A1
-**Status**: In Progress
+**Status**: passed
+**Completed**: 2026-06-18
 **Goal**: An Engagement Acceptance Lead can create and submit a request, and either approve it (automatically creating an engagement shell with audit trail) or decline it with recorded rationale
 **Depends on**: Phase 2
 **Requirements**: F2, F3
@@ -153,7 +154,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/4 | passed | 2026-06-05 |
 | 2. Application Shell | 6/6 | passed | 2026-06-05 |
-| 3. Intake and Gate A1 | 5/5 | passed | 2026-06-05 |
+| 3. Intake and Gate A1 | 6/6 | passed | 2026-06-18 |
 | 4. Engagement Setup and Gate P2 | 7/7 | passed | 2026-06-05 |
 | 5. Evidence, Findings, and Gate P3 | 0/TBD | Not started | - |
 | 6. Draft Product, Reference Check, Gate P4, and Dashboard | 0/7 | Not started | - |
