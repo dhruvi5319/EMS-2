@@ -181,7 +181,7 @@ In `RequestFormPage.tsx`:
      </div>
    )}
    ```
-   For "new request" mode (`!isEdit`), the placeholder note is appropriate — the user must save as draft to get an ID before uploading. For edit mode (`isEdit && id`), render `IntakeFileUpload` with the request ID. The `existingFile` prop can remain `null` here; the component itself handles fetching existing upload state via its own state.
+    For "new request" mode (`!isEdit`), the placeholder note is appropriate — the user must save as draft to get an ID before uploading. For edit mode (`isEdit && id`), render `IntakeFileUpload` with the request ID. `existingFile={null}` is intentional for the form page — the component initializes its display from the `existingFile` prop, so passing `null` means it shows the idle upload zone regardless of any prior uploads. This is acceptable behavior on the form page.
 
 ### Fix A2 — Wire IntakeFileUpload in RequestDetailPage (Gap 1 / Test 3)
 
@@ -323,10 +323,45 @@ For requests without an engagement (draft, submitted, or declined) the link is o
 
 Note: No changes to `App.tsx` are needed since we're navigating to the already-registered `/engagements/:id/audit` route.
 
-### Fix F — Extend Playwright specs for regression coverage
+### Fix F — Update existing Playwright test + extend specs for regression coverage
 
-In `frontend/e2e/request-detail.spec.ts`: add tests covering:
-1. **IntakeFileUpload visible on draft detail page** — mock the request detail API to return a draft request, navigate to `/requests/:id`, assert the drag-drop zone element is visible (e.g. `page.getByText('Drag & drop').isVisible()` or `page.locator('[data-testid="intake-upload"]').isVisible()`).
+**CRITICAL — Update existing 'shows View Audit Trail link' test first:**
+
+In `frontend/e2e/request-detail.spec.ts`, the existing test at line 16 (`'shows View Audit Trail link'`) currently navigates to the first live DB request — which may be a draft or submitted request — and unconditionally asserts `View Audit Trail →` is visible. After Fix E, the link is only rendered when `gateDecision?.engagement_id` exists (i.e. approved requests). The existing test will cause a false failure if the first request in the DB is not accepted.
+
+Update this test to handle both cases:
+```typescript
+test('shows View Audit Trail link only for accepted requests', async ({ page }) => {
+  await page.goto('/requests');
+  await page.waitForTimeout(500);
+
+  const emptyState = page.getByText('No requests yet.');
+  if (await emptyState.isVisible()) {
+    test.skip(true, 'No requests in DB — skipping detail test');
+    return;
+  }
+
+  await page.getByRole('row').nth(1).click();
+  await page.waitForURL('**/requests/**');
+
+  // View Audit Trail link is only present for accepted requests that have an engagement.
+  // For non-accepted requests, the link is intentionally absent — verify the page loaded OK instead.
+  const auditLink = page.getByText('View Audit Trail →');
+  const requestTitle = page.getByText('Request Details');
+  await expect(requestTitle).toBeVisible(); // page loaded
+  // If the first request happens to be accepted, also assert the link exists
+  const statusBadge = page.getByText('Accepted');
+  if (await statusBadge.isVisible()) {
+    await expect(auditLink).toBeVisible();
+  } else {
+    // For non-accepted requests, the audit trail link should NOT be present
+    await expect(auditLink).not.toBeVisible();
+  }
+});
+```
+
+In `frontend/e2e/request-detail.spec.ts`: add new tests covering:
+1. **IntakeFileUpload visible on draft detail page** — mock the request detail API to return a draft request, navigate to `/requests/:id`, assert the drag-drop zone element is visible using the actual component text: `page.getByText('Drag and drop intake document here')`. Do NOT use `[data-testid="intake-upload"]` — the component has no such attribute. Alternatively, if adding a `data-testid` to the component's drop zone `<div>` is preferred for stability, add `data-testid="intake-upload-zone"` to `IntakeFileUpload.tsx`'s outer drop zone div and assert `page.locator('[data-testid="intake-upload-zone"]').isVisible()` — but the text-based selector is sufficient if the component text is stable.
 2. **Approval banner with job code** — mock POST `/api/requests/:id/gate/a1` to return `{ decision: 'approved', engagement: { id: 'eng-1', job_code: 'ENG-2026-00001' } }`, trigger the GateA1Panel confirm action, assert the green banner contains `ENG-2026-00001` and the "View Engagement Shell →" link is visible pointing to `/engagements/eng-1`.
 3. **No page reload on approval** — after mock approval, assert `page.url()` still contains `/requests/:id` (no navigation away).
 
@@ -353,9 +388,11 @@ Use the existing Playwright helper patterns already in `gate-a1.spec.ts` (mock s
     - `grep -n "gate/decision" frontend/src/pages/requests/RequestDetailPage.tsx` shows the fetch useEffect.
     - `grep -n "href=.*#audit" frontend/src/components/requests/GateA1DecidedCard.tsx` returns nothing.
     - `grep -n "engagementId" frontend/src/components/requests/GateA1DecidedCard.tsx` shows prop usage.
-    - `grep -n "accepted.*approved\|status === 'accepted'" frontend/src/pages/requests/RequestDetailPage.tsx` shows corrected status mapping in fallback object.
-    - Playwright test files `e2e/request-detail.spec.ts` and `e2e/gate-a1.spec.ts` exist and all tests pass (0 failing, 0 skipped).
-    - Playwright tests cover: IntakeFileUpload visible on edit mode detail page, approval banner with job code, decided card with real approver name (not placeholder), View Gate History navigation to `/engagements/:id/audit`.
+     - `grep -n "accepted.*approved\|status === 'accepted'" frontend/src/pages/requests/RequestDetailPage.tsx` shows corrected status mapping in fallback object.
+     - Existing `'shows View Audit Trail link'` test in `request-detail.spec.ts` has been updated to conditionally assert: link IS visible for accepted requests, link is NOT visible for non-accepted requests.
+     - `grep -n "not.toBeVisible\|statusBadge" frontend/e2e/request-detail.spec.ts` shows the updated conditional test.
+     - Playwright test files `e2e/request-detail.spec.ts` and `e2e/gate-a1.spec.ts` exist and all tests pass (0 failing, 0 skipped).
+     - Playwright tests cover: IntakeFileUpload visible on edit mode detail page (using `getByText('Drag and drop intake document here')`), approval banner with job code, decided card with real approver name (not placeholder), View Gate History navigation to `/engagements/:id/audit`.
   </done>
 </task>
 
