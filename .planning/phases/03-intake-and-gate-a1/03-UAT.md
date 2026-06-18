@@ -1,9 +1,9 @@
 ---
-status: complete
+status: diagnosed
 phase: 03-intake-and-gate-a1
 source: [03-01-SUMMARY.md, 03-02-SUMMARY.md, 03-03-SUMMARY.md, 03-04-SUMMARY.md, 03-05-SUMMARY.md]
 started: 2026-06-05T21:10:00Z
-updated: 2026-06-18T00:30:00Z
+updated: 2026-06-18T01:00:00Z
 ---
 
 ## Current Test
@@ -73,27 +73,50 @@ skipped: 0
   reason: "User reported: Placeholder text only"
   severity: major
   test: 3
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "IntakeFileUpload component is fully implemented (frontend/src/components/requests/IntakeFileUpload.tsx) but is never imported or rendered in RequestDetailPage.tsx. The Intake Document section uses a static read-only display (lines 99-122) that only shows a download link when file_ref exists, otherwise renders a plain text placeholder. The component needs to be wired in."
+  artifacts:
+    - path: "frontend/src/pages/requests/RequestDetailPage.tsx"
+      issue: "Lines 99-122: Intake Document section has no import or usage of IntakeFileUpload; uses static placeholder instead"
+    - path: "frontend/src/components/requests/IntakeFileUpload.tsx"
+      issue: "Fully implemented component that exists but is never used in RequestDetailPage"
+  missing:
+    - "Import IntakeFileUpload into RequestDetailPage"
+    - "Replace static placeholder else-branch with <IntakeFileUpload requestId={request.id} existingFile={...} /> conditioned on canEdit (draft + AL/AD role)"
+  debug_session: ".planning/debug/intake-upload-placeholder.md"
 
 - truth: "After Gate A1 approval, a green success banner appears showing the generated job code and a View Engagement Shell link"
   status: failed
   reason: "User reported: On clicking Confirm Request, it took me to blank screen — completely blank/white page"
   severity: major
-  test: 8
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "RequestDetailPage.tsx onDecisionRecorded callback (lines 148-151) calls window.location.reload() which destroys GateA1Panel's successBanner state before it can render. The full page reload then hits App.tsx catch-all route (* → /login) which for authenticated users redirects to /dashboard — bypassing the request detail page entirely and producing the disorienting blank/wrong-page experience."
+  artifacts:
+    - path: "frontend/src/pages/requests/RequestDetailPage.tsx"
+      issue: "Lines 148-151: onDecisionRecorded callback calls window.location.reload() — discards successBanner state and causes full reload with unpredictable routing"
+    - path: "frontend/src/components/requests/GateA1Panel.tsx"
+      issue: "Lines 111-116: Correctly sets successBanner state then calls onDecisionRecorded, but parent overrides with page reload"
+    - path: "frontend/src/App.tsx"
+      issue: "Line 190: Catch-all route redirects to /login, sending authenticated reload to /dashboard"
+  missing:
+    - "Replace window.location.reload() in onDecisionRecorded with proper React state update — accept engagement result and display success banner with job code and View Engagement Shell link"
+    - "Use React Router navigate() or refetch pattern instead of full page reload"
+  debug_session: ".planning/debug/gate-a1-blank-screen.md"
 
 - truth: "Gate A1 decided card shows approver info, formatted date, rationale; View Gate History button works; View Audit Trail navigates to engagement audit trail"
   status: failed
   reason: "User reported: No approver info shown; 'View Gate History' button does not work; 'View Audit Trail' redirects to /dashboard instead of the audit trail"
   severity: major
   test: 10
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "Three distinct bugs: (1) RequestDetailPage.tsx lines 155-166 passes a hardcoded placeholder object with no decided_by_name and dummy rationale to GateA1DecidedCard (TODO comment confirms this was deferred). (2) GateA1DecidedCard.tsx line 60 uses href='#audit' — a broken anchor fragment with no matching id on the page. (3) RequestDetailPage.tsx line 188 links to /requests/:id/audit which has no route in App.tsx; catch-all redirects authenticated users to /dashboard."
+  artifacts:
+    - path: "frontend/src/pages/requests/RequestDetailPage.tsx"
+      issue: "Lines 155-166: Passes hardcoded placeholder to GateA1DecidedCard with no real gate decision fetch (TODO comment on line 156 confirms deferred work); Line 188: audit link href is /requests/:id/audit — unregistered route"
+    - path: "frontend/src/components/requests/GateA1DecidedCard.tsx"
+      issue: "Line 60: 'View Gate History' uses href='#audit' — broken anchor fragment, does nothing"
+    - path: "frontend/src/App.tsx"
+      issue: "Lines 179-182: Audit trail route only registered under /engagements/:id/audit, not /requests/:id/audit"
+  missing:
+    - "Add GET /api/requests/:id/gate/decision endpoint returning gate decision with actor name from users table join"
+    - "Fetch real gate decision in RequestDetailPage and pass decided_by_name, risk_level, rationale, decided_at to GateA1DecidedCard"
+    - "Fix 'View Gate History' button — replace href='#audit' with proper navigate() or modal/scroll behavior"
+    - "Fix 'View Audit Trail' link to navigate to correct URL — either register /requests/:id/audit route or look up engagement_id and navigate to /engagements/:engagementId/audit"
+  debug_session: ".planning/debug/gate-a1-decided-card.md"
