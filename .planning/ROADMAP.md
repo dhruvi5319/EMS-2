@@ -92,7 +92,7 @@ Plans:
   3. An EM or Analyst can create a planning record with one or more objectives, design approach, risk notes, data reliability notes, and independence affirmation status; the record can be saved as Draft or submitted as Ready for Review
   4. Gate P2 is blocked if any prerequisite is missing (no objectives, no owner, no QA on team, no milestones, missing risk notes, missing data reliability notes, or missing independence status)
   5. When the QA Reviewer approves Gate P2, the planning record is locked; subsequent edits require a revision note; an audit event and Gate Decision record are written
-**Plans**: 7 plans
+**Plans**: 9 plans (includes 5 gap closure plans)
 
 Plans:
 - [x] 04-01-PLAN.md — Engagement backend API (F4): GET list, GET detail with gates+blockers, PATCH metadata
@@ -105,6 +105,8 @@ Plans:
 - [ ] 04-GAP-01-PLAN.md — Gap closure: fix gate card color borders (passed→approved translation in toGateDecisionRecord; GateStatusCard + GateStatusCardRow belt-and-suspenders guards)
 - [ ] 04-GAP-02-PLAN.md — Gap closure: fix AddMemberForm cmdk v1 selection bug (remove controlled value prop, fix CommandEmpty, fix PopoverContent width)
 - [ ] 04-GAP-03-PLAN.md — Gap closure: fix milestone save blank screen (try/catch in TeamPanel + MilestoneTable, ErrorBoundary in App, Fragment key fix, overdue in DB CHECK constraint)
+- [ ] 04-GAP-04-PLAN.md — Gap closure: fix AddMemberForm cmdk v1 click race (onMouseDown preventDefault on CommandItem prevents focus-loss before click fires)
+- [ ] 04-GAP-05-PLAN.md — Gap closure: fix mapMilestone() date bug (knex returns Date objects; instanceof Date guard + toISOString().split('T')[0] yields correct YYYY-MM-DD)
 
 ### Phase 5: Evidence, Findings, and Gate P3
 **Status**: passed
