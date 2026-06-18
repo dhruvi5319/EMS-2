@@ -1,19 +1,6 @@
-import { useState } from 'react';
-import { Check, ChevronsUpDown, Loader2 } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
 import {
   Select,
   SelectContent,
@@ -21,7 +8,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { cn } from '@/lib/utils';
 import { api } from '@/lib/api';
 
 interface UserResult {
@@ -48,24 +34,36 @@ interface AddMemberFormProps {
 }
 
 export function AddMemberForm({ onAdded, onAddMember }: AddMemberFormProps) {
-  const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [users, setUsers] = useState<UserResult[]>([]);
+  const [showDropdown, setShowDropdown] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserResult | null>(null);
   const [selectedRole, setSelectedRole] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
 
   async function handleSearch(value: string) {
     setQuery(value);
+    setSelectedUser(null);
     if (value.length < 2) {
       setUsers([]);
+      setShowDropdown(false);
       return;
     }
     const res = await api.get<{ users: UserResult[] }>(
       `/api/users/search?q=${encodeURIComponent(value)}`,
     );
-    if (res.ok) setUsers(res.data.users);
+    if (res.ok) {
+      setUsers(res.data.users);
+      setShowDropdown(true);
+    }
+  }
+
+  function handleSelectUser(user: UserResult) {
+    setSelectedUser(user);
+    setQuery(user.display_name);
+    setShowDropdown(false);
   }
 
   async function handleAdd() {
@@ -78,6 +76,7 @@ export function AddMemberForm({ onAdded, onAddMember }: AddMemberFormProps) {
       setSelectedRole('');
       setQuery('');
       setUsers([]);
+      setShowDropdown(false);
       onAdded();
     } catch (err: unknown) {
       const e = err as { status?: number; message?: string };
@@ -93,74 +92,54 @@ export function AddMemberForm({ onAdded, onAddMember }: AddMemberFormProps) {
 
   return (
     <div className="space-y-3 pt-2">
-      {/* UserSearchCombobox */}
+      {/* User Search */}
       <div className="space-y-1">
         <label className="text-xs font-medium uppercase tracking-wide text-slate-500">
           Search users
         </label>
-        <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              role="combobox"
-              aria-expanded={open}
-              className="w-full justify-between"
-            >
-              {selectedUser ? (
-                <span className="text-sm">{selectedUser.display_name}</span>
-              ) : (
-                <span className="text-muted-foreground text-sm">
-                  Search by name or email...
-                </span>
-              )}
-              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
-            <Command shouldFilter={false}>
-              <CommandInput
-                placeholder="Search by name or email..."
-                onValueChange={handleSearch}
-              />
-              <CommandList>
-                <CommandEmpty>
-                  {query.length < 2 ? 'Type at least 2 characters to search.' : 'No users found.'}
-                </CommandEmpty>
-                <CommandGroup>
-                  {users.map((user) => (
-                    <CommandItem
-                      key={user.id}
-                      value={user.id}
-                      onMouseDown={(e) => e.preventDefault()}
-                      onSelect={() => {
-                        setSelectedUser(user);
-                        setOpen(false);
-                      }}
-                      onClick={() => {
-                        setSelectedUser(user);
-                        setOpen(false);
-                      }}
-                    >
-                      <Check
-                        className={cn(
-                          'mr-2 h-4 w-4',
-                          selectedUser?.id === user.id ? 'opacity-100' : 'opacity-0',
-                        )}
-                      />
-                      <div>
-                        <div className="text-sm">{user.display_name}</div>
-                        <div className="text-xs text-muted-foreground">
-                          {user.email}
-                          {user.roles.length > 0 && ` · ${user.roles.join(', ')}`}
-                        </div>
-                      </div>
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              </CommandList>
-            </Command>
-          </PopoverContent>
-        </Popover>
+        <div className="relative">
+          <input
+            ref={inputRef}
+            type="text"
+            value={query}
+            onChange={(e) => handleSearch(e.target.value)}
+            onFocus={() => { if (users.length > 0) setShowDropdown(true); }}
+            onBlur={() => { setTimeout(() => setShowDropdown(false), 150); }}
+            placeholder="Search by name or email..."
+            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+          />
+          {showDropdown && users.length > 0 && (
+            <div className="absolute z-50 mt-1 w-full rounded-md border bg-popover shadow-md">
+              {users.map((user) => (
+                <button
+                  key={user.id}
+                  type="button"
+                  className="flex w-full items-start gap-2 px-3 py-2 text-left text-sm hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => handleSelectUser(user)}
+                >
+                  <div className="flex-1">
+                    <div className="font-medium">{user.display_name}</div>
+                    <div className="text-xs text-muted-foreground">
+                      {user.email}
+                      {user.roles.length > 0 && ` · ${user.roles.join(', ')}`}
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
+          {showDropdown && query.length >= 2 && users.length === 0 && (
+            <div className="absolute z-50 mt-1 w-full rounded-md border bg-popover px-3 py-4 text-center text-sm text-muted-foreground shadow-md">
+              No users found.
+            </div>
+          )}
+        </div>
+        {selectedUser && (
+          <p className="text-xs text-emerald-600">
+            Selected: {selectedUser.display_name}
+          </p>
+        )}
       </div>
 
       {/* RoleSelector */}
