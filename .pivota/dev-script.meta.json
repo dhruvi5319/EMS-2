@@ -1,14 +1,16 @@
 {
   "generator_version": "init-dev-server@1",
   "catalog_entry": "compose",
-  "generated_at": "2026-06-17T20:18:19Z",
-  "inspection_inputs_hash": "851fcf387bd3914f7548f00454244da3567a2fc21c6ec5fda444af329152b6cd",
+  "generated_at": "2026-06-18T16:30:00Z",
+  "inspection_inputs_hash": "7b749206fa8aeebd9f194056552b08f6d44e5a31b9480ffafc9c16b334338c1c",
   "inspection_inputs": {
     "matched_globs": [
       "docker-compose.yml",
       "frontend/package.json"
     ],
-    "manifest_signatures": [],
+    "manifest_signatures": [
+      "docker-compose.yml:services:backend,frontend,migrate,minio,postgres"
+    ],
     "existing_scripts": []
   }
 }
