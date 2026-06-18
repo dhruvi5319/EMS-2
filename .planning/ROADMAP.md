@@ -68,7 +68,7 @@ Plans:
   3. A submitted request appears in the Review Queue; the AL can approve it with a risk level and rationale, and the system automatically creates an Engagement record in `phase = planning` with a job code in the pattern `ENG-{YYYY}-{5-digit-seq}`
   4. The AL can decline a submitted request with rationale; no engagement is created; the request status is set to `declined`
   5. All A1 decisions (approve and decline) create an immutable Gate Decision record and an Audit Event visible on the request detail page
-**Plans**: 5 plans
+**Plans**: 6 plans (includes 1 gap closure plan)
 
 Plans:
 - [ ] 03-01-PLAN.md — Request backend API: CRUD, multer upload middleware, StorageProvider (local filesystem), file replace behavior
@@ -76,6 +76,7 @@ Plans:
 - [ ] 03-03-PLAN.md — Request List page (status tabs, sortable table) + New/Edit Request Form (react-hook-form, shadcn, validation)
 - [ ] 03-04-PLAN.md — Request Detail page + IntakeFileUpload component (drag-drop, progress, replace, error states)
 - [ ] 03-05-PLAN.md — Gate A1 Decision Panel (RadioGroup, AlertDialog, post-approval banner) + Review Queue page
+- [ ] 03-GAP-01-PLAN.md — Gap closure: wire IntakeFileUpload, fix approve blank-screen (reload→React state), fix decided card real data + navigation (UAT Tests 3, 8, 10)
 
 ### Phase 4: Engagement Setup and Gate P2
 **Status**: passed
