@@ -9,7 +9,7 @@ The EMS delivers a complete, governed engagement lifecycle in six phases that mi
 - [ ] **Phase 1: Foundation** - Project scaffold, Docker environment, database migrations, auth, and all core data models
 - [ ] **Phase 2: Application Shell** - Authenticated web app, navigation, RBAC, search, audit trail, and user management
 - [ ] **Phase 3: Intake and Gate A1** - Request intake, intake document upload, acceptance decision, and engagement shell auto-creation
-- [ ] **Phase 4: Engagement Setup and Gate P2** - Engagement shell, team assignments, milestones, planning record, and planning approval
+- [x] **Phase 4: Engagement Setup and Gate P2** - Engagement shell, team assignments, milestones, planning record, and planning approval
 - [ ] **Phase 5: Evidence, Findings, and Gate P3** - Evidence registry, evidence-to-objective links, findings, and evidence sufficiency approval
 - [ ] **Phase 6: Draft Product, Reference Check, Gate P4, and Dashboard** - Draft product, indexing, reference check, final readiness, and portfolio dashboard
 
@@ -81,7 +81,7 @@ Plans:
 - [ ] 03-GAP-02-PLAN.md — Gap closure: fix u.full_name → u.display_name in gate decision JOIN (UAT Test 3 retest — approver name blank, rationale '—')
 
 ### Phase 4: Engagement Setup and Gate P2
-**Status**: In Progress
+**Status**: passed
 **Completed**: 2026-06-05
 **Goal**: An Engagement Manager can fully set up an accepted engagement — metadata, team, milestones, and planning record — and a QA Reviewer can approve the planning baseline, locking it at Gate P2
 **Depends on**: Phase 3
