@@ -66,7 +66,7 @@ export async function up(knex: Knex): Promise<void> {
     table.timestamp('completed_at', { useTz: true }).nullable();
     table.text('status').notNullable().defaultTo('not_started');
     table.check("milestone_type IN ('planning_approval','evidence_readiness','draft_readiness','final_readiness')");
-    table.check("status IN ('not_started','on_track','at_risk','complete')");
+    table.check("status IN ('not_started','on_track','at_risk','overdue','complete')");
     table.unique(['engagement_id', 'milestone_type']);
   });
 
