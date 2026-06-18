@@ -131,6 +131,7 @@ export function AddMemberForm({ onAdded, onAddMember }: AddMemberFormProps) {
                     <CommandItem
                       key={user.id}
                       value={user.id}
+                      onMouseDown={(e) => e.preventDefault()}
                       onSelect={() => {
                         setSelectedUser(user);
                         setOpen(false);
