@@ -15,6 +15,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useRequest, createRequest, updateRequest, submitRequest } from '@/hooks/useRequests';
+import { IntakeFileUpload } from '@/components/requests/IntakeFileUpload';
 
 // Zod schema for submit validation (zod v4: use .message not required_error)
 const submitSchema = z.object({
@@ -326,14 +327,22 @@ export function RequestFormPage() {
           </div>
         </div>
 
-        {/* INTAKE DOCUMENT section header (file upload handled in plan 03-04) */}
+        {/* INTAKE DOCUMENT section */}
         <div className="mb-1 flex items-center gap-3">
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Intake Document</p>
           <Separator className="flex-1" />
         </div>
-        <div className="mt-4 mb-6 p-4 border border-dashed border-border rounded-lg text-center text-sm text-muted-foreground">
-          File upload component (Plan 03-04)
-        </div>
+        {isEdit && id ? (
+          <IntakeFileUpload
+            requestId={id}
+            existingFile={null}
+            onUploadComplete={() => {}}
+          />
+        ) : (
+          <div className="mt-4 mb-6 p-4 border border-dashed border-border rounded-lg text-center text-sm text-muted-foreground">
+            Save as draft first to attach intake document.
+          </div>
+        )}
 
         {/* Sticky form actions */}
         <div className="sticky bottom-0 bg-white border-t border-border py-4 flex items-center justify-between" style={{ height: 64 }}>

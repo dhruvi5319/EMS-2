@@ -1,65 +1,122 @@
 ---
-status: awaiting_verifying
+status: diagnosed
 phase: 03-intake-and-gate-a1
 source: [03-01-SUMMARY.md, 03-02-SUMMARY.md, 03-03-SUMMARY.md, 03-04-SUMMARY.md, 03-05-SUMMARY.md]
 started: 2026-06-05T21:10:00Z
-updated: 2026-06-05T21:20:00Z
+updated: 2026-06-18T01:00:00Z
 ---
 
 ## Current Test
 
-[not started]
+[testing complete]
 
 ## Tests
 
 ### 1. Request List Page
 expected: Navigate to /requests. The page shows a heading, status filter tabs (All / Draft / Submitted / Accepted / Declined), and a table with columns (ID, Type, Topic, Requester, Due Date, Status). If no requests exist, an empty state message appears. A "+ New Request" button is visible for AL/AD roles.
-result: pending
+result: pass
 
 ### 2. Create/Edit Request Form
 expected: Click "+ New Request". The form page opens with all F2 fields: Request Type (select), Requester Name, Agency/Program, Topic (textarea with character counter), Due Date (calendar date picker), Notes (textarea). "Save as Draft" requires only Request Type; "Submit Request" requires all 5 required fields and shows validation errors on missing fields.
-result: pending
+result: pass
 
 ### 3. Intake Document Upload
 expected: On the request form or detail page, the file upload zone accepts PDF/DOCX files up to 25MB via drag-and-drop or browse. The zone shows drag-over highlight, a progress bar while uploading, a green success chip on completion, and error messages for files exceeding 25MB or wrong type. Uploading again replaces the previous file.
-result: pending
+result: issue
+reported: "Placeholder text only"
+severity: major
 
 ### 4. Request Detail Page
 expected: Click a request row to open the detail page. The page shows a breadcrumb, all fields in a read-only grid (type badge, status badge, requester, agency/program, topic, due date, notes), an intake document card (with "Download" link if uploaded or "No intake document attached." if not), and links to Edit Request (draft only, AL/AD) and View Audit Trail.
-result: pending
+result: pass
 
 ### 5. Submit a Request
 expected: Open a Draft request in the form and click "Submit Request". If required fields are missing, the form highlights them and blocks submission. When all 5 required fields are filled and submitted, the request status changes to "Submitted" and it appears in the Review Queue.
-result: pending
+result: pass
 
 ### 6. Review Queue Page
 expected: Navigate to /review-queue. The page shows submitted requests in a table with columns: ID, Type, Topic, Requester, Due Date, and a "Review" action button. If no submitted requests exist, the page shows "No items awaiting your review." and "Submitted requests will appear here for Gate A1 decision."
-result: pending
+result: pass
 
 ### 7. Gate A1 Decision Panel
 expected: Open a submitted request detail page as an AL/AD user. The Gate A1 section shows a decision card with a Risk Level radio group (Low / Medium / High) and a Rationale textarea showing "N/10 minimum" in red when under 10 characters. The "Approve" button is disabled unless a risk level is selected AND rationale has 10+ chars; the "Decline" button is disabled unless rationale has 10+ chars.
-result: pending
+result: pass
 
 ### 8. Gate A1 Approve Flow
 expected: On the Gate A1 panel with a risk level selected and valid rationale (10+ chars), click "Approve". An AlertDialog appears with "Confirm Approve ✓" and "Keep Request Pending" buttons. Confirming triggers the API; a green success banner appears showing the generated job code (e.g., ENG-2026-00001) and a "View Engagement Shell →" link.
-result: pending
+result: issue
+reported: "On clicking Confirm Request, it took me to blank screen — completely blank/white page"
+severity: major
 
 ### 9. Gate A1 Decline Flow
 expected: On the Gate A1 panel with valid rationale (10+ chars), click "Decline". An AlertDialog appears with "Confirm Decline ✗" and "Keep Request Pending" buttons. Confirming triggers the API; the request status is set to "declined", no engagement is created, and the page redirects to /requests.
-result: pending
+result: pass
 
 ### 10. Gate A1 Decided Card
 expected: Open a request that has already been approved or declined. The Gate A1 section shows a read-only card (not the decision panel) with an "Approved" (green) or "Declined" (red) chip, the risk level badge (for approved), approver info, formatted date, and rationale in italics.
-result: pending
+result: issue
+reported: "Can see Request details section and Gate A1 decision section, but it does not have approver info. Additionally Gate A1 Decision card has 'View Gate History' button which does not work and in the right bottom of the page there is 'View Audit Trail ->' which on click redirects to /dashboard instead of the audit trail"
+severity: major
 
 ## Summary
 
 total: 10
-passed: 0
-issues: 0
-pending: 10
+passed: 7
+issues: 3
+pending: 0
 skipped: 0
 
 ## Gaps
 
-[none]
+- truth: "File upload zone accepts PDF/DOCX up to 25MB via drag-and-drop or browse, with progress bar, success chip, error messages, and file replace behavior"
+  status: failed
+  reason: "User reported: Placeholder text only"
+  severity: major
+  test: 3
+  root_cause: "IntakeFileUpload component is fully implemented (frontend/src/components/requests/IntakeFileUpload.tsx) but is never imported or rendered in RequestDetailPage.tsx. The Intake Document section uses a static read-only display (lines 99-122) that only shows a download link when file_ref exists, otherwise renders a plain text placeholder. The component needs to be wired in."
+  artifacts:
+    - path: "frontend/src/pages/requests/RequestDetailPage.tsx"
+      issue: "Lines 99-122: Intake Document section has no import or usage of IntakeFileUpload; uses static placeholder instead"
+    - path: "frontend/src/components/requests/IntakeFileUpload.tsx"
+      issue: "Fully implemented component that exists but is never used in RequestDetailPage"
+  missing:
+    - "Import IntakeFileUpload into RequestDetailPage"
+    - "Replace static placeholder else-branch with <IntakeFileUpload requestId={request.id} existingFile={...} /> conditioned on canEdit (draft + AL/AD role)"
+  debug_session: ".planning/debug/intake-upload-placeholder.md"
+
+- truth: "After Gate A1 approval, a green success banner appears showing the generated job code and a View Engagement Shell link"
+  status: failed
+  reason: "User reported: On clicking Confirm Request, it took me to blank screen — completely blank/white page"
+  severity: major
+  root_cause: "RequestDetailPage.tsx onDecisionRecorded callback (lines 148-151) calls window.location.reload() which destroys GateA1Panel's successBanner state before it can render. The full page reload then hits App.tsx catch-all route (* → /login) which for authenticated users redirects to /dashboard — bypassing the request detail page entirely and producing the disorienting blank/wrong-page experience."
+  artifacts:
+    - path: "frontend/src/pages/requests/RequestDetailPage.tsx"
+      issue: "Lines 148-151: onDecisionRecorded callback calls window.location.reload() — discards successBanner state and causes full reload with unpredictable routing"
+    - path: "frontend/src/components/requests/GateA1Panel.tsx"
+      issue: "Lines 111-116: Correctly sets successBanner state then calls onDecisionRecorded, but parent overrides with page reload"
+    - path: "frontend/src/App.tsx"
+      issue: "Line 190: Catch-all route redirects to /login, sending authenticated reload to /dashboard"
+  missing:
+    - "Replace window.location.reload() in onDecisionRecorded with proper React state update — accept engagement result and display success banner with job code and View Engagement Shell link"
+    - "Use React Router navigate() or refetch pattern instead of full page reload"
+  debug_session: ".planning/debug/gate-a1-blank-screen.md"
+
+- truth: "Gate A1 decided card shows approver info, formatted date, rationale; View Gate History button works; View Audit Trail navigates to engagement audit trail"
+  status: failed
+  reason: "User reported: No approver info shown; 'View Gate History' button does not work; 'View Audit Trail' redirects to /dashboard instead of the audit trail"
+  severity: major
+  test: 10
+  root_cause: "Three distinct bugs: (1) RequestDetailPage.tsx lines 155-166 passes a hardcoded placeholder object with no decided_by_name and dummy rationale to GateA1DecidedCard (TODO comment confirms this was deferred). (2) GateA1DecidedCard.tsx line 60 uses href='#audit' — a broken anchor fragment with no matching id on the page. (3) RequestDetailPage.tsx line 188 links to /requests/:id/audit which has no route in App.tsx; catch-all redirects authenticated users to /dashboard."
+  artifacts:
+    - path: "frontend/src/pages/requests/RequestDetailPage.tsx"
+      issue: "Lines 155-166: Passes hardcoded placeholder to GateA1DecidedCard with no real gate decision fetch (TODO comment on line 156 confirms deferred work); Line 188: audit link href is /requests/:id/audit — unregistered route"
+    - path: "frontend/src/components/requests/GateA1DecidedCard.tsx"
+      issue: "Line 60: 'View Gate History' uses href='#audit' — broken anchor fragment, does nothing"
+    - path: "frontend/src/App.tsx"
+      issue: "Lines 179-182: Audit trail route only registered under /engagements/:id/audit, not /requests/:id/audit"
+  missing:
+    - "Add GET /api/requests/:id/gate/decision endpoint returning gate decision with actor name from users table join"
+    - "Fetch real gate decision in RequestDetailPage and pass decided_by_name, risk_level, rationale, decided_at to GateA1DecidedCard"
+    - "Fix 'View Gate History' button — replace href='#audit' with proper navigate() or modal/scroll behavior"
+    - "Fix 'View Audit Trail' link to navigate to correct URL — either register /requests/:id/audit route or look up engagement_id and navigate to /engagements/:engagementId/audit"
+  debug_session: ".planning/debug/gate-a1-decided-card.md"

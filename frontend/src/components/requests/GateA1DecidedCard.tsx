@@ -20,7 +20,8 @@ const DECISION_CHIP: Record<string, { label: string; style: string }> = {
   declined: { label: '✗ Declined', style: 'bg-red-100 text-red-700' },
 };
 
-export function GateA1DecidedCard({ decision }: { decision: GateDecisionData }) {
+// Fix D: accept engagementId prop to render correct audit trail link
+export function GateA1DecidedCard({ decision, engagementId }: { decision: GateDecisionData; engagementId?: string | null }) {
   const chip = DECISION_CHIP[decision.decision];
   const formattedDate = new Date(decision.decided_at).toLocaleDateString('en-US', {
     month: 'long', day: 'numeric', year: 'numeric',
@@ -57,7 +58,14 @@ export function GateA1DecidedCard({ decision }: { decision: GateDecisionData }) 
         </div>
       </dl>
 
-      <a href="#audit" className="text-xs text-blue-600 hover:underline">View Gate History →</a>
+      {/* Fix D: navigate to engagement audit trail when engagementId known (approved) */}
+      {engagementId ? (
+        <a href={`/engagements/${engagementId}/audit`} className="text-xs text-blue-600 hover:underline">
+          View Gate History →
+        </a>
+      ) : (
+        <span className="text-xs text-muted-foreground">View Gate History</span>
+      )}
     </div>
   );
 }

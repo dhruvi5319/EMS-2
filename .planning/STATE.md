@@ -2,15 +2,15 @@
 pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: verifying
-stopped_at: Completed 02-GAP-01-PLAN.md
-last_updated: "2026-06-17T21:08:59.489Z"
-last_activity: "2026-06-06 — Phase 5 complete: Evidence registry (F8), objective-evidence linking + gap view (F9), findings + sufficiency + Gate P3 approval (F10) — human verified"
+status: active
+stopped_at: "Completed 03-GAP-02 (Phase 3 fully closed: display_name fix confirmed, RETEST-UAT 3/3, VERIFICATION.md updated)"
+last_updated: "2026-06-18T16:20:00.000Z"
+last_activity: "2026-06-18 — Phase 3 GAP-02 closed: u.full_name → u.display_name in gate decision JOIN; RETEST-UAT 3/3 complete; VERIFICATION.md re-verified passed 18/18"
 progress:
   total_phases: 6
   completed_phases: 6
-  total_plans: 38
-  completed_plans: 38
+  total_plans: 40
+  completed_plans: 40
   percent: 81
 ---
 
@@ -94,6 +94,8 @@ Progress: [████████░░] 81%
 | Phase 06-draft-reference-check-gate-p4-and-dashboard P05 | 7min | 2 tasks | 15 files |
 | Phase 06-draft-reference-check-gate-p4-and-dashboard P07 | 10min | 2 tasks | 14 files |
 | Phase 02-application-shell PGAP-01 | 1min | 1 tasks | 1 files |
+| Phase 03-intake-and-gate-a1 PGAP-01 | 5min | 2 tasks | 6 files |
+| Phase 03-intake-and-gate-a1 PGAP-02 | 5min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -189,6 +191,9 @@ Recent decisions affecting current work:
 - [Phase 06-draft-reference-check-gate-p4-and-dashboard]: PortfolioDashboardPage replaces DashboardPage stub at /dashboard — full F14 implementation shipped as plan 06-07
 - [Phase 06-draft-reference-check-gate-p4-and-dashboard]: usePortfolio fetchPhaseCounts uses 4 parallel phase-filtered queries (limit=1) for accurate counts; exportCSV uses fetch blob → createObjectURL → anchor.click() pattern
 - [Phase 02-application-shell]: No extra wrapper div: GlobalSearchBar owns its flex-1 mx-6 max-w-[640px] container; TopBar header flex positions it correctly
+- [Phase 03-intake-and-gate-a1]: GET /api/requests/:id/gate/decision uses dual-path query: approved queries gate_decisions+users join, declined queries audit_events+users join (schema constraint: gate_decisions.engagement_id NOT NULL)
+- [Phase 03-intake-and-gate-a1]: Approval banner uses React approvalResult state replacing window.location.reload() — in-place update preserves page context
+- [Phase 03-intake-and-gate-a1]: u.display_name (not u.full_name) is the correct column per migration 001_auth_tables.ts — fix applied during debug session and verified in GAP-02
 
 ### Pending Todos
 
@@ -200,6 +205,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-17T21:08:59.487Z
-Stopped at: Completed 02-GAP-01-PLAN.md
+Last session: 2026-06-18T16:12:07.085Z
+Stopped at: Completed 03-GAP-02-PLAN.md (Phase 3 all gaps closed: 3/3 RETEST-UAT tests pass)
 Resume file: None

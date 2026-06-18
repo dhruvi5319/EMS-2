@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FileText, Pencil } from 'lucide-react';
 import { useRequest } from '@/hooks/useRequests';
@@ -5,6 +6,7 @@ import { useAuthContext } from '@/context/AuthContext';
 import { RequestStatusBadge } from '@/components/requests/RequestStatusBadge';
 import { GateA1Panel } from '@/components/requests/GateA1Panel';
 import { GateA1DecidedCard } from '@/components/requests/GateA1DecidedCard';
+import { IntakeFileUpload } from '@/components/requests/IntakeFileUpload';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -38,6 +40,16 @@ function FieldRow({ label, value }: { label: string; value: React.ReactNode }) {
   );
 }
 
+interface GateDecisionFetched {
+  id: string;
+  decision: 'approved' | 'declined';
+  risk_level: string | null;
+  rationale: string;
+  decided_by_name: string;
+  decided_at: string;
+  engagement_id?: string | null;
+}
+
 export function RequestDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -46,6 +58,23 @@ export function RequestDetailPage() {
 
   const isAL = user?.roles?.some((r: string) => ['AL', 'AD'].includes(r)) ?? false;
   const canEdit = request?.status === 'draft' && isAL;
+
+  // Fix B: React state for approval result — replaces page reload with in-place banner
+  const [approvalResult, setApprovalResult] = useState<{ jobCode: string; engagementId: string } | null>(null);
+
+  // Fix C: Fetch real gate decision data for decided card
+  const [gateDecision, setGateDecision] = useState<GateDecisionFetched | null>(null);
+
+  // Fix A2: Track file attachment state for IntakeFileUpload onUploadComplete
+  const [fileAttached, setFileAttached] = useState<{ file_ref: string; filename: string; size: number } | null>(null);
+
+  useEffect(() => {
+    if (!request || !['accepted', 'declined'].includes(request.status)) return;
+    fetch(`/api/requests/${request.id}/gate/decision`, { credentials: 'include' })
+      .then(r => r.json())
+      .then(data => { if (data.gate_decision) setGateDecision(data.gate_decision); })
+      .catch(() => {}); // silently fail — card shows with available data
+  }, [request?.id, request?.status]);
 
   if (loading) {
     return (
@@ -67,6 +96,13 @@ export function RequestDetailPage() {
   }
 
   const requestTypeLabel = request.request_type ? REQUEST_TYPE_LABELS[request.request_type] : null;
+
+  // Merge file attachment state from upload with request data
+  const currentFile = fileAttached ?? (
+    request.file_ref && request.filename
+      ? { file_ref: request.file_ref, filename: request.filename, size: request.file_size ?? 0 }
+      : null
+  );
 
   return (
     <div className="px-6 py-6 max-w-3xl mx-auto">
@@ -95,22 +131,34 @@ export function RequestDetailPage() {
 
       <Separator className="my-4" />
 
-      {/* Intake Document section */}
+      {/* Intake Document section — Fix A2: render IntakeFileUpload when canEdit */}
       <div className="mb-4">
         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Intake Document</p>
-        {request.file_ref && request.filename ? (
+        {canEdit ? (
+          <IntakeFileUpload
+            requestId={request.id}
+            existingFile={currentFile}
+            onUploadComplete={(fileData) => {
+              setFileAttached({
+                file_ref: fileData.file_ref,
+                filename: fileData.filename,
+                size: fileData.size,
+              });
+            }}
+          />
+        ) : currentFile ? (
           <div className="flex items-center gap-3 px-4 py-3 rounded-lg bg-secondary border border-border">
             <FileText size={20} className="text-muted-foreground shrink-0" aria-hidden="true" />
-            <span className="text-sm flex-1 truncate">{request.filename}</span>
+            <span className="text-sm flex-1 truncate">{currentFile.filename}</span>
             <Button
               variant="outline"
               size="sm"
               asChild
             >
               <a
-                href={`/uploads/${request.file_ref}`}
-                download={request.filename}
-                aria-label={`Download ${request.filename}`}
+                href={`/uploads/${currentFile.file_ref}`}
+                download={currentFile.filename}
+                aria-label={`Download ${currentFile.filename}`}
               >
                 Download ↓
               </a>
@@ -138,31 +186,49 @@ export function RequestDetailPage() {
 
       <Separator className="my-4" />
 
-      {/* Gate A1 Decision section */}
+      {/* Gate A1 Decision section — Fix B: replace reload with React state */}
       <div className="mb-4" data-section="gate-a1">
         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Gate A1 Decision</p>
-        {request.status === 'submitted' && isAL ? (
+        {approvalResult ? (
+          <div className="rounded-md bg-green-50 border border-green-200 p-4 flex items-center justify-between">
+            <span className="text-green-800 text-sm">
+              ✅ Engagement <span className="font-mono font-semibold">{approvalResult.jobCode}</span> created.
+            </span>
+            <a
+              href={`/engagements/${approvalResult.engagementId}`}
+              className="text-green-800 underline ml-4 text-sm"
+            >
+              View Engagement Shell →
+            </a>
+          </div>
+        ) : request.status === 'submitted' && isAL ? (
           <GateA1Panel
             requestId={request.id}
             topic={request.topic}
-            onDecisionRecorded={(_result) => {
-              // Trigger refetch of request to reflect status change
-              window.location.reload();
+            onDecisionRecorded={(result) => {
+              if (result.decision === 'approved' && result.engagement) {
+                setApprovalResult({
+                  jobCode: result.engagement.job_code,
+                  engagementId: result.engagement.id,
+                });
+              }
+              // For decline: GateA1Panel already navigates to /requests after 300ms
             }}
           />
         ) : request.status === 'submitted' && !isAL ? (
           <p className="text-sm text-muted-foreground">Awaiting Gate A1 decision.</p>
         ) : (request.status === 'accepted' || request.status === 'declined') ? (
-          // TODO: fetch gate_decision from API in Phase 4 enhancement
-          // For now show status-based placeholder that matches the decided card shape
+          // Fix C: use fetched gate decision data (real approver name, risk level, rationale)
           <GateA1DecidedCard
-            decision={{
-              id: 'placeholder',
-              decision: request.status as 'approved' | 'declined',
+            decision={gateDecision ?? {
+              id: 'loading',
+              decision: (request.status === 'accepted' ? 'approved' : 'declined') as 'approved' | 'declined',
               risk_level: null,
-              rationale: 'Decision recorded.',
+              rationale: '—',
               decided_at: request.updated_at,
+              decided_by_name: '',
             }}
+            engagementId={gateDecision?.engagement_id ?? undefined}
           />
         ) : (
           <p className="text-sm text-muted-foreground">Request is in Draft status — submit to trigger Gate A1 review.</p>
@@ -171,7 +237,7 @@ export function RequestDetailPage() {
 
       <Separator className="my-4" />
 
-      {/* Actions */}
+      {/* Actions — Fix E: audit trail link only for accepted requests with engagement */}
       <div className="flex items-center justify-between">
         {canEdit && (
           <Button
@@ -184,12 +250,14 @@ export function RequestDetailPage() {
             Edit Request
           </Button>
         )}
-        <a
-          href={`/requests/${request.id}/audit`}
-          className="text-sm text-blue-600 hover:underline ml-auto"
-        >
-          View Audit Trail →
-        </a>
+        {gateDecision?.engagement_id && (
+          <a
+            href={`/engagements/${gateDecision.engagement_id}/audit`}
+            className="text-sm text-blue-600 hover:underline ml-auto"
+          >
+            View Audit Trail →
+          </a>
+        )}
       </div>
     </div>
   );
