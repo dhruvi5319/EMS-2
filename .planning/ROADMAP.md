@@ -102,6 +102,9 @@ Plans:
 - [x] 04-05-PLAN.md — Team + Milestones UI (F5): TeamPanel, TeamMemberTable, AddMemberForm, MilestoneTable, MilestoneStatusChip, Playwright E2E
 - [x] 04-06-PLAN.md — Planning Record form UI (F6): ObjectiveList (Accordion), P2ReadinessChecklist, PlanningLockedBanner, PlanningRecordPanel (all 4 states), RadioGroup independence affirmation, Playwright E2E
 - [x] 04-07-PLAN.md — Gate P2 Review UI (F7): GateP2ReviewPanel, ApproveP2ConfirmDialog, ReturnP2ConfirmDialog, post-decision redirects, Playwright E2E
+- [ ] 04-GAP-01-PLAN.md — Gap closure: fix gate card color borders (passed→approved translation in toGateDecisionRecord; GateStatusCard + GateStatusCardRow belt-and-suspenders guards)
+- [ ] 04-GAP-02-PLAN.md — Gap closure: fix AddMemberForm cmdk v1 selection bug (remove controlled value prop, fix CommandEmpty, fix PopoverContent width)
+- [ ] 04-GAP-03-PLAN.md — Gap closure: fix milestone save blank screen (try/catch in TeamPanel + MilestoneTable, ErrorBoundary in App, Fragment key fix, overdue in DB CHECK constraint)
 
 ### Phase 5: Evidence, Findings, and Gate P3
 **Status**: passed
