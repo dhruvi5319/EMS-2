@@ -116,20 +116,16 @@ export function AddMemberForm({ onAdded, onAddMember }: AddMemberFormProps) {
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-[300px] p-0">
+          <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
             <Command shouldFilter={false}>
               <CommandInput
                 placeholder="Search by name or email..."
-                value={query}
                 onValueChange={handleSearch}
               />
               <CommandList>
-                {users.length === 0 && query.length >= 2 && (
-                  <CommandEmpty>No users found.</CommandEmpty>
-                )}
-                {query.length < 2 && (
-                  <CommandEmpty>Type at least 2 characters to search.</CommandEmpty>
-                )}
+                <CommandEmpty>
+                  {query.length < 2 ? 'Type at least 2 characters to search.' : 'No users found.'}
+                </CommandEmpty>
                 <CommandGroup>
                   {users.map((user) => (
                     <CommandItem
