@@ -18,9 +18,6 @@
 #     fresh tmpfs; never skip on a clean directory).
 #   - Retry exits with INNER command's last exit code (not a fixed 1) so callers
 #     can disambiguate failures from the wrapper.
-#   - compose entry: docker compose up is the single foreground process; compose
-#     owns multi-service orchestration, signal propagation, and per-service log
-#     prefixing. No multi-process-template needed (multi-process-template.md §6).
 
 set -euo pipefail
 
@@ -41,15 +38,20 @@ exec > >(tee -a /tmp/pivota-dev.log) 2>&1
 echo "[pivota] $(date -Iseconds) start-dev.sh begin (catalog: compose)"
 
 # === D-11.1 + D-11.2: per-stack 0.0.0.0 binding + host allowlist relaxation ===
+# NOTE: env vars do NOT cover every stack. Vite / webpack-dev-server / Next.js
+# allowedHosts require CLI flags or config-file overlays — those live in
+# EXEC_CMD or PRE_EXEC_SNIPPET below, not here.
 # Compose services control their own bind addresses via the `ports:` block in
 # the compose file — there is no env-var lever the wrapper can pull to force
-# 0.0.0.0 binding for child containers. Env preamble is intentionally empty
-# for the compose catalog entry. (compose.md)
+# 0.0.0.0 binding for child containers. The wrapper preamble's per-stack env
+# block is intentionally EMPTY for this entry.
 #
 # WARNING — sandbox preview reachability:
 # If a compose service declares `ports: ["127.0.0.1:8080:8080"]`, the service is
-# bound to the sandbox's loopback only and the preview iframe will NOT see it.
-# This is a project-side fix in docker-compose.yml, not a wrapper fix.
+# bound to the sandbox's loopback only and the preview iframe (which reaches the
+# sandbox via its external Daytona hostname) will NOT see it. This is a
+# project-side fix (rewrite to "8080:8080" or "0.0.0.0:8080:8080"), not a
+# wrapper fix (RESEARCH.md per-stack table — compose row).
 
 # === D-11.3: .env.example -> .env transitional copy (until Phase 38) ===
 if [[ ! -f .env && -f .env.example ]]; then
@@ -57,12 +59,12 @@ if [[ ! -f .env && -f .env.example ]]; then
   cp .env.example .env
 fi
 
-# === Optional pre-exec snippet ===
-# (none for compose entry — docker compose up handles image pulls/builds internally)
+# === Optional pre-exec snippet (JDK install, rustup, golang one-shot setup) ===
+# Catalog entries with PRE_EXEC_SNIPPET inject heavyweight one-time installs
+# here. Empty string when not needed.
+
 
 # === D-12: idempotent install via lockfile hash + presence check ===
-# Compose has no lock file — docker handles image caching internally.
-# LOCK_FILE_PATH and INSTALL_CMD are empty; install step is a no-op.
 SENTINEL="/tmp/pivota-setup-sentinel"
 LOCK_FILE_PATH=""
 INSTALL_PRESENCE_CHECK=""
@@ -105,11 +107,11 @@ elif [[ -n "$INSTALL_CMD" ]]; then
 fi
 
 # === D-14: retry loop (3 attempts, exponential backoff 1s / 2s / 4s) ===
-# docker compose up is the single foreground command for this stack.
-# Per compose.md: do NOT use multi-process-template; docker compose up IS
-# the single foreground process from the wrapper's perspective.
-# compose itself owns multi-service orchestration, signal propagation, and
-# per-service log prefixing (multi-process-template.md §6 compose fast path).
+# Final-attempt exit code propagates the INNER command's exit code, not a
+# fixed 1, so the caller (platform / Daytona) can distinguish "wrapper bug"
+# from "user command failed with N".
+# Note: compose is treated as a single foreground process per multi-process-template.md §6.
+# docker compose up owns its own multi-service orchestration and signal handling.
 EXEC_CMD='docker compose up'
 ATTEMPT=1
 DELAY=1
