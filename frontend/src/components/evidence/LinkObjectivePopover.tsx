@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Check, ChevronsUpDown, Loader2 } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandList } from '@/components/ui/command';
 import { api } from '@/lib/api';
 import { useToast } from '@/components/ui/use-toast';
 import type { CoverageObjective } from '@/hooks/useEvidence';
@@ -126,24 +126,28 @@ export const LinkObjectivePopover: React.FC<LinkObjectivePopoverProps> = ({
                         ? obj.objective_text.slice(0, 60) + '…'
                         : obj.objective_text;
                     return (
-                      <CommandItem
+                      <button
                         key={obj.id}
-                        value={obj.id + ' ' + obj.objective_text}
+                        type="button"
+                        className={[
+                          'flex w-full items-center gap-2 px-2 py-1.5 text-left text-sm',
+                          'hover:bg-accent hover:text-accent-foreground',
+                          'focus:bg-accent focus:text-accent-foreground focus:outline-none',
+                          isLinked ? 'opacity-50 cursor-not-allowed' : 'cursor-default',
+                        ].join(' ')}
                         onMouseDown={(e) => e.preventDefault()}
                         onClick={() => handleSelect(obj.id)}
-                        aria-disabled={isLinked}
-                        className={isLinked ? 'opacity-50 cursor-not-allowed' : ''}
-                        disabled={isLinking}
+                        disabled={isLinking || isLinked}
                       >
                         <Check
                           size={14}
-                          className={isLinked ? 'opacity-100 text-green-600 mr-2' : 'opacity-0 mr-2'}
+                          className={isLinked ? 'opacity-100 text-green-600' : 'opacity-0'}
                         />
                         <span className="flex-1 truncate">{label}</span>
                         <span className="text-[11px] text-muted-foreground ml-2 shrink-0">
                           {obj.evidence_count} linked
                         </span>
-                      </CommandItem>
+                      </button>
                     );
                   })}
                 </CommandGroup>
