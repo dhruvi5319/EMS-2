@@ -1,12 +1,10 @@
 ---
-status: complete
+status: diagnosed
 phase: 06-draft-reference-check-gate-p4-and-dashboard
 source: [06-01-SUMMARY.md, 06-02-SUMMARY.md, 06-03-SUMMARY.md, 06-04-SUMMARY.md, 06-05-SUMMARY.md, 06-06-SUMMARY.md, 06-07-SUMMARY.md]
 started: 2026-06-07T00:40:00Z
-updated: 2026-06-19T01:30:00Z
+updated: 2026-06-19T01:45:00Z
 ---
-
-## Current Test
 
 ## Current Test
 
@@ -94,37 +92,57 @@ skipped: 5
   reason: "User reported: File got uploaded, but as soon as I uploaded the file the Draft Product tab got back to its initial state where there were no drafts, but then I refreshed the page and it restored the created draft and also the uploaded doc."
   severity: major
   test: 3
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "API response shape mismatch: backend POST /draft/file returns { file_ref, filename, size } but frontend uploadFile reads data.draft (undefined), calling setDraft(undefined), which causes the empty state guard to trigger"
+  artifacts:
+    - path: "frontend/src/hooks/useDraftProduct.ts"
+      issue: "uploadFile reads response as { draft: DraftProduct } but backend returns { file_ref, filename, size } — data.draft is undefined, setDraft(undefined) wipes the draft state"
+    - path: "backend/src/services/draft.service.ts"
+      issue: "uploadDraftFile returns { file_ref, filename, size } with no DraftProduct object"
+    - path: "backend/src/routes/draft.ts"
+      issue: "Route passes raw uploadDraftFile result directly to res.json() without wrapping as { draft: ... }"
+  missing:
+    - "Fix frontend uploadFile to call fetchDraft() after successful upload (rather than reading draft from upload response)"
+  debug_session: ".planning/debug/draft-upload-state-reset.md"
 
 - truth: "Add Statement dialog has a working evidence multi-select (Command+Popover) that allows selecting one or more evidence items before submitting"
   status: failed
   reason: "User reported: Evidence multi-select broken"
   severity: major
   test: 5
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "cmdk v1 focus-loss race condition in AddStatementForm.tsx — CommandItem missing onMouseDown={(e) => e.preventDefault()} causes Popover to dismiss before onSelect fires"
+  artifacts:
+    - path: "frontend/src/components/statements/AddStatementForm.tsx"
+      issue: "CommandItem at ~line 172 missing onMouseDown={(e) => e.preventDefault()} — mousedown fires first, popover loses focus and unmounts before click/onSelect registers"
+  missing:
+    - "Add onMouseDown={(e) => e.preventDefault()} to CommandItem in AddStatementForm.tsx (same fix as AddMemberForm.tsx and LinkObjectivePopover.tsx)"
+  debug_session: ".planning/debug/add-statement-evidence-multiselect.md"
 
 - truth: "Gate P4 review page is accessible from the Engagement Shell (via a tab or link navigating to /engagements/:id/gates/p4)"
   status: failed
   reason: "User reported: Can't navigate to page — no link or tab found to reach the Gate P4 page"
   severity: major
   test: 10
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "EngagementShellPage.tsx tab array (lines 274-291) omits a 'Gate P4' tab; no Link to /gates/p4 exists anywhere in the Shell — route is registered in App.tsx but has no UI entry point"
+  artifacts:
+    - path: "frontend/src/pages/EngagementShellPage.tsx"
+      issue: "Tab array defines 8 tabs (overview, team, planning, evidence, findings, draft, gate-history, audit) — no Gate P4 tab or link to /engagements/:id/gates/p4"
+    - path: "frontend/src/components/engagements/GateStatusCard.tsx"
+      issue: "P4 gate status card is display-only — no navigation link to the P4 review page"
+  missing:
+    - "Add a Gate P4 navigation entry in EngagementShellPage.tsx — either a new tab, a link from the P4 GateStatusCard, or a button in the Draft Product page's 'Proceed to Gate P4' advance action"
+  debug_session: ".planning/debug/gate-p4-navigation-missing.md"
 
 - truth: "Portfolio Dashboard has an 'Export CSV' button that downloads a CSV file of all visible engagements"
   status: failed
   reason: "User reported: Do not see export to csv button on dashboard"
   severity: major
   test: 13
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "canExport guard in PortfolioDashboardPage.tsx:34 uses !roles.includes('IR') — admin user is seeded with all roles including IR, so canExport is false and the button is never rendered"
+  artifacts:
+    - path: "frontend/src/pages/PortfolioDashboardPage.tsx"
+      issue: "canExport = !user?.roles?.includes('IR') — too broad; admin user has IR in their roles so button is hidden even though admin should have export access"
+    - path: "backend/seeds/001_admin_user.ts"
+      issue: "Admin seeded with ALL_ROLES including IR — triggers the overly broad canExport exclusion"
+  missing:
+    - "Fix canExport to use an allowlist: const canExport = user?.roles?.some(r => ['AD','EM','AN','QA','AL','PC','RO'].includes(r)) ?? false"
+  debug_session: ".planning/debug/dashboard-csv-export-missing.md"
