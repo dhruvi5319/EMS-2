@@ -96,7 +96,9 @@ export function StatementDetailPage() {
   // Role-gated views
   // IR panel: show for any IR user (assigned_to check was too strict — prevents unassigned IR from reviewing)
   const isIRView = isIR;
-  const isANView = isAN && statement?.assigned_back_to === user?.id;
+  // AN correction view: show when the user is an Analyst AND the statement is failed
+  // (either assigned back to them specifically, or unassigned/null — AN should always see failed statements)
+  const isANView = isAN && statement?.ref_status === 'failed';
 
   // Load statement, team members, evidence
   const loadData = useCallback(async () => {
