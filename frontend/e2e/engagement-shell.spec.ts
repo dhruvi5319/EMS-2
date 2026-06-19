@@ -173,4 +173,17 @@ test.describe('Engagement Shell Page', () => {
       await expect(page.getByRole('button', { name: 'Edit Metadata' })).toBeVisible();
     }
   });
+
+  test('Engagement shell shows Gate P4 tab', async ({ page }) => {
+    await page.goto('/engagements');
+    await page.waitForTimeout(500);
+
+    const rowCount = await page.getByRole('table', { name: 'Engagements table' }).getByRole('row').count().catch(() => 0);
+
+    if (rowCount > 1) {
+      await page.getByRole('table', { name: 'Engagements table' }).getByRole('row').nth(1).click();
+      await page.waitForTimeout(300);
+      await expect(page.getByRole('tab', { name: 'Gate P4' })).toBeVisible();
+    }
+  });
 });
