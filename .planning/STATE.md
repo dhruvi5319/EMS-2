@@ -3,8 +3,8 @@ pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: "Completed 06-GAP-03-PLAN.md (Phase 6 GAP-03: waiver EM/AD role guard + mandatory notes in statements.service.ts)"
-last_updated: "2026-06-19T03:30:06.877Z"
+stopped_at: "Completed 06-GAP-01-PLAN.md (Phase 6 GAP-01: Draft file upload state reset + AddStatementForm cmdk race fix)"
+last_updated: "2026-06-19T03:30:28.873Z"
 last_activity: "2026-06-18 — Phase 4 complete: F4 engagement backend+shell UI, F5 team+milestones, F6 planning record form, F7 Gate P2 review panel — all self-checks passed"
 progress:
   total_phases: 6
@@ -105,6 +105,8 @@ Progress: [████████░░] 81%
 | Phase 05-evidence-findings-and-gate-p3 PGAP-02 | 1min | 3 tasks | 3 files |
 | Phase 05-evidence-findings-and-gate-p3 PGAP-03 | 2min | 2 tasks | 3 files |
 | Phase 06-draft-reference-check-gate-p4-and-dashboard PGAP-03 | 1min | 1 tasks | 1 files |
+| Phase 06-draft-reference-check-gate-p4-and-dashboard PGAP-01 | 2min | 2 tasks | 3 files |
+| Phase 06-draft-reference-check-gate-p4-and-dashboard PGAP-02 | 2min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -213,6 +215,10 @@ Recent decisions affecting current work:
 - [Phase 05-evidence-findings-and-gate-p3]: allPass logic aligned with backend gate check: evidence_count > 0 AND sufficiency_status !== 'evidence_needed' (not the stricter 'sufficient' check)
 - [Phase 05-evidence-findings-and-gate-p3]: Move GET/POST/DELETE /:evidence_id/objectives into evidenceRouter — evidenceRouter is mounted at /:id/evidence and intercepts all /evidence/:evidence_id/* paths; moving handlers there fixes the 404 routing conflict
 - [Phase 06-draft-reference-check-gate-p4-and-dashboard]: EM/AD-only waiver restriction in updateStatement: userRoles.includes check throws 403 for AN/IR; discrepancy_notes required as justification (throws 422 if empty)
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: POST /draft/file now calls getDraft() after upload to return { draft: DraftProduct } consistent with all other draft endpoints
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: Embed GateP4ReviewPage in TabsContent (not navigate-away) — useParams() works at /engagements/:id route context
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: Allowlist [AD,EM,AN,QA,AL,PC,RO] over blocklist !includes('IR') for canExport — robust to admin holding all roles including IR
+- [Phase 06-draft-reference-check-gate-p4-and-dashboard]: onMouseDown preventDefault on CommandItem: canonical cmdk v1 + Radix Popover focus-loss fix applied to AddStatementForm (same as AddMemberForm Phase 4 GAP-04 and LinkObjectivePopover Phase 5)
 
 ### Pending Todos
 
@@ -224,6 +230,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-19T03:30:06.874Z
-Stopped at: Completed 06-GAP-03-PLAN.md (Phase 6 GAP-03: waiver EM/AD role guard + mandatory notes in statements.service.ts)
+Last session: 2026-06-19T03:30:28.871Z
+Stopped at: Completed 06-GAP-01-PLAN.md (Phase 6 GAP-01: Draft file upload state reset + AddStatementForm cmdk race fix)
 Resume file: None
