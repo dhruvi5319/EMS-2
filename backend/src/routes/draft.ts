@@ -115,7 +115,7 @@ draftRouter.post(
         res.status(400).json({ error: 'No file provided.' });
         return;
       }
-      const result = await uploadDraftFile(
+      await uploadDraftFile(
         req.params.id,
         {
           originalname: req.file.originalname,
@@ -125,7 +125,8 @@ draftRouter.post(
         },
         req.user!.id
       );
-      res.json(result);
+      const draft = await getDraft(req.params.id);
+      res.json({ draft });
     } catch (err) {
       handleError(err, res, 'POST /draft/file');
     }
