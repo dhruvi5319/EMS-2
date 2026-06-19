@@ -129,8 +129,8 @@ export const LinkObjectivePopover: React.FC<LinkObjectivePopoverProps> = ({
                       <CommandItem
                         key={obj.id}
                         value={obj.id + ' ' + obj.objective_text}
-                        onSelect={() => handleSelect(obj.id)}
                         onMouseDown={(e) => e.preventDefault()}
+                        onClick={() => handleSelect(obj.id)}
                         aria-disabled={isLinked}
                         className={isLinked ? 'opacity-50 cursor-not-allowed' : ''}
                         disabled={isLinking}
