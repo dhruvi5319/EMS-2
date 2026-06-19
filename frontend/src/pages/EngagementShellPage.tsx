@@ -11,6 +11,7 @@ import { PlanningRecordPanel } from '@/components/engagements/PlanningRecordPane
 import { EvidenceListPage } from '@/pages/engagements/EvidenceListPage';
 import { FindingsListPage } from '@/pages/engagements/FindingsListPage';
 import DraftProductPage from '@/pages/DraftProductPage';
+import GateP4ReviewPage from '@/pages/engagements/GateP4ReviewPage';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAuthContext } from '@/context/AuthContext';
@@ -278,6 +279,7 @@ export function EngagementShellPage() {
             { value: 'evidence', label: 'Evidence' },
             { value: 'findings', label: 'Findings' },
             { value: 'draft', label: 'Draft Product' },
+            { value: 'gate-p4', label: 'Gate P4' },
             { value: 'gate-history', label: 'Gate History' },
             { value: 'audit', label: 'Audit Trail' },
           ].map(tab => (
@@ -334,6 +336,10 @@ export function EngagementShellPage() {
             engagementId={engagement.id}
             gateDecisions={gateDecisions}
           />
+        </TabsContent>
+
+        <TabsContent value="gate-p4">
+          <GateP4ReviewPage onDecisionMade={refreshEngagement} />
         </TabsContent>
 
         <TabsContent value="gate-history">

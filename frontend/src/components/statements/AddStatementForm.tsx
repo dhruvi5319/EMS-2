@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Check, ChevronsUpDown, Loader2, X } from 'lucide-react';
+import { Check, ChevronDown, ChevronUp, Loader2, X } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -8,19 +8,7 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { api } from '@/lib/api';
 
@@ -50,6 +38,7 @@ export function AddStatementForm({
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState<{ text?: string; evidence?: string }>({});
   const [evidencePickerOpen, setEvidencePickerOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Fetch evidence list when dialog opens
   useEffect(() => {
@@ -94,6 +83,8 @@ export function AddStatementForm({
       setStatementText('');
       setSelectedEvidenceIds([]);
       setErrors({});
+      setEvidencePickerOpen(false);
+      setSearchQuery('');
     } catch (e: unknown) {
       setErrors({ text: e instanceof Error ? e.message : 'Failed to save statement.' });
     } finally {
@@ -105,13 +96,23 @@ export function AddStatementForm({
     setStatementText('');
     setSelectedEvidenceIds([]);
     setErrors({});
+    setEvidencePickerOpen(false);
+    setSearchQuery('');
     onCancel();
   }
 
   const selectedEvidence = evidenceOptions.filter((e) => selectedEvidenceIds.includes(e.id));
+  const filteredEvidence = evidenceOptions.filter((item) => {
+    if (!searchQuery) return true;
+    const q = searchQuery.toLowerCase();
+    return (
+      item.source.toLowerCase().includes(q) ||
+      item.evidence_type.toLowerCase().includes(q)
+    );
+  });
 
   return (
-    <Dialog open={open} onOpenChange={(open) => { if (!open) handleCancel(); }}>
+    <Dialog open={open} onOpenChange={(isOpen) => { if (!isOpen) handleCancel(); }}>
       <DialogContent className="max-w-[520px]">
         <DialogHeader>
           <DialogTitle>Add Statement</DialogTitle>
@@ -136,66 +137,84 @@ export function AddStatementForm({
             )}
           </div>
 
-          {/* Evidence Multi-Select */}
+          {/* Evidence Multi-Select — inline collapsible list, no Popover portal */}
           <div>
             <label className="text-sm font-medium block mb-1.5">
               Evidence Items <span className="text-destructive">*</span>
             </label>
 
-            <Popover open={evidencePickerOpen} onOpenChange={setEvidencePickerOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  role="combobox"
-                  aria-expanded={evidencePickerOpen}
-                  className={cn(
-                    'w-full justify-between',
-                    errors.evidence ? 'border-destructive' : ''
-                  )}
-                  disabled={saving || loadingEvidence}
-                >
-                  {loadingEvidence
-                    ? 'Loading evidence...'
-                    : selectedEvidenceIds.length === 0
-                    ? 'Select evidence items...'
-                    : `${selectedEvidenceIds.length} selected`}
-                  <ChevronsUpDown size={14} className="ml-2 shrink-0 opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-[460px] p-0">
-                <Command>
-                  <CommandInput placeholder="Search evidence..." />
-                  <CommandList>
-                    <CommandEmpty>No evidence found.</CommandEmpty>
-                    <CommandGroup>
-                      {evidenceOptions.map((item) => (
-                        <CommandItem
+            {/* Toggle button */}
+            <button
+              type="button"
+              onClick={() => setEvidencePickerOpen((prev) => !prev)}
+              disabled={saving || loadingEvidence}
+              className={cn(
+                'w-full flex items-center justify-between px-3 py-2 text-sm rounded-md border bg-background hover:bg-accent/50 transition-colors',
+                errors.evidence ? 'border-destructive' : 'border-input'
+              )}
+            >
+              <span className={selectedEvidenceIds.length === 0 ? 'text-muted-foreground' : ''}>
+                {loadingEvidence
+                  ? 'Loading evidence...'
+                  : selectedEvidenceIds.length === 0
+                  ? 'Select evidence items...'
+                  : `${selectedEvidenceIds.length} item${selectedEvidenceIds.length !== 1 ? 's' : ''} selected`}
+              </span>
+              {evidencePickerOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+            </button>
+
+            {/* Inline dropdown list */}
+            {evidencePickerOpen && !loadingEvidence && (
+              <div className="mt-1 border rounded-md bg-background shadow-sm">
+                {/* Search input */}
+                <div className="p-2 border-b">
+                  <Input
+                    placeholder="Search evidence..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="h-8 text-sm"
+                    autoFocus={false}
+                  />
+                </div>
+                {/* Evidence list */}
+                <div className="max-h-[200px] overflow-y-auto">
+                  {filteredEvidence.length === 0 ? (
+                    <p className="px-3 py-4 text-sm text-muted-foreground text-center">
+                      No evidence found.
+                    </p>
+                  ) : (
+                    filteredEvidence.map((item) => {
+                      const isSelected = selectedEvidenceIds.includes(item.id);
+                      return (
+                        <label
                           key={item.id}
-                          value={item.id}
-                          onSelect={() => handleToggleEvidence(item.id)}
+                          className={cn(
+                            'flex items-start gap-3 px-3 py-2 cursor-pointer hover:bg-accent/50 select-none',
+                            isSelected && 'bg-blue-50'
+                          )}
                         >
-                          <Check
-                            size={14}
-                            className={cn(
-                              'mr-2',
-                              selectedEvidenceIds.includes(item.id)
-                                ? 'opacity-100'
-                                : 'opacity-0'
-                            )}
+                          <input
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={() => handleToggleEvidence(item.id)}
+                            className="mt-0.5 h-4 w-4 rounded border-gray-300 text-primary"
                           />
-                          <div className="flex flex-col">
-                            <span className="text-sm">{item.source}</span>
+                          <div className="flex flex-col min-w-0">
+                            <span className="text-sm truncate">{item.source}</span>
                             <span className="text-xs text-muted-foreground capitalize">
-                              {item.evidence_type.replace('_', ' ')}
+                              {item.evidence_type.replace(/_/g, ' ')}
                             </span>
                           </div>
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </CommandList>
-                </Command>
-              </PopoverContent>
-            </Popover>
+                          {isSelected && (
+                            <Check size={14} className="ml-auto shrink-0 text-blue-600 mt-0.5" />
+                          )}
+                        </label>
+                      );
+                    })
+                  )}
+                </div>
+              </div>
+            )}
 
             {errors.evidence && (
               <p className="text-xs text-destructive mt-1">{errors.evidence}</p>

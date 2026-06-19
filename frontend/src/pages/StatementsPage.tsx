@@ -163,6 +163,7 @@ export default function StatementsPage() {
           loading={true}
           canWaive={canWaive}
           canDelete={canDelete}
+          engagementId={engagementId ?? ''}
           onWaive={handleWaive}
           onDelete={handleDelete}
         />
@@ -203,6 +204,7 @@ export default function StatementsPage() {
           loading={false}
           canWaive={canWaive}
           canDelete={canDelete}
+          engagementId={engagementId ?? ''}
           onWaive={handleWaive}
           onDelete={handleDelete}
         />

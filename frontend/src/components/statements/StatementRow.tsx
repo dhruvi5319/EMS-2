@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Trash2, Loader2 } from 'lucide-react';
+import { Trash2, Loader2, ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import {
   AlertDialog,
@@ -19,6 +20,7 @@ interface StatementRowProps {
   sequenceNumber: number;
   canWaive: boolean;
   canDelete: boolean;
+  engagementId: string;
   onWaive: (statementId: string, justification: string) => Promise<void>;
   onDelete: (statementId: string) => Promise<void>;
 }
@@ -28,6 +30,7 @@ export function StatementRow({
   sequenceNumber,
   canWaive,
   canDelete,
+  engagementId,
   onWaive,
   onDelete,
 }: StatementRowProps) {
@@ -118,6 +121,13 @@ export function StatementRow({
         {/* Actions */}
         <TableCell>
           <div className="flex items-center gap-1">
+            <Link
+              to={`/engagements/${engagementId}/draft/statements/${statement.id}`}
+              className="inline-flex items-center gap-1 px-2 h-7 rounded-md text-xs border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors"
+            >
+              Review
+              <ExternalLink size={10} />
+            </Link>
             {canWaive && statement.ref_status !== 'waived' && (
               <Button
                 variant="outline"

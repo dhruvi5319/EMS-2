@@ -30,8 +30,9 @@ export function PortfolioDashboardPage() {
     exportCSV,
   } = usePortfolio();
 
-  // IR role cannot see Export button
-  const canExport = !user?.roles?.includes('IR');
+  // Export button visible for all roles except pure IR-only users
+  // Use allowlist so admin (who holds all roles including IR) still gets access
+  const canExport = user?.roles?.some(r => ['AD', 'EM', 'AN', 'QA', 'AL', 'PC', 'RO'].includes(r)) ?? false;
 
   // Derive active phases from filter state (for stat card active state)
   const activePhases = filters.phase ?? [];
@@ -148,7 +149,7 @@ export function PortfolioDashboardPage() {
       >
         <h1 style={{ fontSize: 20, fontWeight: 600, margin: 0 }}>Portfolio Dashboard</h1>
 
-        {/* Export CSV button — hidden for IR role */}
+        {/* Export CSV button — visible for AD/EM/AN/QA/AL/PC/RO; hidden if user only has IR role */}
         {canExport && (
           <Button
             variant="outline"

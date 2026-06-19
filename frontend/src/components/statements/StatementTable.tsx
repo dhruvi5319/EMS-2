@@ -14,6 +14,7 @@ interface StatementTableProps {
   loading: boolean;
   canWaive: boolean;
   canDelete: boolean;
+  engagementId: string;
   onWaive: (statementId: string, justification: string) => Promise<void>;
   onDelete: (statementId: string) => Promise<void>;
 }
@@ -23,6 +24,7 @@ export function StatementTable({
   loading,
   canWaive,
   canDelete,
+  engagementId,
   onWaive,
   onDelete,
 }: StatementTableProps) {
@@ -57,6 +59,7 @@ export function StatementTable({
               sequenceNumber={statement.display_order || index + 1}
               canWaive={canWaive}
               canDelete={canDelete}
+              engagementId={engagementId}
               onWaive={onWaive}
               onDelete={onDelete}
             />

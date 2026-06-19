@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { XOctagon } from 'lucide-react';
+import { XOctagon, CheckCircle2 } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAuthContext } from '@/context/AuthContext';
 import { api } from '@/lib/api';
@@ -14,7 +14,11 @@ interface P4Prerequisites {
   blockers: PrerequisiteItem[];
 }
 
-export default function GateP4ReviewPage() {
+interface GateP4ReviewPageProps {
+  onDecisionMade?: () => void;
+}
+
+export default function GateP4ReviewPage({ onDecisionMade: onParentDecisionMade }: GateP4ReviewPageProps = {}) {
   const { id: engagementId } = useParams<{ id: string }>();
   const { user } = useAuthContext();
 
@@ -71,11 +75,16 @@ export default function GateP4ReviewPage() {
   const a1Decision = gateDecisions.find((d) => d.gate_name === 'A1');
   const p2Decision = gateDecisions.find((d) => d.gate_name === 'P2');
   const p3Decision = gateDecisions.find((d) => d.gate_name === 'P3');
+  const p4Decision = gateDecisions.find(
+    (d) => d.gate_name === 'P4' && (d.decision === 'approved' || d.decision === 'passed')
+  );
+  const p4Approved = Boolean(p4Decision);
 
   const handleDecisionMade = useCallback(() => {
     fetchPrerequisites();
     fetchEngagement();
-  }, [fetchPrerequisites, fetchEngagement]);
+    onParentDecisionMade?.();
+  }, [fetchPrerequisites, fetchEngagement, onParentDecisionMade]);
 
   return (
     <div style={{ maxWidth: 800 }}>
@@ -263,8 +272,35 @@ export default function GateP4ReviewPage() {
         </Link>
       </section>
 
-      {/* Section 5 — P4 Decision Panel (PC/EM/AD only) */}
-      {canDecide && (
+      {/* Section 5 — P4 Decision Panel (PC/EM/AD only) or Approved Banner */}
+      {p4Approved ? (
+        <div
+          role="status"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+            padding: '16px 20px',
+            borderRadius: 8,
+            background: 'hsl(142 71% 88%)',
+            color: 'hsl(142 70% 28%)',
+            fontSize: 14,
+            fontWeight: 500,
+            border: '1px solid hsl(142 71% 70%)',
+            marginTop: 16,
+          }}
+        >
+          <CheckCircle2 size={20} style={{ flexShrink: 0 }} />
+          <div>
+            <div>Gate P4 Approved</div>
+            {p4Decision && (
+              <div style={{ fontSize: 12, fontWeight: 400, marginTop: 2 }}>
+                {new Date(p4Decision.decided_at).toLocaleDateString()} · {p4Decision.rationale}
+              </div>
+            )}
+          </div>
+        </div>
+      ) : canDecide ? (
         <section>
           <P4DecisionPanel
             engagementId={engagementId ?? ''}
@@ -274,7 +310,7 @@ export default function GateP4ReviewPage() {
             onDecisionMade={handleDecisionMade}
           />
         </section>
-      )}
+      ) : null}
     </div>
   );
 }
