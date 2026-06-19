@@ -120,7 +120,7 @@ Plans:
   3. An Analyst can create a finding record and link it to one or more evidence items
   4. A QA Reviewer can mark each objective as Evidence Needed, In Review, or Sufficient; Gate P3 is blocked if any objective has no linked evidence or is marked Evidence Needed
   5. When the QA Reviewer records P3 approval, an immutable Gate Decision record and audit event are written and the engagement advances to the draft phase
-**Plans**: 8 plans
+**Plans**: 10 plans (includes 2 gap closure plans)
 
 Plans:
 - [ ] 05-01-PLAN.md — Evidence API backend (F8): evidence CRUD, multer file upload, StorageProvider, sensitivity access control (AL/RO excluded from restricted)
@@ -131,6 +131,8 @@ Plans:
 - [ ] 05-06-PLAN.md — Findings List UI (F10): FindingsListPage, FindingCard, AddFindingDialog, ObjectiveSufficiencySummary, P3PrerequisitesChecklist
 - [ ] 05-07-PLAN.md — Gate P3 Review UI (F10): GateP3ReviewPage, ObjectiveSufficiencyTable, SufficiencyStatusSelect, P3DecisionPanel, ApproveP3ConfirmDialog, ReturnP3ConfirmDialog
 - [ ] 05-08-PLAN.md — Human verify: complete F8/F9/F10 workflow (evidence, linking, findings, Gate P3 approval)
+- [x] 05-GAP-01-PLAN.md — Gap closure: add GET evidence files endpoint (UAT Test 2 — filenames missing after upload); add P3 409 idempotency guard (UAT Test 13 — re-approval not blocked)
+- [x] 05-GAP-02-PLAN.md — Gap closure: fix EvidenceDetailPage objective link re-fetch (UAT Test 6); add GateP3ReviewPage already-approved banner (UAT Test 13); FindingsListPage p3Approved state + Gate P3 Review link + allPass fix (UAT Tests 12, 15)
 
 ### Phase 6: Draft Product, Reference Check, Gate P4, and Dashboard
 **Status**: passed
