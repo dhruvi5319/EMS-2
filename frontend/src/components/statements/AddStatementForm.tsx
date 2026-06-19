@@ -171,9 +171,10 @@ export function AddStatementForm({
                       {evidenceOptions.map((item) => (
                         <CommandItem
                           key={item.id}
-                          value={item.id}
+                          value={`${item.source} ${item.evidence_type}`}
                           onSelect={() => handleToggleEvidence(item.id)}
                           onMouseDown={(e) => e.preventDefault()}
+                          onClick={() => handleToggleEvidence(item.id)}
                         >
                           <Check
                             size={14}
