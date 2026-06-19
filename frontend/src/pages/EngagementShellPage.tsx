@@ -339,7 +339,7 @@ export function EngagementShellPage() {
         </TabsContent>
 
         <TabsContent value="gate-p4">
-          <GateP4ReviewPage />
+          <GateP4ReviewPage onDecisionMade={refreshEngagement} />
         </TabsContent>
 
         <TabsContent value="gate-history">

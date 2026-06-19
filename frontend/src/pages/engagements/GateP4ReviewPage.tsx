@@ -14,7 +14,11 @@ interface P4Prerequisites {
   blockers: PrerequisiteItem[];
 }
 
-export default function GateP4ReviewPage() {
+interface GateP4ReviewPageProps {
+  onDecisionMade?: () => void;
+}
+
+export default function GateP4ReviewPage({ onDecisionMade: onParentDecisionMade }: GateP4ReviewPageProps = {}) {
   const { id: engagementId } = useParams<{ id: string }>();
   const { user } = useAuthContext();
 
@@ -79,7 +83,8 @@ export default function GateP4ReviewPage() {
   const handleDecisionMade = useCallback(() => {
     fetchPrerequisites();
     fetchEngagement();
-  }, [fetchPrerequisites, fetchEngagement]);
+    onParentDecisionMade?.();
+  }, [fetchPrerequisites, fetchEngagement, onParentDecisionMade]);
 
   return (
     <div style={{ maxWidth: 800 }}>
