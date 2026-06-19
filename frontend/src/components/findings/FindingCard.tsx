@@ -73,7 +73,7 @@ export const FindingCard: React.FC<FindingCardProps> = ({
   const handleDelete = async () => {
     setDeleting(true);
     try {
-      const result = await api.delete(`/engagements/${engagementId}/findings/${finding.id}`);
+      const result = await api.delete(`/api/engagements/${engagementId}/findings/${finding.id}`);
       if (result.ok) {
         toast({ title: 'Finding deleted.' });
         setDeleteOpen(false);

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAuthContext } from '@/context/AuthContext';
@@ -10,6 +10,7 @@ import type { ObjectiveRow } from '@/components/findings/ObjectiveSufficiencyTab
 import { P3PrerequisitesChecklist } from '@/components/findings/P3PrerequisitesChecklist';
 import { P3DecisionPanel } from '@/components/findings/P3DecisionPanel';
 import type { SufficiencyStatus } from '@/components/evidence/SufficiencyChip';
+import { api } from '@/lib/api';
 
 export function GateP3ReviewPage() {
   const { id: engagementId } = useParams<{ id: string }>();
@@ -34,6 +35,21 @@ export function GateP3ReviewPage() {
     loading: prereqLoading,
     refresh: refreshPrerequisites,
   } = useP3Prerequisites(engagementId ?? '');
+
+  const [p3AlreadyApproved, setP3AlreadyApproved] = useState(false);
+
+  // Check if P3 is already approved by looking at engagement phase
+  useEffect(() => {
+    if (!engagementId) return;
+    api.get<{ engagement: { phase: string } }>(`/api/engagements/${engagementId}`)
+      .then((res) => {
+        if (res.ok) {
+          const phase = res.data.engagement.phase;
+          setP3AlreadyApproved(phase === 'draft' || phase === 'readiness' || phase === 'closed');
+        }
+      })
+      .catch(() => {});
+  }, [engagementId]);
 
   const roles = user?.roles ?? [];
   const canEditSufficiency = roles.some((r) => ['QA', 'EM', 'AD'].includes(r));
@@ -185,7 +201,7 @@ export function GateP3ReviewPage() {
       </section>
 
       {/* Section 4 — P3 Decision Panel (QA/AD only) */}
-      {canDecide && (
+      {canDecide && !p3AlreadyApproved && (
         <section>
           <P3DecisionPanel
             engagementId={engagementId ?? ''}
@@ -193,6 +209,22 @@ export function GateP3ReviewPage() {
             onDecisionMade={handleDecisionMade}
           />
         </section>
+      )}
+      {p3AlreadyApproved && (
+        <div
+          style={{
+            padding: '16px 20px',
+            borderRadius: 8,
+            background: 'hsl(142 71% 88%)',
+            color: 'hsl(142 70% 28%)',
+            fontSize: 14,
+            fontWeight: 500,
+            border: '1px solid hsl(142 71% 75%)',
+          }}
+          role="status"
+        >
+          ✓ Gate P3 has already been approved. This engagement is in the Draft phase.
+        </div>
       )}
     </div>
   );

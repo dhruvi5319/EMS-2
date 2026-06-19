@@ -44,7 +44,7 @@ export function useEvidence(engagementId: string, filters?: EvidenceFilters) {
         Object.entries(filters ?? {}).filter(([, v]) => v != null && v !== '') as [string, string][]
       ).toString();
       const result = await api.get<{ evidence: EvidenceItem[]; total: number }>(
-        `/engagements/${engagementId}/evidence${params ? `?${params}` : ''}`
+        `/api/engagements/${engagementId}/evidence${params ? `?${params}` : ''}`
       );
       if (result.ok) {
         setEvidence(result.data.evidence);
@@ -82,7 +82,7 @@ export function useEvidenceCoverage(engagementId: string) {
     setLoading(true);
     api
       .get<{ objectives: CoverageObjective[]; covered: number; total: number; uncovered_count: number }>(
-        `/engagements/${engagementId}/objectives/coverage`
+        `/api/engagements/${engagementId}/objectives/coverage`
       )
       .then((result) => {
         if (result.ok) {

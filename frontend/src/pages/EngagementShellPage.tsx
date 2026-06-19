@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { X } from 'lucide-react';
 import { getEngagement } from '@/lib/engagements.api';
@@ -78,6 +78,18 @@ export function EngagementShellPage() {
   const p4JobCode = locationState?.p4JobCode ?? '';
 
   const canEdit = user?.roles?.some((r) => ['EM', 'AD'].includes(r)) ?? false;
+
+  const refreshEngagement = React.useCallback(() => {
+    if (!id) return;
+    getEngagement(id)
+      .then(({ engagement: eng, gate_decisions, blockers: b, counts: c }) => {
+        setEngagement(eng);
+        setGateDecisions(gate_decisions);
+        setBlockers(b);
+        setCounts(c ?? null);
+      })
+      .catch(() => {/* ignore refresh errors silently */});
+  }, [id]);
 
   useEffect(() => {
     if (!id) return;
@@ -305,6 +317,7 @@ export function EngagementShellPage() {
             canEdit={canEdit}
             isQA={user?.roles?.includes('QA') ?? false}
             gate_decisions={gateDecisions}
+            onGateDecisionMade={refreshEngagement}
           />
         </TabsContent>
 

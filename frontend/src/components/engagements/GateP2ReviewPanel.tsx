@@ -245,6 +245,7 @@ export function GateP2ReviewPanel({
 
   async function handleApproveConfirm() {
     await recordP2Decision(engagementId, { decision: 'approved', comment: comment.trim() });
+    setShowApproveDialog(false);
     toast({ description: 'Gate P2 approved.' });
     onDecisionRecorded();
     navigate(`/engagements/${engagementId}`);
@@ -252,6 +253,7 @@ export function GateP2ReviewPanel({
 
   async function handleReturnConfirm() {
     await recordP2Decision(engagementId, { decision: 'returned', comment: comment.trim() });
+    setShowReturnDialog(false);
     toast({ description: 'Planning record returned for revision.' });
     onDecisionRecorded();
     navigate('/review-queue');

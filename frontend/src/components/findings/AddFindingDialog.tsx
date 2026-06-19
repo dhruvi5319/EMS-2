@@ -91,12 +91,12 @@ export const AddFindingDialog: React.FC<AddFindingDialogProps> = ({
     try {
       let result;
       if (isEditMode && finding) {
-        result = await api.patch(`/engagements/${engagementId}/findings/${finding.id}`, {
+        result = await api.patch(`/api/engagements/${engagementId}/findings/${finding.id}`, {
           finding_text: values.finding_text.trim(),
           evidence_ids: values.evidence_ids,
         });
       } else {
-        result = await api.post(`/engagements/${engagementId}/findings`, {
+        result = await api.post(`/api/engagements/${engagementId}/findings`, {
           finding_text: values.finding_text.trim(),
           evidence_ids: values.evidence_ids,
         });

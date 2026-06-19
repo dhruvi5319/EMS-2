@@ -10,7 +10,7 @@ The EMS delivers a complete, governed engagement lifecycle in six phases that mi
 - [ ] **Phase 2: Application Shell** - Authenticated web app, navigation, RBAC, search, audit trail, and user management
 - [ ] **Phase 3: Intake and Gate A1** - Request intake, intake document upload, acceptance decision, and engagement shell auto-creation
 - [x] **Phase 4: Engagement Setup and Gate P2** - Engagement shell, team assignments, milestones, planning record, and planning approval
-- [ ] **Phase 5: Evidence, Findings, and Gate P3** - Evidence registry, evidence-to-objective links, findings, and evidence sufficiency approval
+- [x] **Phase 5: Evidence, Findings, and Gate P3** - Evidence registry, evidence-to-objective links, findings, and evidence sufficiency approval
 - [ ] **Phase 6: Draft Product, Reference Check, Gate P4, and Dashboard** - Draft product, indexing, reference check, final readiness, and portfolio dashboard
 
 ## Phase Details
@@ -109,7 +109,8 @@ Plans:
 - [ ] 04-GAP-05-PLAN.md — Gap closure: fix mapMilestone() date bug (knex returns Date objects; instanceof Date guard + toISOString().split('T')[0] yields correct YYYY-MM-DD)
 
 ### Phase 5: Evidence, Findings, and Gate P3
-**Status**: failed
+**Status**: passed
+**Completed**: 2026-06-18
 **Goal**: Analysts can upload and manage evidence, link evidence to objectives, create findings, and a QA Reviewer can mark all objectives sufficient and approve Gate P3
 **Depends on**: Phase 4
 **Requirements**: F8, F9, F10
@@ -119,7 +120,7 @@ Plans:
   3. An Analyst can create a finding record and link it to one or more evidence items
   4. A QA Reviewer can mark each objective as Evidence Needed, In Review, or Sufficient; Gate P3 is blocked if any objective has no linked evidence or is marked Evidence Needed
   5. When the QA Reviewer records P3 approval, an immutable Gate Decision record and audit event are written and the engagement advances to the draft phase
-**Plans**: 8 plans
+**Plans**: 11 plans (includes 3 gap closure plans)
 
 Plans:
 - [ ] 05-01-PLAN.md — Evidence API backend (F8): evidence CRUD, multer file upload, StorageProvider, sensitivity access control (AL/RO excluded from restricted)
@@ -130,6 +131,9 @@ Plans:
 - [ ] 05-06-PLAN.md — Findings List UI (F10): FindingsListPage, FindingCard, AddFindingDialog, ObjectiveSufficiencySummary, P3PrerequisitesChecklist
 - [ ] 05-07-PLAN.md — Gate P3 Review UI (F10): GateP3ReviewPage, ObjectiveSufficiencyTable, SufficiencyStatusSelect, P3DecisionPanel, ApproveP3ConfirmDialog, ReturnP3ConfirmDialog
 - [ ] 05-08-PLAN.md — Human verify: complete F8/F9/F10 workflow (evidence, linking, findings, Gate P3 approval)
+- [x] 05-GAP-01-PLAN.md — Gap closure: add GET evidence files endpoint (UAT Test 2 — filenames missing after upload); add P3 409 idempotency guard (UAT Test 13 — re-approval not blocked)
+- [x] 05-GAP-02-PLAN.md — Gap closure: fix EvidenceDetailPage objective link re-fetch (UAT Test 6); add GateP3ReviewPage already-approved banner (UAT Test 13); FindingsListPage p3Approved state + Gate P3 Review link + allPass fix (UAT Tests 12, 15)
+- [x] 05-GAP-03-PLAN.md — Gap closure: fix GapObjectiveCard "Blocker" → "P3 Blocker" label (UAT Test 4); fix routing conflict so POST /evidence/:id/objectives reaches evidenceRouter not 404 (UAT Test 6)
 
 ### Phase 6: Draft Product, Reference Check, Gate P4, and Dashboard
 **Status**: passed

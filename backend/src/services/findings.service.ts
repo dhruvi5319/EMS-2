@@ -366,6 +366,19 @@ export async function recordP3Decision(
     );
   }
 
+  // Prevent duplicate P3 approval — only one approved P3 decision per engagement
+  if (data.decision === 'approved') {
+    const existingApproval = await db('gate_decisions')
+      .where({ engagement_id: engagementId, gate_type: 'P3', status: 'passed' })
+      .first();
+    if (existingApproval) {
+      throw Object.assign(
+        new Error('Gate P3 has already been approved for this engagement.'),
+        { status: 409 }
+      );
+    }
+  }
+
   // Re-run prerequisites check (server-side re-validation)
   const prereqResult = await checkP3Prerequisites(engagementId);
   if (!prereqResult.all_pass) {

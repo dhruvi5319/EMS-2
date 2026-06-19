@@ -13,6 +13,11 @@ import {
   getEvidenceFile,
 } from '../services/evidence.service';
 import { storageProvider } from '../storage/local.storage';
+import {
+  linkEvidenceToObjectives,
+  unlinkEvidenceFromObjective,
+  getLinkedObjectivesForEvidence,
+} from '../services/objectivecoverage.service';
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -188,6 +193,56 @@ evidenceRouter.delete(
   }
 );
 
+// GET /api/engagements/:id/evidence/:evidence_id/files — all authenticated roles (with sensitivity check)
+evidenceRouter.get(
+  '/:evidence_id/files',
+  async (req: Request, res: Response) => {
+    try {
+      const { evidence_id } = req.params;
+      const engagementId = req.params.id;
+
+      // Verify evidence item exists and check sensitivity access
+      const item = await import('../db').then(({ db }) =>
+        db('evidence_items').where({ id: evidence_id, engagement_id: engagementId }).first()
+      );
+      if (!item) {
+        res.status(404).json({ error: 'Evidence item not found.' });
+        return;
+      }
+      if (item.sensitivity === 'restricted') {
+        const PRIVILEGED = new Set(['AN', 'EM', 'QA', 'IR', 'PC', 'AD']);
+        if (!req.user!.roles.some((r: string) => PRIVILEGED.has(r))) {
+          res.status(403).json({ error: 'Access denied — restricted evidence.' });
+          return;
+        }
+      }
+
+      const { db } = await import('../db');
+      const rows = await db('evidence_files')
+        .where({ evidence_id })
+        .orderBy('uploaded_at', 'asc')
+        .select('*');
+
+      const files = rows.map((row: Record<string, unknown>) => ({
+        id: row.id,
+        evidence_item_id: row.evidence_id,
+        original_filename: row.filename ?? row.original_filename,
+        file_size: row.file_size,
+        mime_type: row.mime_type,
+        storage_key: row.file_ref ?? row.storage_key,
+        uploaded_by: row.uploaded_by,
+        created_at: row.uploaded_at instanceof Date
+          ? (row.uploaded_at as Date).toISOString()
+          : row.uploaded_at,
+      }));
+
+      res.json({ files });
+    } catch (err) {
+      handleError(err, res, 'GET /evidence/:evidence_id/files');
+    }
+  }
+);
+
 // POST /api/engagements/:id/evidence/:evidence_id/files — AN, AD only
 // Content-Type: multipart/form-data; field: file
 evidenceRouter.post(
@@ -257,6 +312,72 @@ evidenceRouter.get(
       res.send(buffer);
     } catch (err) {
       handleError(err, res, 'GET /evidence/:evidence_id/files/:file_id/download');
+    }
+  }
+);
+
+// GET /api/engagements/:id/evidence/:evidence_id/objectives — objectives linked to this evidence item
+// Moved here from objectivecoverage.ts — evidenceRouter intercepts this path
+// (evidenceRouter is mounted at /:id/evidence, which prefixes /:evidence_id/objectives).
+// Role access: all authenticated roles
+evidenceRouter.get(
+  '/:evidence_id/objectives',
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const objectives = await getLinkedObjectivesForEvidence(
+        req.params.id,
+        req.params.evidence_id
+      );
+      res.json({ objectives });
+    } catch (err: unknown) {
+      handleError(err, res, 'GET /evidence/:evidence_id/objectives');
+    }
+  }
+);
+
+// POST /api/engagements/:id/evidence/:evidence_id/objectives — link evidence to one or more objectives
+// Moved here from objectivecoverage.ts to avoid routing conflict:
+// evidenceRouter is mounted at /:id/evidence and intercepts this path before objectiveCoverageRouter.
+// Role access: AN, EM, AD
+evidenceRouter.post(
+  '/:evidence_id/objectives',
+  requireRole('AN', 'EM', 'AD'),
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { objective_ids } = req.body;
+      if (!Array.isArray(objective_ids) || objective_ids.length === 0) {
+        res.status(422).json({ error: 'objective_ids must be a non-empty array.' });
+        return;
+      }
+      const result = await linkEvidenceToObjectives(
+        req.params.id,
+        req.params.evidence_id,
+        objective_ids,
+        req.user!.id
+      );
+      res.json(result);
+    } catch (err: unknown) {
+      handleError(err, res, 'POST /evidence/:evidence_id/objectives');
+    }
+  }
+);
+
+// DELETE /api/engagements/:id/evidence/:evidence_id/objectives/:objective_id — unlink evidence from an objective
+// Moved here from objectivecoverage.ts for the same routing conflict reason.
+// Role access: AN, EM, AD
+evidenceRouter.delete(
+  '/:evidence_id/objectives/:objective_id',
+  requireRole('AN', 'EM', 'AD'),
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const result = await unlinkEvidenceFromObjective(
+        req.params.id,
+        req.params.evidence_id,
+        req.params.objective_id
+      );
+      res.json(result);
+    } catch (err: unknown) {
+      handleError(err, res, 'DELETE /evidence/:evidence_id/objectives/:objective_id');
     }
   }
 );

@@ -36,7 +36,7 @@ export const ApproveP3ConfirmDialog: React.FC<ApproveP3ConfirmDialogProps> = ({
     setLoading(true);
     try {
       const result = await api.post(
-        `/engagements/${engagementId}/gate/p3`,
+        `/api/engagements/${engagementId}/gate/p3`,
         { decision: 'approved', comment }
       );
       if (result.ok) {
