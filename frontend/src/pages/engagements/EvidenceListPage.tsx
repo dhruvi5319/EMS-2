@@ -4,8 +4,9 @@ import { Download, Plus, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuthContext } from '@/context/AuthContext';
 import { useEvidence, useEvidenceCoverage } from '@/hooks/useEvidence';
-import type { EvidenceFilters } from '@/hooks/useEvidence';
+import type { EvidenceFilters, CoverageObjective } from '@/hooks/useEvidence';
 import { ObjectiveCoverageBar } from '@/components/evidence/ObjectiveCoverageBar';
+import { GapViewPanel } from '@/components/evidence/GapViewPanel';
 import { EvidenceFilterBar } from '@/components/evidence/EvidenceFilterBar';
 import { EvidenceTable } from '@/components/evidence/EvidenceTable';
 import { AddEvidencePanel } from '@/components/evidence/AddEvidencePanel';
@@ -105,53 +106,16 @@ export function EvidenceListPage() {
 
       {/* Gap view */}
       {showingGaps && coverage && coverage.objectives && (
-        <div className="space-y-2">
-          <p className="text-sm font-medium text-slate-700">
-            Evidence Gap View — Objectives with No Evidence
-          </p>
-          <p className="text-xs text-slate-500">
-            {coverage.uncovered_count} of {coverage.total} objective{coverage.total !== 1 ? 's' : ''} have no linked evidence (P3 blocker)
-          </p>
-          <div className="space-y-2">
-            {coverage.objectives
-              .filter((obj) => obj.evidence_count === 0)
-              .map((obj) => (
-                <div
-                  key={obj.id}
-                  className="rounded-lg p-4 border-2 border-dashed"
-                  style={{ background: 'hsl(0 72% 93%)', borderColor: 'hsl(0 72% 51%)' }}
-                >
-                  <p className="text-sm text-slate-700 line-clamp-2">
-                    {obj.objective_text.length > 100
-                      ? obj.objective_text.slice(0, 100) + '…'
-                      : obj.objective_text}
-                  </p>
-                  <div className="flex items-center gap-2 mt-2">
-                    <span
-                      className="text-xs font-normal rounded px-1.5 py-0.5"
-                      style={{ background: 'hsl(0 72% 93%)', color: 'hsl(0 72% 38%)', border: '1px solid hsl(0 72% 51%)' }}
-                    >
-                      Evidence Needed
-                    </span>
-                    <span className="text-xs text-red-700 flex items-center gap-1">
-                      🔴 No Evidence
-                    </span>
-                    <span className="text-xs text-red-700 font-medium">Blocker</span>
-                  </div>
-                  <div className="mt-2">
-                    <Button
-                      variant="link"
-                      size="sm"
-                      className="h-auto p-0 text-blue-600 text-xs"
-                      onClick={() => setAddPanelOpen(true)}
-                    >
-                      Link →
-                    </Button>
-                  </div>
-                </div>
-              ))}
-          </div>
-        </div>
+        <GapViewPanel
+          engagementId={engagementId ?? ''}
+          objectives={coverage.objectives}
+          onLinkClick={(obj: CoverageObjective) => {
+            toast({
+              title: 'How to link evidence',
+              description: `To link evidence to "${obj.objective_text.slice(0, 60)}…", click an evidence item in the table below, then use "Link to another objective" on the evidence detail page.`,
+            });
+          }}
+        />
       )}
 
       {/* Filter bar */}

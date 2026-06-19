@@ -26,6 +26,7 @@ export interface PlanningRecordPanelProps {
   canEdit: boolean;    // EM, AN, AD
   isQA: boolean;       // QA role — shows read-only + passes to Gate P2 Review (Plan 04-07)
   gate_decisions?: GateDecision[];
+  onGateDecisionMade?: () => void;
 }
 
 // ---- Sub-components ----
@@ -92,6 +93,7 @@ export function PlanningRecordPanel({
   canEdit,
   isQA,
   gate_decisions,
+  onGateDecisionMade,
 }: PlanningRecordPanelProps) {
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -333,6 +335,7 @@ export function PlanningRecordPanel({
         objectives={objectives}
         independence_affirmations={[]}
         onDecisionRecorded={() => {
+          onGateDecisionMade?.();
           navigate(`/engagements/${engagementId}`);
         }}
       />
