@@ -36,7 +36,7 @@ export const ReturnP3ConfirmDialog: React.FC<ReturnP3ConfirmDialogProps> = ({
     setLoading(true);
     try {
       const result = await api.post(
-        `/engagements/${engagementId}/gate/p3`,
+        `/api/engagements/${engagementId}/gate/p3`,
         { decision: 'returned', comment }
       );
       if (result.ok) {

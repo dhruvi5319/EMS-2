@@ -46,7 +46,7 @@ export const DeleteEvidenceButton: React.FC<DeleteEvidenceButtonProps> = ({
   const handleDelete = async () => {
     setDeleting(true);
     try {
-      const result = await api.delete(`/engagements/${engagementId}/evidence/${evidenceId}`);
+      const result = await api.delete(`/api/engagements/${engagementId}/evidence/${evidenceId}`);
       if (result.ok) {
         setDialogOpen(false);
         toast({ title: 'Deleted', description: 'Evidence item deleted.' });

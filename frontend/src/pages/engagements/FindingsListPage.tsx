@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { FileSearch, Plus } from 'lucide-react';
+import { api } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAuthContext } from '@/context/AuthContext';
@@ -35,6 +36,21 @@ export function FindingsListPage() {
 
   const roles = user?.roles ?? [];
   const canEdit = roles.some((r) => ['AN', 'AD'].includes(r));
+  const canReview = roles.some((r) => ['QA', 'AD'].includes(r));
+
+  // Check if P3 is already approved (engagement phase = draft or later)
+  const [p3Approved, setP3Approved] = useState(false);
+  useEffect(() => {
+    if (!engagementId) return;
+    api.get<{ engagement: { phase: string } }>(`/api/engagements/${engagementId}`)
+      .then((res) => {
+        if (res.ok) {
+          const ph = res.data.engagement.phase;
+          setP3Approved(ph === 'draft' || ph === 'readiness' || ph === 'closed');
+        }
+      })
+      .catch(() => {});
+  }, [engagementId]);
 
   const handleSaved = () => {
     refreshFindings();
@@ -76,7 +92,27 @@ export function FindingsListPage() {
         }}
       >
         <h2 style={{ fontSize: 20, fontWeight: 600, margin: 0 }}>Findings</h2>
-        {canEdit && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          {canReview && (
+            <Link
+              to={`/engagements/${engagementId}/evidence/p3-review`}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                height: 40,
+                padding: '0 16px',
+                fontSize: 14,
+                fontWeight: 500,
+                borderRadius: 6,
+                border: '1px solid hsl(215 16% 47% / 0.4)',
+                color: 'hsl(221 83% 53%)',
+                textDecoration: 'none',
+              }}
+            >
+              Gate P3 Review →
+            </Link>
+          )}
+          {canEdit && (
           <Button
             onClick={handleAddClick}
             style={{ height: 40 }}
@@ -85,16 +121,41 @@ export function FindingsListPage() {
             <Plus size={16} style={{ marginRight: 6 }} />
             + Add Finding
           </Button>
-        )}
+          )}
+        </div>
       </div>
 
       {/* Objective Sufficiency Summary bar */}
-      {!coverageLoading && coverage && (
+      {p3Approved ? (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            padding: '10px 16px',
+            borderRadius: 6,
+            background: 'hsl(142 71% 88%)',
+            color: 'hsl(142 70% 28%)',
+            fontSize: 14,
+            fontWeight: 500,
+            marginBottom: 16,
+            border: '1px solid hsl(142 71% 75%)',
+          }}
+          role="status"
+        >
+          ✓ Gate P3 approved — engagement is in Draft phase.
+        </div>
+      ) : (!coverageLoading && coverage && (
         <ObjectiveSufficiencySummary
           objectives={coverage.objectives}
-          allPass={coverage.objectives.every((o) => o.sufficiency_status === 'sufficient')}
+          allPass={
+            coverage.objectives.length > 0 &&
+            coverage.objectives.every(
+              (o) => o.sufficiency_status !== 'evidence_needed' && o.evidence_count > 0
+            )
+          }
         />
-      )}
+      ))}
       {coverageLoading && (
         <div style={{ marginBottom: 16 }}>
           <Skeleton style={{ height: 80, borderRadius: 8 }} />
@@ -147,11 +208,11 @@ export function FindingsListPage() {
         </div>
       )}
 
-      {/* P3 Prerequisites Checklist */}
-      {!prereqLoading && prerequisites !== null && (
+      {/* P3 Prerequisites Checklist — hide when P3 already approved */}
+      {!p3Approved && !prereqLoading && prerequisites !== null && (
         <P3PrerequisitesChecklist blockers={blockers} allPass={allPass} />
       )}
-      {prereqLoading && (
+      {!p3Approved && prereqLoading && (
         <Skeleton style={{ height: 120, borderRadius: 8, marginTop: 16 }} />
       )}
 

@@ -39,7 +39,7 @@ export const LinkObjectivePopover: React.FC<LinkObjectivePopoverProps> = ({
     setLinking(objectiveId);
     try {
       const result = await api.post(
-        `/engagements/${engagementId}/evidence/${evidenceId}/objectives`,
+        `/api/engagements/${engagementId}/evidence/${evidenceId}/objectives`,
         { objective_ids: [objectiveId] }
       );
       if (result.ok) {

@@ -35,7 +35,7 @@ export default function GateP4ReviewPage() {
     setPrereqLoading(true);
     try {
       const result = await api.get<P4Prerequisites>(
-        `/engagements/${engagementId}/gate/p4/prerequisites`
+        `/api/engagements/${engagementId}/gate/p4/prerequisites`
       );
       if (result.ok) {
         setPrerequisites(result.data);

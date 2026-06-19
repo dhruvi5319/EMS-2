@@ -49,7 +49,7 @@ export const SufficiencyStatusSelect: React.FC<Props> = ({
     setSaving(true);
     try {
       const result = await api.put(
-        `/engagements/${engagementId}/objectives/sufficiency`,
+        `/api/engagements/${engagementId}/objectives/sufficiency`,
         [{ objective_id: objectiveId, sufficiency: newStatus }]
       );
       if (result.ok) {

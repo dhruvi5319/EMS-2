@@ -51,7 +51,7 @@ export const EvidenceDetailPage: React.FC = () => {
     setLoading(true);
     try {
       const result = await api.get<{ evidence: EvidenceDetailData }>(
-        `/engagements/${engagementId}/evidence/${evidenceId}`
+        `/api/engagements/${engagementId}/evidence/${evidenceId}`
       );
       if (!result.ok) {
         if ((result as { ok: false; status: number }).status === 403) {
@@ -64,7 +64,7 @@ export const EvidenceDetailPage: React.FC = () => {
 
       // Fetch files
       const filesResult = await api.get<{ files: EvidenceFileItem[] }>(
-        `/engagements/${engagementId}/evidence/${evidenceId}/files`
+        `/api/engagements/${engagementId}/evidence/${evidenceId}/files`
       );
       if (filesResult.ok) {
         setFiles(filesResult.data.files ?? []);
@@ -72,7 +72,7 @@ export const EvidenceDetailPage: React.FC = () => {
 
       // Fetch linked objectives for this evidence item
       const objResult = await api.get<{ objectives: LinkedObjective[] }>(
-        `/engagements/${engagementId}/evidence/${evidenceId}/objectives`
+        `/api/engagements/${engagementId}/evidence/${evidenceId}/objectives`
       );
       if (objResult.ok) {
         const objs = objResult.data.objectives ?? [];
@@ -82,7 +82,7 @@ export const EvidenceDetailPage: React.FC = () => {
 
       // Fetch linked findings
       const findingsResult = await api.get<{ findings: LinkedFinding[] }>(
-        `/engagements/${engagementId}/findings?evidence_id=${evidenceId}`
+        `/api/engagements/${engagementId}/findings?evidence_id=${evidenceId}`
       );
       if (findingsResult.ok) {
         setLinkedFindings(findingsResult.data.findings ?? []);
@@ -98,15 +98,9 @@ export const EvidenceDetailPage: React.FC = () => {
     fetchEvidence();
   }, [fetchEvidence]);
 
-  const handleObjectiveLinked = (objectiveId: string) => {
-    const obj = coverage?.objectives.find((o) => o.id === objectiveId);
-    if (obj && !linkedObjectiveIds.includes(objectiveId)) {
-      setLinkedObjectives((prev) => [
-        ...prev,
-        { id: obj.id, objective_text: obj.objective_text },
-      ]);
-      setLinkedObjectiveIds((prev) => [...prev, objectiveId]);
-    }
+  const handleObjectiveLinked = (_objectiveId: string) => {
+    // Re-fetch full evidence data to get accurate linked objectives list
+    fetchEvidence();
   };
 
   if (forbidden) {

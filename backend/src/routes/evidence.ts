@@ -188,6 +188,56 @@ evidenceRouter.delete(
   }
 );
 
+// GET /api/engagements/:id/evidence/:evidence_id/files — all authenticated roles (with sensitivity check)
+evidenceRouter.get(
+  '/:evidence_id/files',
+  async (req: Request, res: Response) => {
+    try {
+      const { evidence_id } = req.params;
+      const engagementId = req.params.id;
+
+      // Verify evidence item exists and check sensitivity access
+      const item = await import('../db').then(({ db }) =>
+        db('evidence_items').where({ id: evidence_id, engagement_id: engagementId }).first()
+      );
+      if (!item) {
+        res.status(404).json({ error: 'Evidence item not found.' });
+        return;
+      }
+      if (item.sensitivity === 'restricted') {
+        const PRIVILEGED = new Set(['AN', 'EM', 'QA', 'IR', 'PC', 'AD']);
+        if (!req.user!.roles.some((r: string) => PRIVILEGED.has(r))) {
+          res.status(403).json({ error: 'Access denied — restricted evidence.' });
+          return;
+        }
+      }
+
+      const { db } = await import('../db');
+      const rows = await db('evidence_files')
+        .where({ evidence_id })
+        .orderBy('uploaded_at', 'asc')
+        .select('*');
+
+      const files = rows.map((row: Record<string, unknown>) => ({
+        id: row.id,
+        evidence_item_id: row.evidence_id,
+        original_filename: row.filename ?? row.original_filename,
+        file_size: row.file_size,
+        mime_type: row.mime_type,
+        storage_key: row.file_ref ?? row.storage_key,
+        uploaded_by: row.uploaded_by,
+        created_at: row.uploaded_at instanceof Date
+          ? (row.uploaded_at as Date).toISOString()
+          : row.uploaded_at,
+      }));
+
+      res.json({ files });
+    } catch (err) {
+      handleError(err, res, 'GET /evidence/:evidence_id/files');
+    }
+  }
+);
+
 // POST /api/engagements/:id/evidence/:evidence_id/files — AN, AD only
 // Content-Type: multipart/form-data; field: file
 evidenceRouter.post(

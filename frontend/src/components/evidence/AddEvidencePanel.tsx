@@ -84,7 +84,7 @@ export const AddEvidencePanel: React.FC<AddEvidencePanelProps> = ({
     try {
       // Step 1: Create evidence item
       const createResult = await api.post<{ evidence: { id: string } }>(
-        `/engagements/${engagementId}/evidence`,
+        `/api/engagements/${engagementId}/evidence`,
         {
           evidence_type: values.evidence_type,
           source: values.source,

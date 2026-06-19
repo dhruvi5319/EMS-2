@@ -72,7 +72,7 @@ export const ObjectiveSufficiencySummary: React.FC<ObjectiveSufficiencySummaryPr
           <>
             <CheckCircle size={16} style={{ color: 'hsl(142 71% 45%)' }} />
             <span style={{ color: 'hsl(142 70% 28%)' }}>
-              All objectives are sufficient. P3 ready to submit.
+              P3 gate conditions met — ready to submit for review.
             </span>
           </>
         ) : (

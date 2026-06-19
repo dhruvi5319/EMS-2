@@ -19,7 +19,7 @@ export function useFindings(engagementId: string) {
     setError(null);
     try {
       const result = await api.get<{ findings: Finding[]; total: number }>(
-        `/engagements/${engagementId}/findings`
+        `/api/engagements/${engagementId}/findings`
       );
       if (result.ok) {
         setFindings(result.data.findings);
@@ -56,7 +56,7 @@ export function useP3Prerequisites(engagementId: string) {
     setError(null);
     try {
       const result = await api.get<{ all_pass: boolean; blockers: Blocker[] }>(
-        `/engagements/${engagementId}/gate/p3/prerequisites`
+        `/api/engagements/${engagementId}/gate/p3/prerequisites`
       );
       if (result.ok) {
         setPrerequisites(result.data);
