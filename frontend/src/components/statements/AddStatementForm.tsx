@@ -142,7 +142,7 @@ export function AddStatementForm({
               Evidence Items <span className="text-destructive">*</span>
             </label>
 
-            <Popover open={evidencePickerOpen} onOpenChange={setEvidencePickerOpen}>
+            <Popover open={evidencePickerOpen} onOpenChange={setEvidencePickerOpen} modal={false}>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
