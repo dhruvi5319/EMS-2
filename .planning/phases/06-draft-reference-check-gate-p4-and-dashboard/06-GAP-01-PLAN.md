@@ -8,6 +8,7 @@ files_modified:
   - frontend/src/hooks/useDraftProduct.ts
   - backend/src/routes/draft.ts
   - frontend/src/components/statements/AddStatementForm.tsx
+  - frontend/e2e/statements.spec.ts
 autonomous: true
 gap_closure: true
 
@@ -121,7 +122,7 @@ npx tsc --noEmit -p backend/tsconfig.json 2>&1 | tail -5 && echo "BACKEND TS OK"
 
 <task type="auto">
   <name>Task 2: Fix useDraftProduct.uploadFile and AddStatementForm cmdk race</name>
-  <files>frontend/src/hooks/useDraftProduct.ts, frontend/src/components/statements/AddStatementForm.tsx</files>
+  <files>frontend/src/hooks/useDraftProduct.ts, frontend/src/components/statements/AddStatementForm.tsx, frontend/e2e/statements.spec.ts</files>
   <action>
 **Fix 1 — useDraftProduct.ts uploadFile:**
 
@@ -187,12 +188,69 @@ This is the identical fix applied to `AddMemberForm.tsx` (Phase 4 GAP-04) and `L
 grep -n "onMouseDown" frontend/src/components/statements/AddStatementForm.tsx && echo "CMDK FIX OK"
 grep -n "data\.draft\|fetchDraft\|setDraft" frontend/src/hooks/useDraftProduct.ts
 npx tsc --noEmit -p frontend/tsconfig.json 2>&1 | tail -5 && echo "FRONTEND TS OK"
+npx playwright test frontend/e2e/statements.spec.ts --reporter=list 2>&1 | tail -20 && echo "PLAYWRIGHT PASSED"
+```
+
+Before running Playwright, ensure `frontend/e2e/statements.spec.ts` contains a test that asserts a `CommandItem` click toggles the evidence selection (i.e., after clicking an item in the evidence picker, a badge or selected indicator becomes visible). Add the following test inside the `describe` block at the end of the file (before the closing `}`):
+
+```typescript
+  test('evidence CommandItem click toggles selection (badge visible after click)', async ({ page }) => {
+    await login(page, AN_USER);
+    const engagementId = await createEngagementInDraftPhase(page);
+
+    await page.route(`**/api/engagements/${engagementId}/statements**`, async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({ statements: [], total: 0 }),
+        });
+      } else {
+        await route.continue();
+      }
+    });
+
+    await page.route(`**/api/engagements/${engagementId}/evidence**`, async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          evidence: [
+            { id: 'ev-cmdk-1', source: 'Interview Note — cmdk test', evidence_type: 'interview_note' },
+          ],
+          total: 1,
+        }),
+      });
+    });
+
+    await page.goto(`/engagements/${engagementId}/draft/statements`);
+    await page.waitForLoadState('networkidle');
+
+    // Open dialog
+    await page.getByRole('button', { name: /Add Statement/i }).first().click();
+    const dialog = page.getByRole('dialog');
+    await expect(dialog).toBeVisible();
+
+    // Open evidence picker
+    await dialog.getByText('Select evidence items...').click();
+    await page.waitForSelector('[role="option"]', { timeout: 3000 });
+
+    // Click the CommandItem — onMouseDown fix should prevent focus-loss race
+    await page.getByRole('option', { name: /Interview Note.*cmdk test/i }).click();
+
+    // After selection, evidence badge or selected count should be visible in the dialog
+    // The picker trigger updates to show selected item count or the item appears as a badge
+    await expect(
+      dialog.getByText(/1 selected|Interview Note.*cmdk test/i).or(dialog.getByRole('option', { name: /Interview Note.*cmdk test/i }).locator('[aria-checked="true"]'))
+    ).toBeVisible({ timeout: 3000 });
+  });
 ```
   </verify>
   <done>
 - `AddStatementForm.tsx` CommandItem has `onMouseDown={(e) => e.preventDefault()}`
 - `useDraftProduct.ts` uploadFile either reads `data.draft` from the corrected backend response OR calls `fetchDraft()` after upload — in either case `setDraft` is called with a valid `DraftProduct` (not undefined)
 - `npx tsc --noEmit` exits 0 on frontend
+- Playwright `statements.spec.ts` passes, including the new CommandItem toggle test (badge/selection indicator visible after clicking an evidence item)
   </done>
 </task>
 

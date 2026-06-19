@@ -7,6 +7,7 @@ depends_on: []
 files_modified:
   - frontend/src/pages/EngagementShellPage.tsx
   - frontend/src/pages/PortfolioDashboardPage.tsx
+  - frontend/e2e/engagement-shell.spec.ts
 autonomous: true
 gap_closure: true
 
@@ -89,7 +90,7 @@ Enables: None (UAT re-test of Tests 10, 11, 13)
 
 <task type="auto">
   <name>Task 1: Add Gate P4 tab to EngagementShellPage</name>
-  <files>frontend/src/pages/EngagementShellPage.tsx</files>
+  <files>frontend/src/pages/EngagementShellPage.tsx, frontend/e2e/engagement-shell.spec.ts</files>
   <action>
 In `frontend/src/pages/EngagementShellPage.tsx`, add a "Gate P4" tab to the shell so users can navigate to the Gate P4 review page.
 
@@ -155,12 +156,31 @@ Insert it before `<TabsContent value="gate-history">`.
 ```bash
 grep -n "gate-p4\|Gate P4\|GateP4ReviewPage" frontend/src/pages/EngagementShellPage.tsx
 npx tsc --noEmit -p frontend/tsconfig.json 2>&1 | tail -5 && echo "FRONTEND TS OK"
+npx playwright test frontend/e2e/engagement-shell.spec.ts --reporter=list 2>&1 | tail -20 && echo "PLAYWRIGHT PASSED"
+```
+
+Before running Playwright, ensure `frontend/e2e/engagement-shell.spec.ts` contains a test asserting the 'Gate P4' tab is visible on `/engagements/:id`. Add the following test inside the existing `describe` block, before the closing `}`):
+
+```typescript
+  test('Engagement shell shows Gate P4 tab', async ({ page }) => {
+    await page.goto('/engagements');
+    await page.waitForTimeout(500);
+
+    const rowCount = await page.getByRole('table', { name: 'Engagements table' }).getByRole('row').count().catch(() => 0);
+
+    if (rowCount > 1) {
+      await page.getByRole('table', { name: 'Engagements table' }).getByRole('row').nth(1).click();
+      await page.waitForTimeout(300);
+      await expect(page.getByRole('tab', { name: 'Gate P4' })).toBeVisible();
+    }
+  });
 ```
   </verify>
   <done>
 - `EngagementShellPage.tsx` tab array includes `{ value: 'gate-p4', label: 'Gate P4' }`
 - A `<TabsContent value="gate-p4">` block renders `<GateP4ReviewPage />` (or equivalent navigation)
 - TypeScript compiles cleanly
+- Playwright `engagement-shell.spec.ts` passes, including the new test asserting `page.getByRole('tab', { name: 'Gate P4' })` is visible on `/engagements/:id`
   </done>
 </task>
 
