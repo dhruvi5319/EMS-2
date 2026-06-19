@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Check, ChevronsUpDown, Loader2, X } from 'lucide-react';
 import {
   Dialog,
@@ -16,13 +16,31 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+import * as PopoverPrimitive from '@radix-ui/react-popover';
 import { cn } from '@/lib/utils';
 import { api } from '@/lib/api';
+
+const Popover = PopoverPrimitive.Root;
+const PopoverTrigger = PopoverPrimitive.Trigger;
+// Render without portal so Radix Dialog focus trap doesn't block clicks
+function PopoverContent({
+  className,
+  align = 'start' as const,
+  sideOffset = 4,
+  children,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>) {
+  return (
+    <PopoverPrimitive.Content
+      align={align}
+      sideOffset={sideOffset}
+      className={`z-[200] rounded-md border bg-popover text-popover-foreground shadow-md outline-none ${className ?? ''}`}
+      {...props}
+    >
+      {children}
+    </PopoverPrimitive.Content>
+  );
+}
 
 interface EvidenceOption {
   id: string;
