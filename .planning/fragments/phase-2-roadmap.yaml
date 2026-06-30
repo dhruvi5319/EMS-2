@@ -1,0 +1,42 @@
+phase: 2
+name: Application Shell
+slug: 02-application-shell
+status: not_started
+features:
+  - F0-full
+depends_on:
+  - phase-1
+goal: >
+  Authenticated users can access the full application shell — navigation, role-filtered views,
+  global search, audit trail, and user/role management — from any device with a browser.
+success_criteria:
+  - An unauthenticated user is redirected to the login page; after login they reach the Dashboard
+  - Navigation shows role-filtered sections; direct URL access to a hidden section returns 403
+  - Global search returns matching engagements by ID, title, requester, phase, or owner within the user's access scope
+  - Admin can create a user, assign roles, and the new permissions take effect on the user's next request
+  - Any authorized user can view the audit trail for an engagement, filtered by action type or date range
+plans:
+  - id: "02-01"
+    file: phases/02-application-shell/02-01-PLAN.md
+    title: shadcn/ui Initialization + Token Migration
+    status: not_started
+  - id: "02-02"
+    file: phases/02-application-shell/02-02-PLAN.md
+    title: Role-Filtered Navigation Sidebar
+    status: not_started
+  - id: "02-03"
+    file: phases/02-application-shell/02-03-PLAN.md
+    title: Backend APIs — Search, User Management, Audit Trail
+    status: not_started
+  - id: "02-04"
+    file: phases/02-application-shell/02-04-PLAN.md
+    title: Global Search UI
+    status: not_started
+  - id: "02-05"
+    file: phases/02-application-shell/02-05-PLAN.md
+    title: User Management Page
+    status: not_started
+  - id: "02-06"
+    file: phases/02-application-shell/02-06-PLAN.md
+    title: Audit Trail View
+    status: not_started

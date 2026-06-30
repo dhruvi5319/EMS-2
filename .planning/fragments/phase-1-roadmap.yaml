@@ -1,0 +1,34 @@
+phase: 1
+name: Foundation
+slug: 01-foundation
+status: not_started
+features:
+  - F0-partial
+  - F1
+depends_on: []
+goal: >
+  The project runs locally, the database schema exists, all core data objects are seeded,
+  and the API boots with authentication working.
+success_criteria:
+  - docker-compose up starts frontend, backend, database, and file storage without errors
+  - All 20 database tables are created by migrations with correct columns, indexes, and constraints
+  - A user can log in with username/password and receive a session token; the system locks accounts after 5 failed attempts
+  - All ten core data objects are accessible via the database and their fields match the PRD data model
+  - The backend API boots, health check passes, and RBAC middleware is active on all routes
+plans:
+  - id: "01-01"
+    file: phases/01-foundation/01-01-PLAN.md
+    title: Docker + Project Scaffold
+    status: not_started
+  - id: "01-02"
+    file: phases/01-foundation/01-02-PLAN.md
+    title: Database Migrations
+    status: not_started
+  - id: "01-03"
+    file: phases/01-foundation/01-03-PLAN.md
+    title: Auth API + RBAC Middleware + Seed
+    status: not_started
+  - id: "01-04"
+    file: phases/01-foundation/01-04-PLAN.md
+    title: Login UI + App Shell
+    status: not_started

@@ -1,0 +1,60 @@
+{
+  "project": "EMS",
+  "milestone": "v1.0",
+  "version": "1.0",
+  "granularity": "standard",
+  "phases": 6,
+  "spec_root": "project_specs",
+  "planning_root": ".planning",
+  "phases_dir": ".planning/phases",
+  "fragments_dir": ".planning/fragments",
+  "debug_dir": ".planning/debug",
+  "tech": {
+    "frontend": "React 18 + Vite + TypeScript + Tailwind + shadcn/ui",
+    "backend": "Node.js 20 + Express 4 + TypeScript + Knex",
+    "database": "PostgreSQL 15+",
+    "testing": "Jest + Supertest (backend), Vitest + Playwright (frontend/E2E)",
+    "containers": "Docker + docker-compose"
+  },
+  "roles": ["AL", "EM", "AN", "QA", "IR", "PC", "RO", "AD"],
+  "gates": ["A1", "P2", "P3", "P4"],
+  "features": ["F0", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "F13", "F14"],
+  "phase_map": {
+    "1": {
+      "name": "Foundation",
+      "slug": "01-foundation",
+      "features": ["F0-partial", "F1"],
+      "status": "not_started"
+    },
+    "2": {
+      "name": "Application Shell",
+      "slug": "02-application-shell",
+      "features": ["F0-full"],
+      "status": "not_started"
+    },
+    "3": {
+      "name": "Intake and Gate A1",
+      "slug": "03-intake-and-gate-a1",
+      "features": ["F2", "F3"],
+      "status": "not_started"
+    },
+    "4": {
+      "name": "Engagement Setup and Gate P2",
+      "slug": "04-engagement-setup-and-gate-p2",
+      "features": ["F4", "F5", "F6", "F7"],
+      "status": "not_started"
+    },
+    "5": {
+      "name": "Evidence, Findings, and Gate P3",
+      "slug": "05-evidence-findings-and-gate-p3",
+      "features": ["F8", "F9", "F10"],
+      "status": "not_started"
+    },
+    "6": {
+      "name": "Draft Product, Reference Check, Gate P4, and Dashboard",
+      "slug": "06-draft-reference-check-gate-p4-and-dashboard",
+      "features": ["F11", "F12", "F13", "F14"],
+      "status": "not_started"
+    }
+  }
+}

@@ -92,9 +92,9 @@ The EMS delivers a complete, governed engagement lifecycle in six phases that mi
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/0 | not started | - |
-| 2. Application Shell | 0/0 | not started | - |
-| 3. Intake and Gate A1 | 0/0 | not started | - |
-| 4. Engagement Setup and Gate P2 | 0/0 | not started | - |
-| 5. Evidence, Findings, and Gate P3 | 0/0 | not started | - |
-| 6. Draft Product, Reference Check, Gate P4, and Dashboard | 0/0 | not started | - |
+| 1. Foundation | 0/4 | not started | - |
+| 2. Application Shell | 0/6 | not started | - |
+| 3. Intake and Gate A1 | 0/5 | not started | - |
+| 4. Engagement Setup and Gate P2 | 0/7 | not started | - |
+| 5. Evidence, Findings, and Gate P3 | 0/7 | not started | - |
+| 6. Draft Product, Reference Check, Gate P4, and Dashboard | 0/7 | not started | - |

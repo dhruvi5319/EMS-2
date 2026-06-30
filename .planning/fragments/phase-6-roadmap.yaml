@@ -1,0 +1,49 @@
+phase: 6
+name: Draft Product, Reference Check, Gate P4, and Dashboard
+slug: 06-draft-reference-check-gate-p4-and-dashboard
+status: not_started
+features:
+  - F11
+  - F12
+  - F13
+  - F14
+depends_on:
+  - phase-5
+goal: >
+  The team can create and track a draft product, an Independent Referencer can check all statements
+  against evidence, and the Publishing Coordinator can approve Gate P4, completing the engagement;
+  the portfolio dashboard shows all engagements.
+success_criteria:
+  - An Analyst or EM can create a draft product record and update status through Drafting → Under Review → Ready for Reference Check → Ready for Final Review
+  - An Analyst can add draft statement records and link each to evidence items; an IR can mark each statement Not Started / In Review / Passed / Failed and capture discrepancy notes; EM/AD can waive with justification
+  - Gate P4 is blocked if any reference check is In Review or Failed; PC can approve P4 setting engagement to Ready for Issuance or Closed with an audit event
+  - Any user can view the portfolio dashboard with counts by phase, filters, sortable list, and CSV export
+plans:
+  - id: "06-01"
+    file: phases/06-draft-reference-check-gate-p4-and-dashboard/06-01-PLAN.md
+    title: Draft Product Backend API
+    status: not_started
+  - id: "06-02"
+    file: phases/06-draft-reference-check-gate-p4-and-dashboard/06-02-PLAN.md
+    title: Statements + Reference Check Backend API
+    status: not_started
+  - id: "06-03"
+    file: phases/06-draft-reference-check-gate-p4-and-dashboard/06-03-PLAN.md
+    title: Gate P4 Backend API + Portfolio List/Export API
+    status: not_started
+  - id: "06-04"
+    file: phases/06-draft-reference-check-gate-p4-and-dashboard/06-04-PLAN.md
+    title: Draft Product UI
+    status: not_started
+  - id: "06-05"
+    file: phases/06-draft-reference-check-gate-p4-and-dashboard/06-05-PLAN.md
+    title: Statements / Indexing UI (AN/EM View)
+    status: not_started
+  - id: "06-06"
+    file: phases/06-draft-reference-check-gate-p4-and-dashboard/06-06-PLAN.md
+    title: Statement Detail UI (IR + AN Views)
+    status: not_started
+  - id: "06-07"
+    file: phases/06-draft-reference-check-gate-p4-and-dashboard/06-07-PLAN.md
+    title: Gate P4 UI + Portfolio Dashboard UI
+    status: not_started

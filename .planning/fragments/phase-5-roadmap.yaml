@@ -1,0 +1,48 @@
+phase: 5
+name: Evidence, Findings, and Gate P3
+slug: 05-evidence-findings-and-gate-p3
+status: not_started
+features:
+  - F8
+  - F9
+  - F10
+depends_on:
+  - phase-4
+goal: >
+  Analysts can upload and manage evidence, link evidence to objectives, create findings,
+  and a QA Reviewer can mark all objectives sufficient and approve Gate P3.
+success_criteria:
+  - An Analyst can add an evidence record and upload one or more files (≤25 MB each); evidence is listed by engagement
+  - A user can link evidence to objectives; system displays linked evidence per objective and highlights gaps; evidence registry exportable to CSV
+  - An Analyst can create a finding record and link it to one or more evidence items
+  - A QA Reviewer can mark each objective as Evidence Needed / In Review / Sufficient; Gate P3 blocked if any objective has no linked evidence or is marked Evidence Needed
+  - When QA approves P3, an immutable GateDecision and AuditEvent are written; engagement advances to draft phase
+plans:
+  - id: "05-01"
+    file: phases/05-evidence-findings-and-gate-p3/05-01-PLAN.md
+    title: Evidence API Backend
+    status: not_started
+  - id: "05-02"
+    file: phases/05-evidence-findings-and-gate-p3/05-02-PLAN.md
+    title: Evidence-to-Objective Links + Coverage + Sufficiency API
+    status: not_started
+  - id: "05-03"
+    file: phases/05-evidence-findings-and-gate-p3/05-03-PLAN.md
+    title: Findings + Gate P3 API
+    status: not_started
+  - id: "05-04"
+    file: phases/05-evidence-findings-and-gate-p3/05-04-PLAN.md
+    title: Evidence Registry UI
+    status: not_started
+  - id: "05-05"
+    file: phases/05-evidence-findings-and-gate-p3/05-05-PLAN.md
+    title: Evidence Detail + Gap View UI
+    status: not_started
+  - id: "05-06"
+    file: phases/05-evidence-findings-and-gate-p3/05-06-PLAN.md
+    title: Findings List UI
+    status: not_started
+  - id: "05-07"
+    file: phases/05-evidence-findings-and-gate-p3/05-07-PLAN.md
+    title: Gate P3 Review UI
+    status: not_started

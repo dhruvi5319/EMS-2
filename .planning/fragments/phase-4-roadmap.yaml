@@ -1,0 +1,49 @@
+phase: 4
+name: Engagement Setup and Gate P2
+slug: 04-engagement-setup-and-gate-p2
+status: not_started
+features:
+  - F4
+  - F5
+  - F6
+  - F7
+depends_on:
+  - phase-3
+goal: >
+  An Engagement Manager can fully set up an accepted engagement — metadata, team, milestones,
+  and planning record — and a QA Reviewer can approve the planning baseline, locking it at Gate P2.
+success_criteria:
+  - An EM can view and edit the Engagement Shell showing job code, title, phase, status, risk level, owner, portfolio, gate status cards (A1/P2/P3/P4), open blockers, and artifact links
+  - An EM can assign users to predefined roles and set milestone dates; milestone status (Not Started / On Track / At Risk / Complete) is computed and visible
+  - An EM or Analyst can create a planning record with objectives, design approach, risk notes, data reliability notes, and independence affirmation; save as Draft or submit as Ready for Review
+  - Gate P2 is blocked if any prerequisite is missing (8 total checks)
+  - When QA approves Gate P2, the planning record is locked; edits require revision note; GateDecision and AuditEvent are written
+plans:
+  - id: "04-01"
+    file: phases/04-engagement-setup-and-gate-p2/04-01-PLAN.md
+    title: Engagement Backend API
+    status: not_started
+  - id: "04-02"
+    file: phases/04-engagement-setup-and-gate-p2/04-02-PLAN.md
+    title: Team + Milestones Backend API
+    status: not_started
+  - id: "04-03"
+    file: phases/04-engagement-setup-and-gate-p2/04-03-PLAN.md
+    title: Planning Record + Gate P2 Backend
+    status: not_started
+  - id: "04-04"
+    file: phases/04-engagement-setup-and-gate-p2/04-04-PLAN.md
+    title: Engagement List + Engagement Shell UI
+    status: not_started
+  - id: "04-05"
+    file: phases/04-engagement-setup-and-gate-p2/04-05-PLAN.md
+    title: Team + Milestones UI
+    status: not_started
+  - id: "04-06"
+    file: phases/04-engagement-setup-and-gate-p2/04-06-PLAN.md
+    title: Planning Record Form UI
+    status: not_started
+  - id: "04-07"
+    file: phases/04-engagement-setup-and-gate-p2/04-07-PLAN.md
+    title: Gate P2 Review UI
+    status: not_started

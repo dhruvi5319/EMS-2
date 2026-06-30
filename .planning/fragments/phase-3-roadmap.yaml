@@ -1,0 +1,39 @@
+phase: 3
+name: Intake and Gate A1
+slug: 03-intake-and-gate-a1
+status: not_started
+features:
+  - F2
+  - F3
+depends_on:
+  - phase-2
+goal: >
+  An Engagement Acceptance Lead can create and submit a request, and either approve it
+  (automatically creating an engagement shell with audit trail) or decline it with recorded rationale.
+success_criteria:
+  - An AL can create a request record and save it as Draft without all fields; submitting validates required fields and blocks on missing data
+  - An AL can upload an intake document (PDF/DOCX/etc., ≤25 MB); uploading again replaces the previous file
+  - A submitted request appears in the Review Queue; AL can approve with risk level and rationale; system auto-creates Engagement with ENG-YYYY-NNNNN job code
+  - The AL can decline with rationale; no engagement is created; request status = declined
+  - All A1 decisions create an immutable GateDecision record and AuditEvent visible on the request detail page
+plans:
+  - id: "03-01"
+    file: phases/03-intake-and-gate-a1/03-01-PLAN.md
+    title: Request Backend API
+    status: not_started
+  - id: "03-02"
+    file: phases/03-intake-and-gate-a1/03-02-PLAN.md
+    title: Gate A1 Backend
+    status: not_started
+  - id: "03-03"
+    file: phases/03-intake-and-gate-a1/03-03-PLAN.md
+    title: Request List + New/Edit Request Form UI
+    status: not_started
+  - id: "03-04"
+    file: phases/03-intake-and-gate-a1/03-04-PLAN.md
+    title: Request Detail Page + Intake File Upload UI
+    status: not_started
+  - id: "03-05"
+    file: phases/03-intake-and-gate-a1/03-05-PLAN.md
+    title: Gate A1 Decision Panel + Review Queue UI
+    status: not_started
