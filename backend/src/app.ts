@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import path from 'path';
-import { config } from './config/env';
+import { requestLogger } from './middleware/logger';
 import { apiRouter } from './routes';
 
 const app = express();
@@ -13,11 +13,9 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(requestLogger);
 
-// Health check — no auth required (both paths for backwards compatibility)
-app.get('/health', (_req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
-});
+// Health check — no auth required
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
@@ -33,8 +31,4 @@ app.use((_req, res) => {
   res.status(404).json({ error: 'Not found' });
 });
 
-const server = app.listen(config.port, () => {
-  console.log(`EMS backend listening on port ${config.port}`);
-});
-
-export { app, server };
+export { app };
