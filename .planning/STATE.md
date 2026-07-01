@@ -2,16 +2,16 @@
 pivota_spec_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Ready to begin Phase 1 — Foundation
-stopped_at: Completed 01-foundation-01-PLAN.md
-last_updated: "2026-07-01T14:21:25.264Z"
-last_activity: 2026-06-30 — Planning reset; all phases set to not started
+status: In Progress — Phase 1
+stopped_at: Completed 01-foundation-02-PLAN.md
+last_updated: "2026-07-01T14:27:02Z"
+last_activity: 2026-07-01 — Completed plan 01-02 (Database Migrations)
 progress:
   total_phases: 6
   completed_phases: 0
   total_plans: 36
-  completed_plans: 1
-  percent: 3
+  completed_plans: 2
+  percent: 6
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md
 ## Current Position
 
 Phase: 1 of 6 — IN PROGRESS (01-foundation)  
-Plan: 1/4 complete in current phase  
-Status: Completed 01-01-PLAN.md; ready for 01-02-PLAN.md  
-Last activity: 2026-07-01 — Completed plan 01-01 (Docker + Project Scaffold)  
+Plan: 2/4 complete in current phase  
+Status: Completed 01-02-PLAN.md; ready for 01-03-PLAN.md  
+Last activity: 2026-07-01 — Completed plan 01-02 (Database Migrations)  
 
-Progress: [░░░░░░░░░░] 3%
+Progress: [█░░░░░░░░░] 6%
 
 ## Performance Metrics
 
@@ -56,6 +56,7 @@ Progress: [░░░░░░░░░░] 3%
 | Plan | Duration | Tasks | Files |
 |------|----------|-------|-------|
 | Phase 01-foundation P01 | 5min | 3 tasks | 9 files |
+| Phase 01-foundation P02 | 3min | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -66,6 +67,8 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - [Phase 01-foundation]: postgres:16-bookworm used instead of plan's postgres:15-alpine (newer, more stable)
 - [Phase 01-foundation]: tsconfig rootDir removed to allow knexfile.ts compilation from src/ imports
 - [Phase 01-foundation]: src/app.ts + src/server.ts created alongside src/index.ts for test isolation
+- [Phase 01-foundation]: login_attempts table added to migration 001 (was missing from scaffold; TechArch §Auth requires it)
+- [Phase 01-foundation]: independence_status NOT added to planning_records — app uses independence_affirmations table (migration 007) instead
 
 ### Pending Todos
 
@@ -77,6 +80,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-07-01T14:21:25.262Z
-Stopped at: Completed 01-foundation-01-PLAN.md
+Last session: 2026-07-01T14:28:02.697Z
+Stopped at: Completed 01-foundation-02-PLAN.md
 Resume file: None
